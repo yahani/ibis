@@ -92,6 +92,66 @@ class ExtractedInvoice(_Model):
         return value
 
 
+# What Claude fills (E3). Amounts, dates and the currency are copied as printed, as text, and
+# read in Python (money.py, dates.py), so the model never does arithmetic or format conversion.
+# Field descriptions are part of the JSON schema Claude sees.
+
+PRINTED = "Exactly as printed, including any sign, brackets or symbol. null if not printed."
+
+
+class RawLineItem(_Model):
+    description: str = Field(description="The line's description as printed")
+    sku: str | None = Field(default=None, description="Item code or SKU. null if not printed.")
+    quantity: str | None = Field(default=None, description=PRINTED)
+    unit_price: str | None = Field(default=None, description=PRINTED)
+    line_total: str | None = Field(default=None, description=PRINTED)
+    tax_rate: str | None = Field(
+        default=None,
+        description="This line's tax rate as printed, e.g. '20%'. null if not printed.",
+    )
+
+
+class RawInvoice(_Model):
+    doc_type: DocType = Field(
+        description="invoice, credit_note (credits money back), packing_slip (no prices), or other"
+    )
+    supplier_name: str | None = Field(
+        default=None, description="The supplier (seller) who issued the document, not the customer"
+    )
+    supplier_tax_id: str | None = Field(
+        default=None, description="The supplier's VAT, GST or tax number. null if not printed."
+    )
+    invoice_number: str | None = Field(
+        default=None,
+        description="The document's own number (for a packing slip, the slip number). "
+        "null if not printed; never use a PO, order or customer number instead.",
+    )
+    invoice_date: str | None = Field(default=None, description="Exactly as printed")
+    due_date: str | None = Field(
+        default=None,
+        description="Exactly as printed. null if no date is printed, even when payment terms "
+        "like 'Net 30' are shown.",
+    )
+    currency: str | None = Field(
+        default=None,
+        description="The currency code if printed (e.g. 'GBP'), otherwise the symbol used on "
+        "the amounts (e.g. '£'). null if neither is printed.",
+    )
+    po_number: str | None = Field(
+        default=None, description="The buyer's purchase order number. null if not printed."
+    )
+    subtotal: str | None = Field(default=None, description=PRINTED)
+    tax: str | None = Field(default=None, description="Total tax amount. " + PRINTED)
+    discount: str | None = Field(default=None, description=PRINTED)
+    shipping: str | None = Field(
+        default=None, description="Shipping, delivery or freight charge. " + PRINTED
+    )
+    total: str | None = Field(default=None, description="The amount due. " + PRINTED)
+    line_items: list[RawLineItem] = Field(
+        default_factory=list, description="Every line item, on every page, in order"
+    )
+
+
 class SourceFile(_Model):
     name: str = Field(min_length=1)
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")

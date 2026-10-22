@@ -6,9 +6,12 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
+from dotenv import load_dotenv
 
 from ibis_docs import __version__
 from ibis_docs.config import Config, ConfigError, load_config
+from ibis_docs.discover import check_pdf, discover, load_seen
+from ibis_docs.extract import ApiSetupError, Extraction, extract, make_client
 
 app = typer.Typer(
     help="Ibis reads supplier invoices, checks the numbers, and exports a clean sheet.",
@@ -86,8 +89,27 @@ def run(
     ] = False,
 ) -> None:
     """Process every new PDF in the input folder."""
-    _load_or_exit(config)
-    _not_built("run", 2)
+    cfg = _load_or_exit(config)
+    if not dry_run:
+        _not_built("run", 3)
+
+    try:
+        found = discover(cfg.input_path, cfg.model.max_pages, load_seen(cfg.output_path))
+    except FileNotFoundError as exc:
+        typer.echo(f"✗ {exc} (create it, or change input_dir in {config})", err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo("Dry run: nothing is sent to Claude, written or moved.")
+    typer.echo(f"{len(found.found)} PDF(s) to process in {cfg.input_path}:")
+    width = max((len(f.name) for f in [*found.found, *found.skipped]), default=0)
+    for f in found.found:
+        note = f"  (same file as {f.duplicate_of})" if f.duplicate_of else ""
+        typer.echo(f"  {f.name:<{width}}  {f.pages} page{'s' if f.pages != 1 else ''}{note}")
+    if found.skipped:
+        typer.echo(f"{len(found.skipped)} skipped:")
+        for s in found.skipped:
+            typer.echo(f"  {s.name:<{width}}  {s.reason}")
+    typer.echo("Extraction and checks join the dry run in session 3.")
 
 
 @app.command()
@@ -95,9 +117,74 @@ def show(
     file: Annotated[Path, typer.Argument(help="A PDF to extract and print, without saving.")],
     config: ConfigOption = DEFAULT_CONFIG,
 ) -> None:
-    """Extract one PDF and print the fields and checks."""
-    _load_or_exit(config)
-    _not_built("show", 2)
+    """Extract one PDF and print the fields, without saving anything."""
+    cfg = _load_or_exit(config)
+    if not file.is_file():
+        typer.echo(f"✗ {file}: file not found", err=True)
+        raise typer.Exit(code=1)
+    _, reason = check_pdf(file, cfg.model.max_pages)
+    if reason:
+        typer.echo(f"✗ {file.name}: {reason}", err=True)
+        raise typer.Exit(code=1)
+
+    load_dotenv()
+    try:
+        result = extract(make_client(), file, cfg.model.default, cfg)
+    except ApiSetupError as exc:
+        typer.echo(f"✗ {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    _print_extraction(result)
+    if not result.ok:
+        raise typer.Exit(code=1)
+
+
+def _print_extraction(result: Extraction) -> None:
+    typer.echo(
+        f"{result.file}  ({result.model}, {result.input_tokens:,} input / "
+        f"{result.output_tokens:,} output tokens)"
+    )
+    if result.error:
+        typer.echo(f"✗ {result.error}")
+        return
+    inv = result.invoice
+    assert inv is not None
+
+    def val(value: object) -> str:
+        return "—" if value is None else str(value)
+
+    supplier = val(inv.supplier_name)
+    if inv.supplier_tax_id:
+        supplier += f" (tax ID {inv.supplier_tax_id})"
+    rows = [
+        ("type", inv.doc_type.value),
+        ("supplier", supplier),
+        ("number", val(inv.invoice_number)),
+        ("date", val(inv.invoice_date)),
+        ("due", val(inv.due_date)),
+        ("currency", val(inv.currency)),
+        ("PO", val(inv.po_number)),
+        ("subtotal", val(inv.subtotal)),
+        ("tax", val(inv.tax)),
+        ("discount", val(inv.discount)),
+        ("shipping", val(inv.shipping)),
+        ("total", val(inv.total)),
+    ]
+    for label, value in rows:
+        typer.echo(f"  {label + ':':<10} {value}")
+
+    typer.echo(f"  lines ({len(inv.line_items)}):")
+    typer.echo(f"    {'qty':>8} {'unit price':>11} {'line total':>11}  description")
+    for line in inv.line_items:
+        sku = f" [{line.sku}]" if line.sku else ""
+        typer.echo(
+            f"    {val(line.quantity):>8} {val(line.unit_price):>11} "
+            f"{val(line.line_total):>11}  {line.description}{sku}"
+        )
+    if result.issues:
+        typer.echo("  could not read cleanly:")
+        for issue in result.issues:
+            typer.echo(f"    ! {issue}")
+    typer.echo("  (The numbers aren't checked yet: validation comes in session 3.)")
 
 
 @app.command()

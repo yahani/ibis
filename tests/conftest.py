@@ -13,6 +13,8 @@ FIXTURES = ROOT / "tests" / "fixtures"
 def _no_api_key(monkeypatch):
     """Tests never call the Claude API; make sure a real key can't leak into them."""
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    # The CLI loads .env; in tests that would put a real key back into the environment.
+    monkeypatch.setattr("ibis_docs.cli.load_dotenv", lambda *a, **k: False)
 
 
 @pytest.fixture
