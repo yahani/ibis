@@ -48,6 +48,8 @@ Other currencies: `uv run python demo/generate.py --currencies USD,AUD,NZD` (any
 |---|---|---|---|
 | 1 | Skeleton, E1, models, E11 shell, CI, demo generator + answer key | ✅ awaiting review | `0d510ae` … this commit |
 
+Repo: private at github.com/yahani/ibis (make public in session 5, after the secrets scan). CI green on run 39787544493. The first push's gitleaks job failed on a known first-push quirk (it asks for the root commit's parent); a local `gitleaks git` over the full history found no leaks.
+
 ## 2. Test results
 
 Run on 2026-10-22 with `uv run pytest --cov=ibis_docs`:
@@ -60,6 +62,8 @@ Run on 2026-10-22 with `uv run pytest --cov=ibis_docs`:
 | `test_cli.py` | 10 | ✅ pass |
 | `test_demo_set.py` | 101 | ✅ pass |
 | **Total** | **216** | **✅ all pass** |
+
+The blurred scan (`044`) is checked for shape, not bytes, because rasterising differs between macOS and Linux.
 
 Coverage 99% (`config` 99%, `models` 99%, `money` 98%, `cli` 100%); target 90%. `ruff check` and
 `ruff format --check` clean. No test calls the Claude API; `ANTHROPIC_API_KEY` is removed from
