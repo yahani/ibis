@@ -1,0 +1,52 @@
+{
+  "file": "039-inv-us_sales.pdf",
+  "model": "claude-sonnet-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-sonnet-5-5",
+    "id": "msg_011CgHW7H7pHcMEeDKR3Lb7a",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Larchmont Labels Inc.\",\"supplier_tax_id\":\"\",\"supplier_country\":\"\",\"invoice_number\":\"000459\",\"invoice_date\":\"09/30/2026\",\"due_date\":\"\",\"currency\":\"USD\",\"po_number\":\"PO-45305\",\"subtotal\":\"$720.02\",\"tax\":\"$59.40\",\"discount\":\"\",\"shipping\":\"$19.03\",\"total\":\"$898.45\",\"line_items\":[{\"description\":\"Thermal shipping labels 4x6, 500/roll\",\"sku\":\"TL-46-616\",\"quantity\":\"25\",\"unit_price\":\"17.32\",\"line_total\":\"433.00\",\"tax_rate\":\"\"},{\"description\":\"Barcode labels 2x1, 1000/roll\",\"sku\":\"BC-21-605\",\"quantity\":\"25\",\"unit_price\":\"10.74\",\"line_total\":\"268.50\",\"tax_rate\":\"\"},{\"description\":\"Ribbon wax 110mm x 74m\",\"sku\":\"RB-110-806\",\"quantity\":\"2\",\"unit_price\":\"9.26\",\"line_total\":\"18.52\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4387,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "iterations": [
+        {
+          "input_tokens": 4387,
+          "output_tokens": 355,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "type": "message",
+          "model": null
+        }
+      ],
+      "output_tokens": 355,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

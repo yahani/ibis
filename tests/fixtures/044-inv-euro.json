@@ -1,0 +1,43 @@
+{
+  "file": "044-inv-euro.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6rdfPaiRgSdDJWitt",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "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"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Brandt & Vogel Textil GmbH\",\"supplier_tax_id\":\"\",\"supplier_country\":\"\",\"invoice_number\":\"RE-2026-00822\",\"invoice_date\":\"29.09.2026\",\"due_date\":\"\",\"currency\":\"EUR\",\"po_number\":\"\",\"subtotal\":\"116,38 €\",\"tax\":\"22,11 €\",\"discount\":\"\",\"shipping\":\"14,25 €\",\"total\":\"152,74 €\",\"line_items\":[{\"description\":\"Cotton tote bag natural\",\"sku\":\"TB-N-429\",\"quantity\":\"1\",\"unit_price\":\"2,03\",\"line_total\":\"2,03\",\"tax_rate\":\"\"},{\"description\":\"Organic tea towel 50x70\",\"sku\":\"TT-O-349\",\"quantity\":\"25\",\"unit_price\":\"3,59\",\"line_total\":\"89,75\",\"tax_rate\":\"\"},{\"description\":\"Linen napkin set of 4\",\"sku\":\"LN-4-717\",\"quantity\":\"2\",\"unit_price\":\"12,30\",\"line_total\":\"24,60\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4016,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 984,
+      "output_tokens_details": {
+        "thinking_tokens": 639
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

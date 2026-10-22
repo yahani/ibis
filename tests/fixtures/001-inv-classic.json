@@ -4,18 +4,18 @@
   "recorded": "2026-10-22",
   "response": {
     "model": "claude-haiku-5-5",
-    "id": "msg_011CgHRxZcnTEKTT5ZXLfkfL",
+    "id": "msg_011CgHW5P6w1Ff3xo2Snqrkn",
     "type": "message",
     "role": "assistant",
     "content": [
       {
         "type": "thinking",
         "thinking": "",
-        "signature": "CAQSqgsKEAgTGAI4AUIIdGhpbmtpbmcSDJpZ5XGkOtLwQSiCSBoMBJzoUHY7/S3k/+zAIjDBrBXUfG8D7RfApWdHxRZSR0j/oZw4a01N4k7oyIfnw7WpXIMB3Am/y3OYTwTAYaYqxwoM9sBjxIsbrV/gh8KBkwsc6boXS+qLN+Mh+DR9Qo1b82ZcFJ6BLhtlNX5CwiS5bWJjr0p4BvaeA5BnxGF8C3NNvPOtPyKMK70IDG0rguLK6AtqVi3qaz5ogCpg5dnQr8ZAxl4oCQpYEMuhCi2IslNB0ewhefZTxo/0D0x4z9Ftw/ZpZavAcxvbvdCf5TxRnkVs0lYkXCnJ7oxiqdiln+8+KI2MfSxLQpZdl94FxBEB78sIjmXMYkB9nfT2ySz0U2CKSaBufkeZhQsPv0TouoJf4N1msNBNf6ajWyJvICS1aU01cEngAODjom3oQKzwst+XxK+i1j5E9EFOkVkIco74sbhH9tqDumzh/+wqo6hb7GN6n2EZh83c4BCmMlr5B0C0sebo99q6pCvKH2LRpz6a1gcTvoviNbWoNjiDy+MAINiCXoUWgZx/Uqq+XFQdg7gqxiU2T80ACbs20AcUUAaUmJTVeEGuI4WfJIvi2PP09SAqmz4R1ZdkSw+JTynF0/H86c+XC4EUzO1DL4wVWTfUupXZdcCiDglVM192luN33F4hh7V+mCL7AHg9RVArMO6JAM/ZtCKI/taUIf+GvhgtuXo6SjoFZ1503+2dmxx4lhCGc4E8vuCG/+ugQFR3s8kh+soFj3daSnEao7mcHWpNyRybIjhd8zawLg3M+tWAUI1N2IoSl8mgEV7MduXXxW4Kw1JZinZ/9FJZN/MQN4qDQ4NW0ckEzCuUY9eJODfo6k0H58dTD0OyEpWdbmC1vTUEBgmkz86WlPxlXbgvtScXi6msBUaGsqgkRfqSiXtd4Y7/tvlcusFYUwh2Zkpppvcyb/JMHKoMpza3HhnAXUWSXhQYHmHRwv+b6Y90Z+teBl+fOXYIxOysjyeYivZAd8YzJ6PGa4ji5UDZ617CMOMzUN2PkgmEgVZERoPxa8K5TxhqzU3a+mN70aHTYx36CCz8HfOZ5+VCBUIkvQ168MjiOg44nYYX7AK9TjGZ42atyKqgcBEro7FUP3izFOSq12B2WtZ8JEU/lhse5Jr72MBsNOmbUqtsJQRLn9npV2At4kkuba+C4+ctnySXRhBD4SEXDpD1NryXsltsDrtgScQOvzrpjlE7XbUtq7+lb0j2T0wTZyp0Jr7qYFqRvQqNH3QnFuPGJa8l7v9x8qIA8Yv696qSWeutCk12ufx2K6aNu4R/WcDYRBb8xQkD0IbRcn4TmVCAK/ca6jgIRaQuaO5ax7+wO5S/Xolx32z7u1iGgFkot6AcuVe5/nHck5yYfzLD8Ho04aibFTuHXRq7BtoF/4jGweCh/L88z1aHeMBva3IRCk7gt+pxyEJwxZLZydRcRl0Lbh06Z8lkuYzOrAqHAN1UiWXOm8o9YhRZ5pSstTE3H820ZLki4Zh5+ysE5mWv+l99X+i86N+pyVEoNc1oMGeVZ4XEasT1+7xNn90YwbsQuWblhEhcglmlbweej5IFMB5YTegIu+wZAFm/KiegxKL8i60WGTXqegPaJPgkKhpF5QW6QkN87iLxJmI/ypWv/rYnYM8sAYJDc/NLO9wloQrT8Dy5ybmTihYv7/fDq8ya3ME0znZEomO8XS5qPurj+iklhkvkRcqXloy6vl3Moyu7esJueyNRi4qfO/KYBhA61q3ZRShedYB4YNuqGtNjJM2mc6rNYVIyBkSoa44bsMZEEK+iR2qWHbEYTi9rUYKWoVJEmb959Qa5+hKAIgwpoiTt9bwynlE8tc69DI+TKJQ5CJJ2laz90+f/J4XJ8TBrl4cQCCIUzZuuWfkGkw8y4RqKMMm9GAE="
+        "signature": "CAQSrAoKEAgTGAI4AUIIdGhpbmtpbmcSDHK/Hzi+d5jjD9yy8RoM3D8GK2ydi53a8gcyIjDWVVPkfw9nlJ6ulVr2nMyKYOy1mBHu7kuP04duoMZUs/aYiWJAHNsz1yVoEiOg2q4qyQnnjblGP9woH2rzcpAspZKacFr/qD3eAXxI/Ni2Wc3vnigHFeDGnBiCYjdEHiQZVOwWF+QD/YS9ORvViQ6GQQsS72xXHAUUmoYmgGykG/fXYdrowqPY6PDNNE5My47pnnbS10RzAaoL0vu1M1/pQqzz6I1qppkAPQpKhdmNyzJ8VcPev0FYxwgFicDJT0TMnF0RLlWVbnDjstzaCqjjKQd4w/1huxGedAkvaHR1qEa2wwS0LWCcpEnbnOPMFZoGf162tWhTVCo1DnNSzo4OLgcb973aV73sRC6EOe2W+ffsEISdPKs7eU8eFUIQ86HaxEL3oFWJgB8pJdq9nLiWaYx5jW5MR+PSXISprxOHZKqMyS1C7Bc6hegEW6eexJy2fUgMeCAxkBoHfBpb6j9xIa7dpfrWisObGVO//O2+kFGMCdk7XeKnudDYScZPmqfRgdUn3LlbSIxSZdTQeShDT3S5vlVIa//mwFFpEqx72CsA5qL2oeUXt1/ZNB6Uh0iMrLtB7aLdHvxiL/PXQB3qvUHFlJMqC4UNRdhJFzwyCnwlcyENFLWn6lKgRSriHaeu4+hUy9higbqBWFuGoKdnsnHheR3p3isVHiRmwkIkpsxcmpuo5b6cKTV4MFVLUIskjZmEuBjSNbkkzHWa/4YCrV5ui54K9ocPISvdlY6IHnPa95XXYETTC4C7pB4/fhI6V6jBQnNjpYOuxOKMLskR0W+mP5YfxTXs3nszydTzRrL26qNZAE9dvhE1GlmMPmG9khiKmVRi6VIJlTg3FbnVNz0AeWJRlXP8xWgaSqzXNiLGhi/kAnR3ljq9vxgv8Yh4e3S8h2q4V6Ry5jGtGMOaBLGzLhIDv1Oqm9/e0GfH0PW+VYKeiGI9RBMCR+2ujCrlvbWwVV50z9gBlGjjZ+h/ITX7jdG/qz22jyNC8v99rPN8GEyIPZ4FM4kG7ic4QUvdK9H31wcc7s2+acus/JMyipzKnCjcr65R2wJXw3R3SXNRkWiJk91nbyHr5KgmUbnkuoiUaedqHF8n3xkbeow28MIFEtQi1COO6cIX5eNMDupNMF+Inf8KM6sy630cDH+v+6KnsJeqds6fnP6ljdt+Ekp2CkA0JREHbD/0h7o4ECOC8b7B9FeC+ME//IleOXbahT/wdEFFxlm49kFUgYTWwh2+iwsFxackqXB2lixFMOokwmyvUoL1m4zGtnof6H57Lfazh6ysvVdIxlUbmU29TNqaKQ5pnB9qoJgq9qCVIBIjtdIzINkAQqgHN8ooGrD9UIsMjbW0N3xHKI5xrDFmt96IrLXzLnWwDzXjqdqhmmTVn0ARHaWzFs3Izs+ZjXXgLDZIRAa0MhIURlVAP6WahOl/oJDCprwE+luqK1c2CMSU21IL/lTs39QP8fVvPGAxDF8sxHPIeSAovBMX7t/5AeQ8ZYsgCNBLts+56gt8rCYo4+TuHtHTCU+HAalTUAjHv9pAReFIOXQmu3tPhxkzP6BhFqmG61wfLGAnb3AAeNnjfJYCRps2LyMl/aBebA1pFiz3dYnrKcIEr43C2ie7P/P8r0tAFFoNEYGAvyunXawWIBgQte9JfV1NmLz15KKSlSbtvaM6yik/1e5uUzKT4uYgPcwGDiR5uiXfGAE="
       },
       {
         "type": "text",
-        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Harbourline Packaging Ltd\",\"supplier_tax_id\":\"GB861142741\",\"invoice_number\":\"INV-2026-0697\",\"invoice_date\":\"18 August 2026\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£1,510.72\",\"tax\":\"£302.14\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£1,812.86\",\"line_items\":[{\"description\":\"Double-wall shipping box 40x30x20\",\"sku\":\"BX-964\",\"quantity\":\"20\",\"unit_price\":\"1.70\",\"line_total\":\"34.00\",\"tax_rate\":\"\"},{\"description\":\"Kraft mailer bag, 250 pack\",\"sku\":\"MB-821\",\"quantity\":\"1\",\"unit_price\":\"18.67\",\"line_total\":\"18.67\",\"tax_rate\":\"\"},{\"description\":\"Paper void fill roll 450mm\",\"sku\":\"VF-921\",\"quantity\":\"50\",\"unit_price\":\"28.94\",\"line_total\":\"1,447.00\",\"tax_rate\":\"\"},{\"description\":\"Fragile tape 48mm x 66m\",\"sku\":\"TP-640\",\"quantity\":\"5\",\"unit_price\":\"2.21\",\"line_total\":\"11.05\",\"tax_rate\":\"\"}]}"
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Harbourline Packaging Ltd\",\"supplier_tax_id\":\"GB861142741\",\"supplier_country\":\"\",\"invoice_number\":\"INV-2026-0697\",\"invoice_date\":\"18 August 2026\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£1,510.72\",\"tax\":\"£302.14\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£1,812.86\",\"line_items\":[{\"description\":\"Double-wall shipping box 40x30x20\",\"sku\":\"BX-964\",\"quantity\":\"20\",\"unit_price\":\"1.70\",\"line_total\":\"34.00\",\"tax_rate\":\"\"},{\"description\":\"Kraft mailer bag, 250 pack\",\"sku\":\"MB-821\",\"quantity\":\"1\",\"unit_price\":\"18.67\",\"line_total\":\"18.67\",\"tax_rate\":\"\"},{\"description\":\"Paper void fill roll 450mm\",\"sku\":\"VF-921\",\"quantity\":\"50\",\"unit_price\":\"28.94\",\"line_total\":\"1,447.00\",\"tax_rate\":\"\"},{\"description\":\"Fragile tape 48mm x 66m\",\"sku\":\"TP-640\",\"quantity\":\"5\",\"unit_price\":\"2.21\",\"line_total\":\"11.05\",\"tax_rate\":\"\"}]}"
       }
     ],
     "container": null,
@@ -23,16 +23,16 @@
     "stop_sequence": null,
     "stop_details": null,
     "usage": {
-      "input_tokens": 4265,
+      "input_tokens": 4359,
       "cache_creation_input_tokens": 0,
       "cache_read_input_tokens": 0,
       "cache_creation": {
         "ephemeral_5m_input_tokens": 0,
         "ephemeral_1h_input_tokens": 0
       },
-      "output_tokens": 805,
+      "output_tokens": 760,
       "output_tokens_details": {
-        "thinking_tokens": 400
+        "thinking_tokens": 347
       },
       "service_tier": "standard",
       "inference_geo": "global",

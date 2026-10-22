@@ -1,0 +1,43 @@
+{
+  "file": "039-inv-us_sales.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6JT9ytevZbEtuFd6Y",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQSuQoKEAgTGAI4AUIIdGhpbmtpbmcSDGsulzsQtR/YnuBuxhoMjPSdhiUDNFxw+7bPIjDfQRpM5+lVMUVZVZyOFtLsURR4i7Uy+ZbezcfJjnLYU1l1Kv4opkHuNVSPKxuydwMq1gmcWL/C+Va3LDindvGoJRtSZb8h+haGDzKs0xQTNL8MIhTbKQNlmILVZ5r+aAldOofvcCXaxxTbpndfwSzV6V2gDrLHsOx65mNko07qedL42ZM+N4OfIZP8He1HW6XVShMTnKKWY0GHlq2SKwKem5otCErMoVeCj/wGgT0eS2zHTtDsT96eEmBqTAR3T+N6fK+p1Ur3pgF0rI6Ii9uw2F0/Y0uGsmUM1+M9XiFxeiMghfMPYeO6+NPHJjBjqdvxpsVBazj7j6v0V9RRSfhfqipWIyZModUw4p9Z+f17DEmMB9ALRmNy+vYJXC4rCD46Ba7iJGDUq1+HwbF5UCz0U8aAYj9KYDCCdcJiZIar6gbCcPeOJOOo2wtbKC+ddw/+RJ7/4lRFIEdosP/49zOhDs/XNLSmUJkPhDQHhvIpYpTeTa/uQZe+oQB5sdhaEuwvB4jhhYbQubJ7nOaWGiC0T1bGCrhafKttxbyVqsUq972cOAE8Xim0Dhod+l0GcGsHp2iMItVCbfnHJdNnMDtJCBCvg7zKefWcEWlLN8MfJpxpoad8d0KqvXvnTATzIoYY0tckEZBT36CBRUSPhkpaqnJl0bdXB10IhW2dFpgXBg32Fe4lOREzD45qF7VPkk3okX5dWMHbHsHu6I3Ce6pcFpjrwXEkBZFLbF821+uY0pdTFpR+ymgxJKQ7h5YO4qp6Fwgx7DMwgwRAVX5DTAkZ6G2tVLwXUv3W8FI4vCg26YqK7PuzXAXruuH1gF2HwJJ7KRfYBTrsmRWa2olmbG7rLqcAlVLRPJ5MgxUTkta9JpTWdKgcIonW94iRB3uw2pN8t3bgwwQpWp5aRqQ6bJgCYCfESu7wWrHWzCv2WaHfcALypMRyUiTsfj2TkdF7HtcWxsW+HY8ERG9GrLAugutmQDkjjSRRlwAaKSXdfNesZWvKLiEVbC2acEmX+KA0V5sm8lQlS9axAc2ryAQZFt5CIOZgciq7YeHBc6vF0ol462FuAq0UO1V6FR3NnjSKE8sGy4qDlg6gImePfB78M98mrC4+fN3iCJBohc6Zb3NONyYBOzRAN4cuXXcbjQ/l38pj4SImo3rJbqOLjc6c3M/hSLwejC6fUPtA44g2pX5QLEWjkYXZGAZIo1CfK2vQ/cc/1z6GRmFh9xz1QKykJxGRUgBW6bolGuQT6zmusDQMXxeEv3Vzi+jZyviS9xI7VSSmxdK/R/B/k0ILdz9Mwr3yhIAjO32cNY17r0DWH0bxwDpIPHXkPsGk5KFZ6Ly05+hdmSVtHp9BRvBu9i0mJQlZCxel7tABwMa0GDNqG6CbXj1poMvcJt6QVnKLbc6thceK9qkBi9AXo21xhCqfogH5OpSiYulu1h+IEnyuc1R1A/5+mGsdXp0uIQZaGOvjG2/v6/Il+hkNNvUzKVn72YlcH2gnnRfiUumH/aA2Bxy7n1WqXat2RNJzE6CrGh66L7kEqxoEtDo464cS1d8GDQavvvs6O6W5kVQiQRnJFgFo3+go9TjEVNyX4eswqXRv3wrnfAtzSh6eqlEeot040JKlHB2hLqua483ELphkEBDTLMxDZJk74qlrm2oHMmy5Zou2dzxMtbEoPOS8Hh+l9zwfatBqPHR3qOVZnt7AW0uJETRzRjJQHTEDBhgB"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Larchmont Labels Inc.\",\"supplier_tax_id\":\"\",\"supplier_country\":\"\",\"invoice_number\":\"000459\",\"invoice_date\":\"09/30/2026\",\"due_date\":\"\",\"currency\":\"USD\",\"po_number\":\"PO-45305\",\"subtotal\":\"$720.02\",\"tax\":\"$59.40\",\"discount\":\"\",\"shipping\":\"$19.03\",\"total\":\"$898.45\",\"line_items\":[{\"description\":\"Thermal shipping labels 4x6, 500/roll\",\"sku\":\"TL-46-616\",\"quantity\":\"25\",\"unit_price\":\"17.32\",\"line_total\":\"433.00\",\"tax_rate\":\"\"},{\"description\":\"Barcode labels 2x1, 1000/roll\",\"sku\":\"BC-21-605\",\"quantity\":\"25\",\"unit_price\":\"10.74\",\"line_total\":\"268.50\",\"tax_rate\":\"\"},{\"description\":\"Ribbon wax 110mm x 74m\",\"sku\":\"RB-110-806\",\"quantity\":\"2\",\"unit_price\":\"9.26\",\"line_total\":\"18.52\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4387,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 707,
+      "output_tokens_details": {
+        "thinking_tokens": 352
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

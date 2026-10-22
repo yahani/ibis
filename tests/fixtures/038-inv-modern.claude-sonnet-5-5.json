@@ -1,0 +1,52 @@
+{
+  "file": "038-inv-modern.pdf",
+  "model": "claude-sonnet-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-sonnet-5-5",
+    "id": "msg_011CgHW7HSucLnx1VLkzsgXC",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Copperleaf Print Co.\",\"supplier_tax_id\":\"GB696732060\",\"supplier_country\":\"\",\"invoice_number\":\"CP00459\",\"invoice_date\":\"22/09/2026\",\"due_date\":\"06/10/2026\",\"currency\":\"GBP\",\"po_number\":\"PO-40455\",\"subtotal\":\"£3,128.16\",\"tax\":\"£591.99\",\"discount\":\"-£155.79\",\"shipping\":\"£6.60\",\"total\":\"£3,570.96\",\"line_items\":[{\"description\":\"Thank-you cards A6, 500\",\"sku\":\"TC-499\",\"quantity\":\"50\",\"unit_price\":\"£39.71\",\"line_total\":\"£1,985.50\",\"tax_rate\":\"\"},{\"description\":\"Product labels 50x30 roll\",\"sku\":\"\",\"quantity\":\"2\",\"unit_price\":\"£13.82\",\"line_total\":\"£27.64\",\"tax_rate\":\"\"},{\"description\":\"Branded tissue paper, 480 sheets\",\"sku\":\"TS-563\",\"quantity\":\"10\",\"unit_price\":\"£52.49\",\"line_total\":\"£524.90\",\"tax_rate\":\"\"},{\"description\":\"Kraft swing tags, 1000\",\"sku\":\"ST-404\",\"quantity\":\"2\",\"unit_price\":\"£31.46\",\"line_total\":\"£62.92\",\"tax_rate\":\"\"},{\"description\":\"Thank-you cards A6, 500, white\",\"sku\":\"\",\"quantity\":\"12\",\"unit_price\":\"£42.90\",\"line_total\":\"£514.80\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4392,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "iterations": [
+        {
+          "input_tokens": 4392,
+          "output_tokens": 486,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "type": "message",
+          "model": null
+        }
+      ],
+      "output_tokens": 486,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

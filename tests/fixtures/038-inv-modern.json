@@ -1,0 +1,43 @@
+{
+  "file": "038-inv-modern.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6Bq3Tz2BoMaZdVo24",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "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"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Copperleaf Print Co.\",\"supplier_tax_id\":\"GB696732060\",\"supplier_country\":\"\",\"invoice_number\":\"CP00459\",\"invoice_date\":\"22/09/2026\",\"due_date\":\"06/10/2026\",\"currency\":\"GBP\",\"po_number\":\"PO-40455\",\"subtotal\":\"£3,128.16\",\"tax\":\"£591.99\",\"discount\":\"-£155.79\",\"shipping\":\"£6.60\",\"total\":\"£3,570.96\",\"line_items\":[{\"description\":\"Thank-you cards A6, 500\",\"sku\":\"TC-499\",\"quantity\":\"50\",\"unit_price\":\"£39.71\",\"line_total\":\"£1,985.50\",\"tax_rate\":\"\"},{\"description\":\"Product labels 50x30 roll\",\"sku\":\"\",\"quantity\":\"2\",\"unit_price\":\"£13.82\",\"line_total\":\"£27.64\",\"tax_rate\":\"\"},{\"description\":\"Branded tissue paper, 480 sheets\",\"sku\":\"TS-563\",\"quantity\":\"10\",\"unit_price\":\"£52.49\",\"line_total\":\"£524.90\",\"tax_rate\":\"\"},{\"description\":\"Kraft swing tags, 1000\",\"sku\":\"ST-404\",\"quantity\":\"2\",\"unit_price\":\"£31.46\",\"line_total\":\"£62.92\",\"tax_rate\":\"\"},{\"description\":\"Thank-you cards A6, 500, white\",\"sku\":\"\",\"quantity\":\"12\",\"unit_price\":\"£42.90\",\"line_total\":\"£514.80\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4392,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1008,
+      "output_tokens_details": {
+        "thinking_tokens": 522
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

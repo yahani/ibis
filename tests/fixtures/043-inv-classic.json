@@ -1,0 +1,43 @@
+{
+  "file": "043-inv-classic.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6fMkpUP3dckBk8bnm",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQS3AoKEAgTGAI4AUIIdGhpbmtpbmcSDA65nKIicfFYCOVwWRoMRF6WY7eTJZEuyEtxIjCNMqhi+C2mmzCzsRgE02bvxRWHIij/rwAzitGOGH+yi+o793/Mx/Wb930BYHrfAtEq+QlScLo8E1IlqsfvviqYEyg0CxtLfif3kzEN03dxMzGTy1WgCOJq/Q3rM53BQ/2flY2Xg/r+BEIaMBY6FCebpbwh2QU55I+oxtOD6AqcDogb2eu/JWeLHVmj9MHXrv4AU0E7s/LZww0DAq1Ai8jG1EySkuMFa9CcPo2h57rTZW2Ko+qQsYtdYj8B+XaSxNtzF8pJwDzw+xICXtTQMMP5SfRBYYdGGLsv11xd/pMQb+BT6a7c+wFyyMZrYtVSi8ygifQdmhZIcKiXuYCtlOGv6NgrDXJNq2PjwHet71jYpflyYDtCQ2cZcl/oK+twMppJAy6F6w6ycs+KYobS9PbH0dsHyuegm0aNr/kadU35hctCWcGhKBEwmgTujy+44Vf33dxuP4gSbq/uzOTd/MTGPu3khPh/54Mg8vZmE6ijc7fg4RcWpdDFjJkTSTWAHF1vbc2kZAOOYqbgNl4VDBHN2BGP+Lwux9UqTclGGx6/WtSlBC3kWom4o+gtdEdzU1f+81Ic5ZHbBP6DiHKCpKXFyiSJpcL8+LALiqSY8kZCLjS+/Tz9Aea0/faXaqpSNv8+rEfb0knCm2ldwYXmUyH1jQELAWm3qn7IXoY9xCa2OREX2gASVUGr9R84KNbrUu1RK7UhfGIBNCSESyhjZwo0IrGiV2mEFuBA+dv5T0IlHgvTuIbCNAKnFV1byuv2EvBp/roDyE0WgWLqflmSb/OHM+8pmySLnQ0nLZ8pxqpgMhkwmSGXCS1QYVZno8Ik6kYhiqUbz1OGi217qtXiOIDWzHX7GpoyzPsLgzXtAlOVZRqCUti1RjBlS/GanB7FsW49o2z3cRQNR5/QZj8llJYZGsx9XvoFhd+crgntE34UQ1NqR0bpiNdVNACsv2ACw7RvOrW/qiw1qJQTVB2uAPpee3z9ik1k1AvrxfCdK2A+IDfoDDib9T2aRP2ceAaKu+5P1C/5MP8KYes+v7lYZDp8FOYomAJUd2iJzivgqwCnnD502J24OaGRuJbE2iL5SqYbj2Wa40FjbWYN+No7OJjqmYe+oYW4Mrray+TAbLnIbwPtuj+tEGExmfkgqC5kWEM9UyaAZyFqMNt/b9A9VwGhhJM54yWzrBMO7ZvNuv9ujeO/BVITqvG7XQDNTJDcElZiaSJSj6bhHZy+L7/Sqd9CTyNQzmU6w5vuGXDmuD4e6DLj1M431T3h97EbmmBNrNTjovjxvqOshicXefRvzbiklCjwBhwatA/PXqQZwOCdTA2b7SPsVB4IRX7vcfpkWI9DxD/WKxs65S8OoMchT7xms/vabMD64upH4ANj3ZpSQoPafrw3+h3BvcVoxekDEu6/IcvqNQw7Ewqm/V72REb8ifT8sCW0Hsm8BKtXhF/TpiV5jTIiTDx2TxL8WzO79L2LlPsIAnxzLiwRIZOQDCs/zMrEvQ4Waoba6ew8KxRN5vZAL2x5F9/pi03/+roB/mFDZYzghw1Grd5jZl81rhW9SCrycW2R61uvoS6vzItPwTcH0GQusZAaPKQDq8upZTtufDqZjwdWwwpehWvh9mi2KWtp7S24gRvPfucyh6kZ2u24xgQVUn9q7DBer8YfyIRmXDxigJDKSEuftBxNdFmW12WyBWq2UfuhOrxvuWHi6w3PNl/qS0BbHvPb1GQS7/PuNPExW30DxULv3w7YW12eSUMxuK2oFDQDUYT/GAE="
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Harbourline Packaging Ltd\",\"supplier_tax_id\":\"GB861142741\",\"supplier_country\":\"\",\"invoice_number\":\"INV-2026-0697\",\"invoice_date\":\"18 August 2026\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£1,510.72\",\"tax\":\"£302.14\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£1,812.86\",\"line_items\":[{\"description\":\"Double-wall shipping box 40x30x20\",\"sku\":\"BX-964\",\"quantity\":\"20\",\"unit_price\":\"1.70\",\"line_total\":\"34.00\",\"tax_rate\":\"\"},{\"description\":\"Kraft mailer bag, 250 pack\",\"sku\":\"MB-821\",\"quantity\":\"1\",\"unit_price\":\"18.67\",\"line_total\":\"18.67\",\"tax_rate\":\"\"},{\"description\":\"Paper void fill roll 450mm\",\"sku\":\"VF-921\",\"quantity\":\"50\",\"unit_price\":\"28.94\",\"line_total\":\"1,447.00\",\"tax_rate\":\"\"},{\"description\":\"Fragile tape 48mm x 66m\",\"sku\":\"TP-640\",\"quantity\":\"5\",\"unit_price\":\"2.21\",\"line_total\":\"11.05\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4363,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 778,
+      "output_tokens_details": {
+        "thinking_tokens": 365
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

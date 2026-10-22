@@ -4,18 +4,18 @@
   "recorded": "2026-10-22",
   "response": {
     "model": "claude-haiku-5-5",
-    "id": "msg_011CgHRy9Xj7oa8hsHpgANo9",
+    "id": "msg_011CgHW5P8uQfAu1jX14Xq86",
     "type": "message",
     "role": "assistant",
     "content": [
       {
         "type": "thinking",
         "thinking": "",
-        "signature": "CAQStQkKEAgTGAI4AUIIdGhpbmtpbmcSDGhoIRFQkM0XfN5OQRoMB51AsUfcwcKBAhOeIjCDROCAXpBnDXqJPmXPHaXO94gob9lIdVWXVvBRo9Kx3lrEMsTZkH9jl0sIMF1xsxAq0ghLvbzX3bprrOZJDWqBUbL8ALGKcrNol3DEAXQtHqAY4IsiFdcXoBmafbl7WwCPtDfY//k8EuGOFCO8OhxC2am2cHYXy2I5w+lJguXPER1IR5q6jU4GFGnIRE1aBU3ycp2qSGUxowW/kVglqdorFfN+fUPssvajuX9qJRntsczL/xgC9H4l8F/7UbRLf5A0Qat2/vbSaFEk8G4xHyktimdGF4Y9KhCT2v4QxTCcs8o/gtJCxteYCQKzVrlwWxBoFv6JYUDof+IvWE3ySep5IACQhYyjbwoKnvZYGkFFDS1CaoMy4aX3IXlviASnsW3SRmVX73HBQHe9B6BtUzyjUktrxF/UXK+WzBHYyAiXbco1n/SSfzbox4SkKT5i340FRfd5NEDfF7BT0TfXKxM69yuzr0ZHWZopFDhKHXkgtgUcwUv05OI8aTFA2hNtHOFSdUEerVjt1skrBJAgQE0yXxfSSjeGDnr66OalsD0lNbPSdkNotE0AuuZIN1uofQ2hD0MD08YUDWBZgK2f7AAHcde8FHKsSf++n94kEM0al7XGT8zHUHpkfBOMpcvfuOFAGraZGxfkdQeV4AwEs6XmH1wiuIFMnk5L4nKDwyq3YYQH+DrRG394S3LpnnhQUpwZ5qqwP7LknkbsYcJHcbluDW2ozMM8By131GTGnbRSWQgAm0CxNf1pUw0mAs7JfOazRqD1TQUp8JBRwL/GzP1EYTALBZ+3LXYTRYHzZf0iegEKEt+e55ZW7tosku7RZRtFOxcuu88xvSh7yhGKPZnkeM10e5NscqNwEfbY1jcarjj+xtiPDBQPOuGXINLzscgSjjGAeyckqb/SKFPwak0pdlfmSPTJAM1YGvNUYmKQjk0D1kRR5KWZqhzsmE4jsZ10GJw2KsFSOI5bE+dAXvaiZqMF0u1QNVQqn89LVOoIF4XBZDjZqgMjWJU0AQ8wsPOm6VR9GOwkfKnWE+nGcFwJbz5kt5NxS1+cXSKiyO4NN+/PIi4fggDeMveV6G6vojK3+kJ6w6TdSYRmfivR23y21k3nNaMajpHFYM3QmOCF94kVFzolnqIaOjxjV7uxASpWwEdRUTW1FklCFPbAwbrXsxOf9De1EWIFuFh9FqoSf/lNWutP2X+PoIy3pLZyacErb6di1Fqh3NddNFzoIDluIvVvCRjPr9A5lq1ZuNtnZpPaxxVlOzp1U94yQgihnIqK36lCWx4Mh6BqetzJegQpzdCS9dU7xu4b+iZ+MQSlzwAjcX5r7nGqzJFLXlPJ+RYWej3OxdxgRw3+JzuR/Bx/mfsra1o9hipSSWKLvtHWmJ52MY9SXLU/fZd4XdGd3R55HUC9MWPrZ8IlRvJ0B6QxKQLPIfvu7UeInWxWoOIjknhwSXptenvkHAF8JGqbjSf8MLYO7JesGL74l1/remKehqnc86PXcRsivvpVffgadLYd9sbtAsEqHWvhsX5mjcJDa9yX7hgB"
+        "signature": "CAQS+QkKEAgTGAI4AUIIdGhpbmtpbmcSDKwCEWfB3YKkqBzqlhoMunfbRsAOHtsL78R3IjAFFEwBb97z1vvv+4ZGcAsP0jvWSSKaGw7gDC485zS3PLpf3DSRCJySQ9XwJJEeoFEqlglK7GW3tmToiW9kZJyuVX5QldvZdk38MyaVAUHpKuh7qKox0M/sxExeSs4BrwuqGt19UBLLbbL+sB/2rAcq47UtRZzIlKhL0LWcKTI8yKkqj2VNihOk4xUTMQZx5gTv5YxnMdpCPK4SwF7Zg7Z6q8DCFUkgZtyJ/A8+fpCqALcXLalbs5qkvJOZacxLNaA0QWgSLkK0cOpZRq/S7GSExi8yk13aMhoBAY0PQIPIF54OVslYC09UiMWK6dY7UYW/Gw4MXaUSyzK8MgVEGAjNuqL4FxIIBY2Qtvd6gp9v6WbJue4Fhj74xrvAoznbjZw6zqxgh4Wsmz7E2h7mK6bz7XpfbNnNwmCLE6PaDx/BHA0u2L0KDRItkAaVeMGU+CVZR3p0TmHY6vOmsReFy2nJ2tgoH9afg68UJgVzTAoK46VHCUQ9juTCLBg+mlHqViuQCkkRqPrMh+AwX1g1Ql8JnamGzPCzwmJgd5F//zN2Ad6eB9t2GP7Rw3f+zmvP92fl9RI5LjTHLBD7jU9GfofRFrApqhGDY1bnfGeb0s/u9xEie3H6AmLbcqYDawLTBE9JvLvo/oqX/ze5QM5qir/nLOtZCcbGG2EidZljBeikyCkRt+gKAHBww33qsr7P9VP+1+vVW81QRD3HOQbZzv9aGQIPTugK2mGHA+71zDzuSIe8z/zkwYjLdlX4okPHmAImOzzKnjqByBcndTEHOdaQVN1xQN3W8XXcPxDjh2QSG0Q/Io7ExldkVqRpsQ5KoGtVVSXkfJsFpzRLxTccty63Kcy798CW6IHxiQndlzJlDoq6s0ktUEOHG9haXTc2w0ueqToRrgfbtp9UNvQDLiVAZViJpcg9xf04u1IAeDnkM1ZKkuDhyBD+R1DN2FdUk/JVnigrj8VmA/JBLAncggx+pwnNT6JFP9R9Gi29LO6/XIkZNhpDGKqB9svmicHvSo0HVtrJyUyei0aFSv9tDnsxt+mxt6b6atd5m8Pf4NznlNccl1MkwxWa1k9+aPbkQt/T+vDlp9EF3UiqhvQ/Tc5zgTZOdaiGxQqDOEuOy+zBfRsRUlmUoewEe86isFms2CMawq92xWi3mR7Ikt+xRvhrdLQ8yDGoqqxXSto8Xf5g6HCO9EVOSerFIoAPPCnM5RRWa48QsZR17CAkkhLXAe5hCDqTNXlGYURpaOAszksdDkoSUn+s7azmn9DcehihSkYkda8jNbVXd/YKxFJTrw0Tc92phueTJ4PIMSwNYYZdbXEQzCR5XQOmFqERjY9W/rYyKeHExaLAPf7W+S1AJ6L5pJO7KT0a1cQFFE+zLIG/UhV53sm2ME9NoTyxKaKsgLVI1jmZr02TPL+l1mPJbKuVcqkHFLKBdb5wQIszag7Pcia4uxi9VbJ2jSfE5cj4fwpaFI966nxucdd4bOGflyOKGYyGIXkESHPBzt85AlTJegrf5Vg7tdswwgt3yKjfRoNXjQCDvj0du1goJ99C2RaIZUzA5lBUbS05WEMoS4leYiVBAt5HRV5ENB+OOqtvqg8Fpv2JbG9WtObICTrhfpuNs5BfxhjMktTAGAE="
       },
       {
         "type": "text",
-        "text": "{\"doc_type\":\"credit_note\",\"supplier_name\":\"Fenwick & Dray Supplies\",\"supplier_tax_id\":\"GB993336525\",\"invoice_number\":\"CN-FD/26/0857\",\"invoice_date\":\"2026-08-29\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"-£1,606.96\",\"tax\":\"-£36.15\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"-£1,643.11\",\"line_items\":[{\"description\":\"Nitrile gloves, box of 100\",\"sku\":\"GL-749\",\"quantity\":\"-20\",\"unit_price\":\"7.71\",\"line_total\":\"-154.20\",\"tax_rate\":\"20%\"},{\"description\":\"Surface cleaner 5L\",\"sku\":\"\",\"quantity\":\"-2\",\"unit_price\":\"14.60\",\"line_total\":\"-29.20\",\"tax_rate\":\"0%\"},{\"description\":\"Blue roll 2-ply, 6 pack\",\"sku\":\"BR-628\",\"quantity\":\"-2\",\"unit_price\":\"13.28\",\"line_total\":\"-26.56\",\"tax_rate\":\"20%\"},{\"description\":\"Bin liners heavy duty, 200\",\"sku\":\"BL-729\",\"quantity\":\"-100\",\"unit_price\":\"13.97\",\"line_total\":\"-1,397.00\",\"tax_rate\":\"0%\"}]}"
+        "text": "{\"doc_type\":\"credit_note\",\"supplier_name\":\"Fenwick & Dray Supplies\",\"supplier_tax_id\":\"GB993336525\",\"supplier_country\":\"\",\"invoice_number\":\"CN-FD/26/0857\",\"invoice_date\":\"2026-08-29\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"-£1,606.96\",\"tax\":\"-£36.15\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"-£1,643.11\",\"line_items\":[{\"description\":\"Nitrile gloves, box of 100\",\"sku\":\"GL-749\",\"quantity\":\"-20\",\"unit_price\":\"7.71\",\"line_total\":\"-154.20\",\"tax_rate\":\"20%\"},{\"description\":\"Surface cleaner 5L\",\"sku\":\"\",\"quantity\":\"-2\",\"unit_price\":\"14.60\",\"line_total\":\"-29.20\",\"tax_rate\":\"0%\"},{\"description\":\"Blue roll 2-ply, 6 pack\",\"sku\":\"BR-628\",\"quantity\":\"-2\",\"unit_price\":\"13.28\",\"line_total\":\"-26.56\",\"tax_rate\":\"20%\"},{\"description\":\"Bin liners heavy duty, 200\",\"sku\":\"BL-729\",\"quantity\":\"-100\",\"unit_price\":\"13.97\",\"line_total\":\"-1,397.00\",\"tax_rate\":\"0%\"}]}"
       }
     ],
     "container": null,
@@ -23,16 +23,16 @@
     "stop_sequence": null,
     "stop_details": null,
     "usage": {
-      "input_tokens": 4275,
+      "input_tokens": 4369,
       "cache_creation_input_tokens": 0,
       "cache_read_input_tokens": 0,
       "cache_creation": {
         "ephemeral_5m_input_tokens": 0,
         "ephemeral_1h_input_tokens": 0
       },
-      "output_tokens": 762,
+      "output_tokens": 793,
       "output_tokens_details": {
-        "thinking_tokens": 339
+        "thinking_tokens": 362
       },
       "service_tier": "standard",
       "inference_geo": "global",

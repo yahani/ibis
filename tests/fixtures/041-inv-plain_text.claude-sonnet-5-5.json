@@ -1,0 +1,52 @@
+{
+  "file": "041-inv-plain_text.pdf",
+  "model": "claude-sonnet-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-sonnet-5-5",
+    "id": "msg_011CgHW7Z8E58cTFzXkpe3zR",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"KITTIWAKE COFFEE ROASTERS\",\"supplier_tax_id\":\"GB720457349\",\"supplier_country\":\"\",\"invoice_number\":\"\",\"invoice_date\":\"12/09/2026\",\"due_date\":\"12/10/2026\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£1,455.19\",\"tax\":\"£291.04\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£1,746.23\",\"line_items\":[{\"description\":\"House blend beans 1kg\",\"sku\":\"\",\"quantity\":\"6\",\"unit_price\":\"14.79\",\"line_total\":\"88.74\",\"tax_rate\":\"\"},{\"description\":\"Single origin Ethiopia 1kg\",\"sku\":\"ET1K-918\",\"quantity\":\"6\",\"unit_price\":\"25.59\",\"line_total\":\"153.54\",\"tax_rate\":\"\"},{\"description\":\"Decaf blend 500g\",\"sku\":\"DC500-214\",\"quantity\":\"3\",\"unit_price\":\"9.46\",\"line_total\":\"28.38\",\"tax_rate\":\"\"},{\"description\":\"Compostable cups 8oz, 1000\",\"sku\":\"CU8-364\",\"quantity\":\"2\",\"unit_price\":\"52.58\",\"line_total\":\"105.16\",\"tax_rate\":\"\"},{\"description\":\"House blend beans 1kg, white\",\"sku\":\"HB1K-100\",\"quantity\":\"24\",\"unit_price\":\"17.22\",\"line_total\":\"413.28\",\"tax_rate\":\"\"},{\"description\":\"Single origin Ethiopia 1kg, white\",\"sku\":\"\",\"quantity\":\"3\",\"unit_price\":\"22.69\",\"line_total\":\"68.07\",\"tax_rate\":\"\"},{\"description\":\"Decaf blend 500g, white\",\"sku\":\"\",\"quantity\":\"24\",\"unit_price\":\"10.44\",\"line_total\":\"250.56\",\"tax_rate\":\"\"},{\"description\":\"Compostable cups 8oz, 1000, white\",\"sku\":\"CU8-719\",\"quantity\":\"6\",\"unit_price\":\"57.91\",\"line_total\":\"347.46\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4529,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "iterations": [
+        {
+          "input_tokens": 4529,
+          "output_tokens": 650,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "type": "message",
+          "model": null
+        }
+      ],
+      "output_tokens": 650,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "file": "002-inv-modern.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW5P2xmkGw3j5WaXNwm",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQSmwoKEAgTGAI4AUIIdGhpbmtpbmcSDIlFBlJwIq0vAPz54BoMky1UxWQRTb8ijmKYIjCdMSskSsO7NOofW7v2H6rDUnTtf6laAMd6XNas8tRAaVcyzpztL+xj6lnlZe83bewquAkD0eJUIuO2LeEqzDhlyhvDE6M+IuZfeDb4Aqm14RqLoWnh69hZldWcGGEbLEsXDbSVqKamm1Sx+A/2VPmjZM9R1dGt49XOQBPrDqu8EnGZ+Ot/RThxxemMu7EonCB8ipZMKJMvN60wQMVnTT4IIktQBCxEjsLxdJVIQO6NRIeLZwanAfYlad71eUJIgvTPdiiNlGrOukUA9r0BeWNZ8zjQ9//YmX4Tpfm/7JVgiM4c+5jwF90O1H9cWZXciWjJe8F2Wb6Ucbgfg4LQP61CAMaXeI/72A27LLeWk3J3cgiwROzBkkI2lqwHcX4mZE3ryaXFxzQFlsOl/XVUBSwfPRfKYgrTKwY4MojkcyD9q/u8zRHO/JDUxczgU7GWiAm0ykZcw24WeZcboNCxh15iH+AOv+AjojESj+OLr9mQr4VdSxTuEHhDa5F2w8X//ZrviLCCbjzbGPhgWAgXAigsorVCQb3my/gshueFap+nQGaq0D5/NiyiVW0ZAfCPwldvWtYP/H7Q1QuuQQZNtGAp1lgZMr/pxRuhpuVCpmd3bZGTZpky9sp8hEwbQply3ymA0JhJGCiwy5Z+r8YSBl4dtKzZfICpGxJZjJdBUizn/mdrU/v/o0xJ1n7dYDxlC/1+KRw0sKDPJAomChZKkCUKTgp2MG3LsbTNSX1EW10t/cI0/N7gUafO34/8ow9IZ1yxkNKqcB5IoADYuNl4Z4k0sZ0ZD/QuOx024jBxnp+VGUtRHzokAmQILu9xsvAk4bipzrtluaHaRDpS3Yy051laiPTMEHXGAgaBBdcrmQwQDDwDqMgQuHb49Zson7efmVdgeBAztikgWB4Jz/LP5FqLWyub/aYBE2UytnZ0jHgXojjprjxUJZ/K6mdmY/RNOJ+sye/bcb73+G7v7+oQdcbvGwZYxn07thjmQ0CblJw6RvUKIQ/Q2xc+kQDU12oyqk/1f5kD1rEFY92GVu8AHF9K8rdnwuRjGPPrNciy8A7SCClO3ss/ts+Aaj3G5iiS0lyk9zRQ/f2Dh9o+L0tvpoy8tORuAwrCw2VKqJs0sCIouRNuN0eN3hw3awhE9xpXtxJaCZco5B+TQJIUQ5+5A5ax5JoOwVL01x66Wz8urcPzaDgOtSMCzr3JFwajwEObD+2bQ/iGjr58xOCUoNLp3M7Y/PIlSIHspPuEmBa9vd0vvb5ecbysiviIl9mU1wK0Fu8JROnTk82C/S3NnO8bhbR7cKIruZ7qT9wuDXQXUugDsWmdJ3Vm/u+3M69kDWHCbkLkRQGrNo7+qaV8Nq5Xx6ZjsKJu4SwD011gyIwWXgKsou5hoeCOEg0Uw0NuQLlXqtR92jpt1b8hXGLMLI5Fp3UDkW3ThLufmaMEcfcOI745A0propOsVhf7ACvVHMelh1qHikwYACEUxN09jgKio4D7zmQgzwcIKpLFfBJamDGQ/xxCaxGNyaQw37XtwTGoSoDF99fgPU+nGYQJbxSUt6iPlohRZOMyfPxgMmspiaO5dtbwGE+WmPHZEKnBnkL/qjudmj9h0l2X0T8YPlP9kIME8AbZC7mIw5YPJXs3EWFyso3ttMW6HSkRf+XxipujVIdYG6XezBt2I5XG2RgB"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Copperleaf Print Co.\",\"supplier_tax_id\":\"GB747407509\",\"supplier_country\":\"\",\"invoice_number\":\"CP00439\",\"invoice_date\":\"13/09/2026\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£771.86\",\"tax\":\"£146.65\",\"discount\":\"-£38.59\",\"shipping\":\"£8.35\",\"total\":\"£888.27\",\"line_items\":[{\"description\":\"Thank-you cards A6, 500\",\"sku\":\"TC-237\",\"quantity\":\"6\",\"unit_price\":\"£34.21\",\"line_total\":\"£205.26\",\"tax_rate\":\"\"},{\"description\":\"Product labels 50x30 roll\",\"sku\":\"\",\"quantity\":\"20\",\"unit_price\":\"£18.61\",\"line_total\":\"£372.20\",\"tax_rate\":\"\"},{\"description\":\"Branded tissue paper, 480 sheets\",\"sku\":\"TS-988\",\"quantity\":\"5\",\"unit_price\":\"£38.88\",\"line_total\":\"£194.40\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4309,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 680,
+      "output_tokens_details": {
+        "thinking_tokens": 335
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

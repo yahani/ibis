@@ -1,0 +1,43 @@
+{
+  "file": "042-inv-classic.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6ZTYiAbLcmu8XDxtt",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQSrgsKEAgTGAI4AUIIdGhpbmtpbmcSDPwmxY/Dru2f9X+m4BoM+xsfCGiswgJodaagIjBjyEy60crtZMIkdT6Je4vm/xz+GnurbqwlX2HlO2fdjg9qyAvlHG3BrfYfjoyod7YqywpmBhGd6/VROO/z3JCMaCNNbT1zdMy8inF2uv3JjxZfxK0ixd1RQmrFuFU+V9Czr8sN/pIU4YxjkEsx1TVnsddmCD6lcaC/2K5JkNR3LI7rABu1P3emzVFlf9QRCe8j2E3N7Cgr/7r0qOGxGOyeha4a8mwlKuK8ETR6RS3eu8M8AMze3OoT6c9+yMex8eRCamJ3VirCfiyTDWqdtTF3415gHid1jDLjWS4IEMcTumOf9lJaIn4PpihMvRn7ERppXpl8Vl8z9yRmb3OB9wFkIGAJQIdWOdBAW0Z9GW5Q5+yFIjFqJFf3IcmPHzTr6BfQEDVudr4TOcDkmhDSnsRE15Swl37Y1HwzNwNIhk8DpWkrBk3l8m3q324Ix7QCrNOhjynge/SklU9sCG7ibJfhaY/EXMckJFTzrz9amIxOdNlmoyCvnQuOpMQr4lh3vLX2Ys9M9iQ9Qhn3B+poIaFxeIDTxytyd5tjlnA8XZIk86tp/ied/0wvNH77Z3G/Usa2WQx5L60ipuW0qzU42fm2gftGkpd7dZhUvRPNHDfW06bS6VOfN79XtfTLglrcUjE2TEjzpZM/3iav7StRreoE4m8EwEsEyYfkALGbj9aHmKO1qkuUfYRQbpec2/IHO21kjuInQQEcV95Wj0maN5hRAFDTW5zQAXikg+eeFyhV8u7TQp0BKg7cGpBkombTYxJrUjmoaCriETlc3EY4etNpSxiLXwMGp2AuZGddcKqlO4Y0QfGNorHg/7BDCNPTwFdnqpuP35gWAELFftY77s2WmmheITv+/WsMydYAU8Te85Va8QDsPMFFsyPNcY4oNv+ZXygSY/GLV50t+/vYWZItnCmlQ+0O/CGQHvT7Sug1Q8s9TohZlZFc0Hi+frwit26jCXz8AVw6+HbU662fzgy+9S89qHOYL1b2+/qNIQi0grkoKNgfOa0bPwm91Avi4wHQjWDLGApfibYsjVUWRlNcUSErJV5NQkmkB/+y/vMpHz5lCK1aztBgP35UAX56+v8iAxXt/JU7y1E3T9lbj9SrVK08kEIDrnfNOser7HXm3j0e87T7vzuCn51yMBBZ14BM67UmXefxVhopOf/cPTwDNjDwSxlUGeb214UHnQB8O4o18PjLZhurQt3mn8ICKUwSnSj34QnBGpI2qpA9DLEoUz30RJN9yJ4HIqkLGG/U+IEO84eV5ZuSQYawqVoPVvM0gTtchYfKy5P3QLGw76Li24y6v1dLLLefZgQ/gwDqkc6OE3PzO7lxl0NTbRBT9hc/1yCMuxbcxG3/qnlToL/cOmyYIXjtGXHcXNqG1p2wgrsJqbhiJWnN5+qJW0pZ4CLo+WFkV3wHhr7wYAeLbPlsRvYqwex3NhGmhaDWHTBlTdT5BeQ4mAEdb4eNSepNeBosg7st3Qqggmo4iM3xWmo7cXMs+RzibvO3FTxJz4N9kqUu/g+DSBh2R+qoocxoJAQGrQa791z6z9ALexgSArhPIIINIfGvWil8WSDyt9ks9+myGI674XkUaNfwEp4nZ6NGYp3LTithvOR+NrCAyFKdiuAByDXlCxpthh/S1aJRNwJrHtLR/vhLQ/M+FxjZTEJ3WLXhUx5SzLALDm304HWky79lEPmcdO2jy1cTQ/UuI0oEetOtvNosnpjq51VIvJQpD4zvgNmd22y4q8P0lK2+UYXHGqRK264UPSvPI0xSZxuJoCbeOdZCKbnAi3m2aU/QpUr+Wqkq8GNcBv4IjtidoT1Dbv6A1JJ7PtKBunUj6PcU11rA17lFGkwOivMrSW4WKWQwSsWbmT3Ex8QT4xgB"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Saltmarsh Candle Works\",\"supplier_tax_id\":\"CHE-457.457.457\",\"supplier_country\":\"\",\"invoice_number\":\"SCW-0225\",\"invoice_date\":\"Aug 12, 2026\",\"due_date\":\"Sep 11, 2026\",\"currency\":\"CHF\",\"po_number\":\"PO-25207\",\"subtotal\":\"CHF 431.28\",\"tax\":\"CHF 34.93\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"CHF 466.21\",\"line_items\":[{\"description\":\"Soy wax flakes 20kg\",\"sku\":\"WX20-147\",\"quantity\":\"2\",\"unit_price\":\"75.60\",\"line_total\":\"151.20\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100\",\"sku\":\"WK15-382\",\"quantity\":\"2\",\"unit_price\":\"7.38\",\"line_total\":\"14.76\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid\",\"sku\":\"JA30-832\",\"quantity\":\"100\",\"unit_price\":\"1.44\",\"line_total\":\"144.00\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml\",\"sku\":\"FO50-385\",\"quantity\":\"3\",\"unit_price\":\"21.44\",\"line_total\":\"64.32\",\"tax_rate\":\"\"},{\"description\":\"Soy wax flakes 20kg, white\",\"sku\":\"WX20-643\",\"quantity\":\"1\",\"unit_price\":\"57.00\",\"line_total\":\"57.00\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4422,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 916,
+      "output_tokens_details": {
+        "thinking_tokens": 421
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "file": "047-inv-classic.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6xozck99cyR8p9G16",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQSoQkKEAgTGAI4AUIIdGhpbmtpbmcSDLTvsJMZBbEmqDL//hoM5s2pknlSv9dE++HoIjAdm3S9NdBV9FdVTbVKEEGanc7NOONRGFKMJGXFDcxkNjgtGiTIy8GSc4QB4vdpqSAqvghn0UplbTcDmpmS06Y3hDmyTwnBGF1f0aMhIA6HTG9DFbKqwEOD5tu/VJOTQYEyHlOj22QlNEcu9lj5kNhuGACrRlZNeQCG29+jSt7b1YZR95zQ+45Qee5jSQZNXNCsjYkOQggGhExsYGfRGHbqXL7lYYr4MRZKuT9d4J5fTanfaLsXtY40I9YOYiuNdEEh6yxiNYMt0xLkJQL8HKgUPZaHTm/EbgwQudHd0ivp4WrJZAWSPPPzJ1nRcT3q3cTzw87KMq26EXb5fJoWnsqA1kB9AeCjo3dZ6gcfgqGqs6yrE+ASHL4A14kfd2fpIlrNFe3n8s/Oq7C/Hl0UlxtLRKAHqwkY15yGTN1cGRbjJ7uJwVA38r/7X2+/d/oMuAWS3p5EweaUISkYxFu2Rd2o425l+Nib3h09Vm7bWaeJSLjhYa8HAsJR35hrYBd/BJ1N2jiaAGkRjNAVI1glQ67iDnHw/fsW5Kzi1jjoNZ5Cr+VYmI8lKMFalDCxc3WKpqMN1gH8x4Aes1T+ytp9BGZeeZHK2AWocOzHp8p2o4U4+ssr9g58RfG4oTJmKHNQRaeiJOAvabMeXVjCx5nKY7wj5mcbawfOAKtv81auNLU3ADg6PqC1VMubxWw1u1RDLObErFWuAHGAUa774Y+2p+bDEaIoU8L2wU0Eiuiy6oT3/dqkTMOHlYx5yMs5UlZVZqxhpfptl3DqRlMQGcrZ9PZ/W3fInZu/RtUkgq9WmK4s9HHX9HRjmL9bagqyqGV7/wgxm8PIgGy1b3an1yR+BAcnNf2jFQVNVgYJD7giuq9kHyAA+RkyZRfWLsWHKUF6hPbP3JfcHAji3UbMPRT/TfIM3iTgP6ZaHqSWscfP7D5V52zshKx0hy/x3A6Z/uqLaNqY9Ikdz/5H8WLj+xsmneicPXxyxKkpManBtUP9gFXWZQsmMhuASCKxaezRMlGpEOZCqEjQmbUquJ/yfPyaRXQbr8QUAgCVWSd0cmBjm0YLxha08OWbI2OZdfzO2wpo0IxDXXBnxNfLb6vTRRddAF4K94/z+kDQKOueyUIx16gzJwNzaf03jcbF/+SaaymR/W5icdHexE/ED3MMEbojDMDEAhk3uqXlaReAemqjcOOc/LtYCKwNHo1LD9DmHKDxJNI5Sq/JMrnloUnN5u9nX+RoAipQ0mKflWGBPzCQ16wITDP0nZUBq9bflfQsgUMCMBiRzlGqA9XxXN5THMWcDKEtsw5H07tVWsBWIe04akPesMz9j/TcZnE5Gg4CuYkmbvExDPu0nLsaiBJn8+LZxOQcdzEMrf5ryt8CIO+gvaNrHyIKm/5Kvrx6TdHBF6uZTp+h60Sz+FhbFtqzfnh5WaBXsuSipPDlTK9bIuscAYSBuWhRJPbgTs5uzSqTLnwsz/2Pe91aul2+U8MiTWiZ8Mtjh7jwtsUS64F0XOkOyyimHwEYAQ=="
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Marram Ceramics\",\"supplier_tax_id\":\"GB919624184\",\"supplier_country\":\"\",\"invoice_number\":\"MC-0357\",\"invoice_date\":\"03/09/2026\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£200.20\",\"tax\":\"£40.04\",\"discount\":\"\",\"shipping\":\"£10.94\",\"total\":\"£251.18\",\"line_items\":[{\"description\":\"Stoneware mug, speckled glaze\",\"sku\":\"MG-727\",\"quantity\":\"24\",\"unit_price\":\"7.08\",\"line_total\":\"169.92\",\"tax_rate\":\"\"},{\"description\":\"Serving bowl 25cm\",\"sku\":\"SB-595\",\"quantity\":\"2\",\"unit_price\":\"15.14\",\"line_total\":\"30.28\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4289,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 540,
+      "output_tokens_details": {
+        "thinking_tokens": 267
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

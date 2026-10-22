@@ -1,0 +1,52 @@
+{
+  "file": "037-inv-classic.pdf",
+  "model": "claude-sonnet-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-sonnet-5-5",
+    "id": "msg_011CgHW7H6aLGaWvw1eTmjJX",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"Harbourline Packaging Ltd\",\"supplier_tax_id\":\"GB979415552\",\"supplier_country\":\"\",\"invoice_number\":\"INV-2026-0718\",\"invoice_date\":\"12 August 2026\",\"due_date\":\"11 October 2026\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£9,536.73\",\"tax\":\"£1,907.35\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£11,444.08\",\"line_items\":[{\"description\":\"Double-wall shipping box 40x30x20\",\"sku\":\"BX-110\",\"quantity\":\"25\",\"unit_price\":\"1.31\",\"line_total\":\"32.75\",\"tax_rate\":\"\"},{\"description\":\"Kraft mailer bag, 250 pack\",\"sku\":\"MB-513\",\"quantity\":\"50\",\"unit_price\":\"18.64\",\"line_total\":\"9,320.00\",\"tax_rate\":\"\"},{\"description\":\"Paper void fill roll 450mm\",\"sku\":\"VF-345\",\"quantity\":\"2\",\"unit_price\":\"32.99\",\"line_total\":\"65.98\",\"tax_rate\":\"\"},{\"description\":\"Fragile tape 48mm x 66m\",\"sku\":\"TP-861\",\"quantity\":\"50\",\"unit_price\":\"2.36\",\"line_total\":\"118.00\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4372,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "iterations": [
+        {
+          "input_tokens": 4372,
+          "output_tokens": 421,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "type": "message",
+          "model": null
+        }
+      ],
+      "output_tokens": 421,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

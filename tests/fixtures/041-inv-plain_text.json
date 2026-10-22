@@ -1,0 +1,43 @@
+{
+  "file": "041-inv-plain_text.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHW6WrXkxjo435dEtXe8",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "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"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"invoice\",\"supplier_name\":\"KITTIWAKE COFFEE ROASTERS\",\"supplier_tax_id\":\"GB720457349\",\"supplier_country\":\"\",\"invoice_number\":\"\",\"invoice_date\":\"12/09/2026\",\"due_date\":\"12/10/2026\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"£1,455.19\",\"tax\":\"£291.04\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"£1,746.23\",\"line_items\":[{\"description\":\"House blend beans 1kg\",\"sku\":\"\",\"quantity\":\"6\",\"unit_price\":\"14.79\",\"line_total\":\"88.74\",\"tax_rate\":\"\"},{\"description\":\"Single origin Ethiopia 1kg\",\"sku\":\"ET1K-918\",\"quantity\":\"6\",\"unit_price\":\"25.59\",\"line_total\":\"153.54\",\"tax_rate\":\"\"},{\"description\":\"Decaf blend 500g\",\"sku\":\"DC500-214\",\"quantity\":\"3\",\"unit_price\":\"9.46\",\"line_total\":\"28.38\",\"tax_rate\":\"\"},{\"description\":\"Compostable cups 8oz, 1000\",\"sku\":\"CU8-364\",\"quantity\":\"2\",\"unit_price\":\"52.58\",\"line_total\":\"105.16\",\"tax_rate\":\"\"},{\"description\":\"House blend beans 1kg, white\",\"sku\":\"HB1K-100\",\"quantity\":\"24\",\"unit_price\":\"17.22\",\"line_total\":\"413.28\",\"tax_rate\":\"\"},{\"description\":\"Single origin Ethiopia 1kg, white\",\"sku\":\"\",\"quantity\":\"3\",\"unit_price\":\"22.69\",\"line_total\":\"68.07\",\"tax_rate\":\"\"},{\"description\":\"Decaf blend 500g, white\",\"sku\":\"\",\"quantity\":\"24\",\"unit_price\":\"10.44\",\"line_total\":\"250.56\",\"tax_rate\":\"\"},{\"description\":\"Compostable cups 8oz, 1000, white\",\"sku\":\"CU8-719\",\"quantity\":\"6\",\"unit_price\":\"57.91\",\"line_total\":\"347.46\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4529,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1160,
+      "output_tokens_details": {
+        "thinking_tokens": 510
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

@@ -4,18 +4,18 @@
   "recorded": "2026-10-22",
   "response": {
     "model": "claude-haiku-5-5",
-    "id": "msg_011CgHRzbkqKbnv63iS3uXgY",
+    "id": "msg_011CgHWCFo5oYZwKBpyJo7cV",
     "type": "message",
     "role": "assistant",
     "content": [
       {
         "type": "thinking",
         "thinking": "",
-        "signature": "CAQS0gsKEAgTGAI4AUIIdGhpbmtpbmcSDJt8ySxuDsjPbIDJNhoMdYsAn8T/cg1UfzOjIjDVrtQsSKfwuqHCVRR49ZKyWDtq3LVVnpsgpNOcO3a/+SM4ce2+ysn1e6JdsMnzM08q7wp4ommBRvUZWXT76lKqRb7rTszYP38Lvk10bGTHhi3e5+ORTu3RbPY4cfQ0GFAD+tr9tvseUE1IiQeZmRpGwdyTB8nYnHHtPiAmr8rnQ4Kqul1vA+bjwT8sFh4DRzugCzYaJlCotoEvght11MkdgisBZj+9joxXON4bXOps/gaGj4OA0Hr9+KurlC/rWoKOdQDsvf8hT9SSBh4TYnqHS0M19YnXnH7vSnvmHircIVBCQExzamLqwycQJGvQunM7QKrWee8i45RvfbC6g5K8MtbkyztOb5KJwv9n/UnqX/iW3rbF3dpQjD4E+o7QC8Re3AYNFJ0qyYR1Oe64t8zsXEgFr76ohwfwlxovNNP+Z9heQ6K2deWFZwvIFAC5CiwjC15+LBwAs3nT7cdrk8fXEUMa4/4ZoVfXCksXUWOZZu5KRHgnJmBWzOJ22vuHOhjFCqbhNJivBiwY5fk5u8z8YW5tcQSzsu9qa17veh7F/nkE0bNcJOAh6TEM6QoRO4uxpu0o3gM3xHpGCMO2BDleJLAgHg5pTxe+8+TZrWzZMNAMueu412CiGJFV046Q4eHkeytP4z7CpOo3L+A/5H6BM83SJQEUqlEbY7lWk4T7jkfJYIloTMFHCLh6p7pQZYxjz6GH/oSFqaisCxp1O5PCD6fiDc2qcbEkyhIO2/Pznp99iMIZOgTY0HBT4sMoF8FnxTACM+MeQ2xvujemt6ZaWxKj6eqEOHJcKqA0V+mAx9LY6RIEjixBrNxkBSO5AXV/a3XeR+REJZWTJqsyxSBmGutcv1v9Aa309UGUQEbTWfIiShZOyPaFPq09dMTLBJUyLZoXDzfp+uFBD9FtCbqOmJk46RX+4VfniZmJtjzRqj4b6miKG+0c6qCJQ2VYVAuu7WlrePbbuBAgH4OGe1LZZzRQsFcfV8r3oI01Zt/CXEfNwp1JDtdfkfeBgTxXuqNpwvrV6QiMge+pEQyy7FIoWAtvT9s+sAx7aNtD3uWx3FjXaFy2otP9kZFUNHo0Ca54ak8PDHoB+XdP/Uvsl9bfwZmMmugKhOp6O04tJ+HaA1fB5oQMkh/T/5usKeS3R7OOPU4Kh8m3p9KNZ0Ue6y/CrFDyo5mJHT/li3beXREoLZwMEpAWCaWHcNqU56DzMg5L0P4luQXpaYFto8/pAQkfImtfYA64TJqAjXMSFYJ0k0ZoyemUIEMUucIaPjf58YMb1o446aHLT81j3p4E8jwCgkW9sWMoJl3MMGkshzgPggwN9qaT1322dnD0M24zxedbU8/agEp6tLfMHPgQaK7BBASiA3HcfucE53nHK7U9NaQtGWgeHo3PpXSocblw21Phna2tbF+lzfULb2auRBBola2VZqBxH9qb8TYrZ3OVUOpIU7hm4qJVr0Wng5I7Z9EdWDeJqlHU/f7CBeuIJaa749zJsJHoeT7hZKj/h/4V3pBYcAXxibMFK//NBW4G+krL/OJmQMrdzsoO12mjDjXRIbtNkzMaHiiXhaAUAEbJivrlItZtKJyuK+2efFmIxZXe2Z4c2TeY4KOz2mUyTNkAhNsNsAjE4p4ug6YryyYDdqGrcQHbsH1a1yg7i+1/nvbXY8+s4RmzwaB/5FGFGDH2vZfJCm49chDAADaNt/idlQJxJUHjoD4mZ2qnziG0Bhp60TkZJ4WRMY49uWv1eIqPN/GSg9kZmdyImWNJL3uKT9HmxGVZtx3gIyCvsIbBUn91Aj5I5LNjNcTQMrGG73xVhELbsnJhl4rvXIQIsFLIiKyHKA9pDqTDffn+PDzC6hZjKNjRJ6fc4TM3iuM+JvsF6ioSujQWhaWx6joypdKLiUB8jdfoc919KQU5wskZwumK2BgB"
+        "signature": "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"
       },
       {
         "type": "text",
-        "text": "{\"doc_type\":\"packing_slip\",\"supplier_name\":\"Saltmarsh Candle Works\",\"supplier_tax_id\":\"36-6106824\",\"invoice_number\":\"PS-SCW-0215\",\"invoice_date\":\"Aug 14, 2026\",\"due_date\":\"\",\"currency\":\"\",\"po_number\":\"PO-67279\",\"subtotal\":\"\",\"tax\":\"\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"\",\"line_items\":[{\"description\":\"Soy wax flakes 20kg\",\"sku\":\"WX20-503\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100\",\"sku\":\"WK15-518\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid\",\"sku\":\"JA30-633\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml\",\"sku\":\"FO50-477\",\"quantity\":\"100\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Soy wax flakes 20kg, white\",\"sku\":\"\",\"quantity\":\"25\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100, white\",\"sku\":\"\",\"quantity\":\"6\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid, white\",\"sku\":\"JA30-453\",\"quantity\":\"50\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml, white\",\"sku\":\"FO50-287\",\"quantity\":\"2\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"}]}"
+        "text": "{\"doc_type\":\"packing_slip\",\"supplier_name\":\"Saltmarsh Candle Works\",\"supplier_tax_id\":\"EIN 36-6106824\",\"supplier_country\":\"\",\"invoice_number\":\"PS-SCW-0215\",\"invoice_date\":\"Aug 14, 2026\",\"due_date\":\"\",\"currency\":\"\",\"po_number\":\"PO-67279\",\"subtotal\":\"\",\"tax\":\"\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"\",\"line_items\":[{\"description\":\"Soy wax flakes 20kg\",\"sku\":\"WX20-503\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100\",\"sku\":\"WK15-518\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid\",\"sku\":\"JA30-633\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml\",\"sku\":\"FO50-477\",\"quantity\":\"100\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Soy wax flakes 20kg, white\",\"sku\":\"\",\"quantity\":\"25\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100, white\",\"sku\":\"\",\"quantity\":\"6\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid, white\",\"sku\":\"JA30-453\",\"quantity\":\"50\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml, white\",\"sku\":\"FO50-287\",\"quantity\":\"2\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"}]}"
       }
     ],
     "container": null,
@@ -23,16 +23,16 @@
     "stop_sequence": null,
     "stop_details": null,
     "usage": {
-      "input_tokens": 4269,
+      "input_tokens": 4364,
       "cache_creation_input_tokens": 0,
       "cache_read_input_tokens": 0,
       "cache_creation": {
         "ephemeral_5m_input_tokens": 0,
         "ephemeral_1h_input_tokens": 0
       },
-      "output_tokens": 971,
+      "output_tokens": 1152,
       "output_tokens_details": {
-        "thinking_tokens": 381
+        "thinking_tokens": 550
       },
       "service_tier": "standard",
       "inference_geo": "global",
