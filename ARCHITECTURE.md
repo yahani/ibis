@@ -7,7 +7,7 @@ marked **planned**.
 |---|---|---|
 | 1 | Skeleton, config (E1), models, CLI shell (E11), CI, demo invoices + answer key | ✅ done |
 | 2 | Discovery (E2), extraction (E3), recorded fixtures | ✅ done |
-| 3 | Validation (E5), duplicates (E6), status and reasons (E7), escalation (E4) | planned |
+| 3 | Validation (E5), duplicates (E6), status and reasons (E7), escalation (E4) | ✅ done |
 | 4 | Exports (E8), file moves (E9), run report and cost (E12) | planned |
 | 5 | Streamlit review page (E10), README, demo script | planned |
 
@@ -21,8 +21,8 @@ flowchart LR
     cfg[config.yaml] --> load["Load config<br/>config.py ✅"]
     load --> find["Find PDFs, hash, skip seen<br/>discover.py ✅"]
     find --> extract["Extract with Haiku 5.5<br/>extract.py ✅"]
-    extract --> check{"Validate<br/>validate.py (planned)"}
-    check -- fails --> retry["Retry once on Sonnet 5.5<br/>extract.py (planned)"]
+    extract --> check{"Validate<br/>validate.py ✅"}
+    check -- fails --> retry["Retry once on Sonnet 5.5<br/>pipeline.py ✅"]
     retry --> check2{"Validate again"}
     check -- passes --> ok["status ok"]
     check2 -- passes --> ok
@@ -37,17 +37,34 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["cli.py<br/>check-config, show, run --dry-run ✅; run, cost planned"] --> config["config.py ✅<br/>Config, load_config()"]
+    cli["cli.py<br/>check-config, show, run --dry-run ✅; run, cost planned"] --> pipeline["pipeline.py ✅<br/>process(): read, learn, check, retry, duplicates"]
+    cli --> config["config.py ✅<br/>Config, supplier hints"]
     cli --> discover["discover.py ✅<br/>discover(), check_pdf(), seen list"]
-    cli --> extract["extract.py ✅<br/>extract(), to_extracted()"]
-    extract --> models["models.py ✅<br/>RawInvoice → ExtractedInvoice → Invoice"]
-    extract --> money["money.py ✅<br/>parse_amount(), normalise_currency()"]
-    extract --> dates["dates.py ✅<br/>parse_date(), infer_order()"]
-    config --> money
-    models --> money
+    pipeline --> extract["extract.py ✅<br/>extract(), to_extracted()"]
+    pipeline --> validate["validate.py ✅<br/>validate(), RETRY_CODES"]
+    pipeline --> memory["memory.py ✅<br/>invoice keys, date orders"]
+    extract --> models["models.py ✅<br/>RawInvoice → ExtractedInvoice → Invoice, Reason"]
+    extract --> money["money.py ✅<br/>parse_amount(), infer_decimal_mark()"]
+    extract --> dates["dates.py ✅<br/>parse_date(), resolve_order()"]
+    validate --> money
     gen["demo/generate.py ✅<br/>fake PDFs + answers.json"] --> money
-    record["scripts/record_fixtures.py<br/>live API → tests/fixtures/"] --> extract
+    record["scripts/record_fixtures.py<br/>live API → tests/fixtures/"] --> pipeline
 ```
+
+## The pipeline in detail (`pipeline.process`)
+
+1. **Read** every distinct file with the default model, 4 at a time. A byte-identical copy is
+   never sent; it takes the original's fields and a `duplicate_file` reason.
+2. **Learn date orders:** a supplier whose document prints an unambiguous date (`13/09/2026`)
+   settles the order for their other documents in the run. Suppliers whose documents disagree
+   teach nothing.
+3. **Read again and check:** each raw reply is re-read with what was learned, then validated.
+   Reading problems (unreadable, ambiguous) and check failures are all `Reason`s.
+4. **Retry** on the escalation model when the read failed or a reason is in `RETRY_CODES`. The
+   read that passes wins; if neither passes, the stronger model's read is kept and differences
+   between the two become a `models_disagree` reason.
+5. **Duplicates and status:** supplier + number is compared across the run and against earlier
+   runs; then `ok` (no reasons), `review` or `failed`.
 
 ## Extraction: Claude reads, Python interprets
 
@@ -62,11 +79,13 @@ flowchart LR
 - **Why text, not numbers:** Claude copies; it never converts `1.299,00 €` or `09/20/2026`. All
   interpretation is in Python, testable and the same every time. The raw reply is kept on the
   `Extraction`, so every value traces back to what was printed.
-- **Dates:** numeric dates are read in the document's own order (a part over 12 settles it for
-  every date on the document); if nothing settles it, USD means month first, anything else day
-  first, and an issue says the order was assumed.
+- **Dates:** numeric dates are read in the document's own order (`dates.resolve_order`: a part
+  over 12, then ruling out impossible readings, then a supplier hint). If nothing settles it the
+  date is left empty with an `ambiguous_date` reason giving both readings.
+- **Decimal marks:** the document's own amounts settle `12,125` (`money.infer_decimal_mark`), or
+  the supplier's `decimal_mark` in config.
 - **Errors:** a problem with one document (refusal, cut-off reply, 5xx, rate limit, network) is
-  `Extraction.error` and the run carries on. A problem that would hit every document (no key,
+  `Extraction.error`, the document is retried, and the run carries on. A problem that would hit every document (no key,
   rejected key, unknown model) raises `ApiSetupError` and stops the run.
 - **Tests:** `tests/fakes.py` runs the real SDK client over a mock HTTP transport, so tests cover
   the actual request (document block, schema, prompt) and the SDK's parsing and error mapping,
@@ -136,3 +155,9 @@ Pluggable at three levels:
 - `pypdf` is the one PDF library at runtime, used only for encryption and page checks; Claude
   reads the content.
 - Effort and thinking are left at Haiku 5.5's defaults until the accuracy run says otherwise.
+- Validation, duplicates and status live in plain functions (`validate.py`, `pipeline.py`) that
+  take values and return `Reason`s, so every rule is unit-tested without the API.
+- The escalation call uses the server-side refusal fallback (beta `server-side-fallback-2026-07-01`,
+  `fallbacks: "default"`); `Invoice.model` is the model that actually answered.
+- What Ibis remembers between runs (`output/.ibis/`) is names, hashes, invoice numbers and date
+  orders only, never amounts or document contents.
