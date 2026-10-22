@@ -120,7 +120,7 @@
       "fields": {
         "doc_type": "invoice",
         "supplier_name": "Larchmont Labels Inc.",
-        "supplier_tax_id": "56-6429566",
+        "supplier_tax_id": null,
         "invoice_number": "000442",
         "invoice_date": "2026-09-25",
         "due_date": null,
@@ -984,7 +984,7 @@
       "fields": {
         "doc_type": "invoice",
         "supplier_name": "Larchmont Labels Inc.",
-        "supplier_tax_id": "20-3835227",
+        "supplier_tax_id": null,
         "invoice_number": "000445",
         "invoice_date": "2026-10-13",
         "due_date": "2026-11-12",
@@ -1936,7 +1936,7 @@
       "fields": {
         "doc_type": "invoice",
         "supplier_name": "Larchmont Labels Inc.",
-        "supplier_tax_id": "91-6135270",
+        "supplier_tax_id": null,
         "invoice_number": "000452",
         "invoice_date": "2026-07-01",
         "due_date": null,
@@ -2480,7 +2480,7 @@
       "fields": {
         "doc_type": "invoice",
         "supplier_name": "Larchmont Labels Inc.",
-        "supplier_tax_id": "41-1255973",
+        "supplier_tax_id": null,
         "invoice_number": "000455",
         "invoice_date": "2026-07-25",
         "due_date": "2026-09-08",
@@ -2966,7 +2966,7 @@
       "fields": {
         "doc_type": "invoice",
         "supplier_name": "Larchmont Labels Inc.",
-        "supplier_tax_id": "88-2555280",
+        "supplier_tax_id": null,
         "invoice_number": "000459",
         "invoice_date": "2026-09-30",
         "due_date": null,

@@ -35,18 +35,19 @@ MAX_TOKENS = 16000
 SYSTEM_PROMPT = """\
 You read supplier invoices, credit notes and packing slips, and copy what is printed on them \
 into the given JSON schema. Your output is checked by software and then by a person, so an \
-honest null is always better than a plausible guess.
+honest empty field is always better than a plausible guess.
 
 Rules:
 - Copy every value exactly as printed. Keep amounts as text with their thousands separators, \
 decimal marks, signs, brackets and currency symbols, e.g. "1.299,00 €", "(12.00)", "-45.00". \
 Keep dates exactly as printed, e.g. "13/09/2026" or "18 August 2026".
-- Never guess or work anything out. If a field isn't printed on the document, return null. Don't \
+- Never guess or work anything out. If a field isn't printed on the document, return an empty \
+string "". Don't \
 calculate a missing subtotal, tax or total, don't turn a tax rate into an amount, don't convert \
 currencies or date formats, and don't derive a due date from payment terms such as "Net 30".
 - Don't correct the document. If its numbers don't add up, copy them as printed anyway.
 - If a value is printed but you can't read it with confidence (blurred, cut off, smudged), return \
-null rather than your best reading.
+an empty string rather than your best reading.
 - Include every line item from every page, in order. Subtotal, tax, discount, shipping and total \
 rows are not line items.
 - The supplier is the business that issued the document, not the customer it is addressed to."""

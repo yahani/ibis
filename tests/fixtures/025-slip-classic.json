@@ -1,0 +1,43 @@
+{
+  "file": "025-slip-classic.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHRzbkqKbnv63iS3uXgY",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQS0gsKEAgTGAI4AUIIdGhpbmtpbmcSDJt8ySxuDsjPbIDJNhoMdYsAn8T/cg1UfzOjIjDVrtQsSKfwuqHCVRR49ZKyWDtq3LVVnpsgpNOcO3a/+SM4ce2+ysn1e6JdsMnzM08q7wp4ommBRvUZWXT76lKqRb7rTszYP38Lvk10bGTHhi3e5+ORTu3RbPY4cfQ0GFAD+tr9tvseUE1IiQeZmRpGwdyTB8nYnHHtPiAmr8rnQ4Kqul1vA+bjwT8sFh4DRzugCzYaJlCotoEvght11MkdgisBZj+9joxXON4bXOps/gaGj4OA0Hr9+KurlC/rWoKOdQDsvf8hT9SSBh4TYnqHS0M19YnXnH7vSnvmHircIVBCQExzamLqwycQJGvQunM7QKrWee8i45RvfbC6g5K8MtbkyztOb5KJwv9n/UnqX/iW3rbF3dpQjD4E+o7QC8Re3AYNFJ0qyYR1Oe64t8zsXEgFr76ohwfwlxovNNP+Z9heQ6K2deWFZwvIFAC5CiwjC15+LBwAs3nT7cdrk8fXEUMa4/4ZoVfXCksXUWOZZu5KRHgnJmBWzOJ22vuHOhjFCqbhNJivBiwY5fk5u8z8YW5tcQSzsu9qa17veh7F/nkE0bNcJOAh6TEM6QoRO4uxpu0o3gM3xHpGCMO2BDleJLAgHg5pTxe+8+TZrWzZMNAMueu412CiGJFV046Q4eHkeytP4z7CpOo3L+A/5H6BM83SJQEUqlEbY7lWk4T7jkfJYIloTMFHCLh6p7pQZYxjz6GH/oSFqaisCxp1O5PCD6fiDc2qcbEkyhIO2/Pznp99iMIZOgTY0HBT4sMoF8FnxTACM+MeQ2xvujemt6ZaWxKj6eqEOHJcKqA0V+mAx9LY6RIEjixBrNxkBSO5AXV/a3XeR+REJZWTJqsyxSBmGutcv1v9Aa309UGUQEbTWfIiShZOyPaFPq09dMTLBJUyLZoXDzfp+uFBD9FtCbqOmJk46RX+4VfniZmJtjzRqj4b6miKG+0c6qCJQ2VYVAuu7WlrePbbuBAgH4OGe1LZZzRQsFcfV8r3oI01Zt/CXEfNwp1JDtdfkfeBgTxXuqNpwvrV6QiMge+pEQyy7FIoWAtvT9s+sAx7aNtD3uWx3FjXaFy2otP9kZFUNHo0Ca54ak8PDHoB+XdP/Uvsl9bfwZmMmugKhOp6O04tJ+HaA1fB5oQMkh/T/5usKeS3R7OOPU4Kh8m3p9KNZ0Ue6y/CrFDyo5mJHT/li3beXREoLZwMEpAWCaWHcNqU56DzMg5L0P4luQXpaYFto8/pAQkfImtfYA64TJqAjXMSFYJ0k0ZoyemUIEMUucIaPjf58YMb1o446aHLT81j3p4E8jwCgkW9sWMoJl3MMGkshzgPggwN9qaT1322dnD0M24zxedbU8/agEp6tLfMHPgQaK7BBASiA3HcfucE53nHK7U9NaQtGWgeHo3PpXSocblw21Phna2tbF+lzfULb2auRBBola2VZqBxH9qb8TYrZ3OVUOpIU7hm4qJVr0Wng5I7Z9EdWDeJqlHU/f7CBeuIJaa749zJsJHoeT7hZKj/h/4V3pBYcAXxibMFK//NBW4G+krL/OJmQMrdzsoO12mjDjXRIbtNkzMaHiiXhaAUAEbJivrlItZtKJyuK+2efFmIxZXe2Z4c2TeY4KOz2mUyTNkAhNsNsAjE4p4ug6YryyYDdqGrcQHbsH1a1yg7i+1/nvbXY8+s4RmzwaB/5FGFGDH2vZfJCm49chDAADaNt/idlQJxJUHjoD4mZ2qnziG0Bhp60TkZJ4WRMY49uWv1eIqPN/GSg9kZmdyImWNJL3uKT9HmxGVZtx3gIyCvsIbBUn91Aj5I5LNjNcTQMrGG73xVhELbsnJhl4rvXIQIsFLIiKyHKA9pDqTDffn+PDzC6hZjKNjRJ6fc4TM3iuM+JvsF6ioSujQWhaWx6joypdKLiUB8jdfoc919KQU5wskZwumK2BgB"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"packing_slip\",\"supplier_name\":\"Saltmarsh Candle Works\",\"supplier_tax_id\":\"36-6106824\",\"invoice_number\":\"PS-SCW-0215\",\"invoice_date\":\"Aug 14, 2026\",\"due_date\":\"\",\"currency\":\"\",\"po_number\":\"PO-67279\",\"subtotal\":\"\",\"tax\":\"\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"\",\"line_items\":[{\"description\":\"Soy wax flakes 20kg\",\"sku\":\"WX20-503\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100\",\"sku\":\"WK15-518\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid\",\"sku\":\"JA30-633\",\"quantity\":\"3\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml\",\"sku\":\"FO50-477\",\"quantity\":\"100\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Soy wax flakes 20kg, white\",\"sku\":\"\",\"quantity\":\"25\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Cotton wicks 150mm, 100, white\",\"sku\":\"\",\"quantity\":\"6\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Amber jar 30cl with lid, white\",\"sku\":\"JA30-453\",\"quantity\":\"50\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"},{\"description\":\"Fragrance oil 500ml, white\",\"sku\":\"FO50-287\",\"quantity\":\"2\",\"unit_price\":\"\",\"line_total\":\"\",\"tax_rate\":\"\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4269,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 971,
+      "output_tokens_details": {
+        "thinking_tokens": 381
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

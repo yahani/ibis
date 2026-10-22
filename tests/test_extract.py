@@ -14,20 +14,20 @@ from tests.fakes import FakeClaude, error_response, message
 PDF = Path(__file__).resolve().parent.parent / "demo" / "invoices" / "001-inv-classic.pdf"
 HAIKU = "claude-haiku-5-5"
 
-# A reply as Claude is asked to give it: everything as printed, absent fields null.
+# A reply as Claude is asked to give it: everything as printed, "" for not printed.
 REPLY = {
     "doc_type": "invoice",
     "supplier_name": "Harbourline Packaging Ltd",
     "supplier_tax_id": "GB861142741",
     "invoice_number": "INV-2026-0697",
     "invoice_date": "18 August 2026",
-    "due_date": None,
+    "due_date": "",
     "currency": "£",
-    "po_number": None,
+    "po_number": "",
     "subtotal": "£1,510.72",
     "tax": "£302.14",
-    "discount": None,
-    "shipping": None,
+    "discount": "",
+    "shipping": "",
     "total": "£1,812.86",
     "line_items": [
         {
@@ -36,11 +36,11 @@ REPLY = {
             "quantity": "20",
             "unit_price": "1.70",
             "line_total": "34.00",
-            "tax_rate": None,
+            "tax_rate": "",
         },
         {
             "description": "Paper void fill roll 450mm",
-            "sku": None,
+            "sku": "",
             "quantity": "50",
             "unit_price": "28.94",
             "line_total": "1,447.00",
@@ -48,6 +48,14 @@ REPLY = {
         },
     ],
 }
+
+
+BLANK_LINE = {k: "" for k in REPLY["line_items"][0]}
+BLANK = {**{k: "" for k in REPLY}, "doc_type": "invoice", "line_items": []}
+
+
+def line(**fields) -> dict:
+    return {**BLANK_LINE, **fields}
 
 
 def reply(**changes) -> dict:
@@ -72,7 +80,9 @@ def test_request_sends_the_pdf_with_the_schema_and_no_guessing_prompt():
     (sent,) = fake.requests
     assert sent["model"] == HAIKU
     assert sent["system"] == SYSTEM_PROMPT
-    assert "Never guess" in SYSTEM_PROMPT and "return null" in SYSTEM_PROMPT
+    assert "Never guess" in SYSTEM_PROMPT and 'return an empty string ""' in " ".join(
+        SYSTEM_PROMPT.split()
+    )
 
     document, text = sent["messages"][0]["content"]
     assert document["type"] == "document"
@@ -82,10 +92,16 @@ def test_request_sends_the_pdf_with_the_schema_and_no_guessing_prompt():
 
     schema = sent["output_config"]["format"]
     assert schema["type"] == "json_schema"
-    props = schema["schema"]["properties"]
+    invoice = schema["schema"]
+    line = invoice["$defs"]["RawLineItem"]
     # Amounts and dates go to Claude as text, so they come back exactly as printed.
-    assert props["total"]["anyOf"] == [{"type": "string"}, {"type": "null"}]
-    assert props["invoice_date"]["anyOf"] == [{"type": "string"}, {"type": "null"}]
+    assert invoice["properties"]["total"]["type"] == "string"
+    assert invoice["properties"]["invoice_date"]["type"] == "string"
+    # Every field required and no `string | null` unions: the API rejects a schema with this
+    # many optional or union fields as "too complex".
+    for obj in (invoice, line):
+        assert sorted(obj["required"]) == sorted(obj["properties"])
+        assert not any("anyOf" in prop for prop in obj["properties"].values())
     assert "thinking" not in sent and "temperature" not in sent
 
 
@@ -152,9 +168,9 @@ def test_european_amounts_and_credit_note_signs():
 
 
 def test_packing_slip_without_prices():
-    lines = [{"description": "Kraft mailer bag", "quantity": "12"}]
+    lines = [line(description="Kraft mailer bag", quantity="12")]
     raw = RawInvoice.model_validate(
-        {"doc_type": "packing_slip", "invoice_number": "PS-1", "line_items": lines}
+        {**BLANK, "doc_type": "packing_slip", "invoice_number": "PS-1", "line_items": lines}
     )
     inv, issues = to_extracted(raw, config())
     assert issues == []
@@ -187,7 +203,7 @@ def test_ambiguous_dates_are_read_by_currency_and_noted():
 
 
 def test_unreadable_values_become_empty_with_an_issue():
-    lines = [{"description": "  ", "quantity": "a few", "line_total": "34.00"}]
+    lines = [line(description="  ", quantity="a few", line_total="34.00")]
     raw = RawInvoice.model_validate(
         reply(total="see attached", invoice_date="soon", currency="dubloons", line_items=lines)
     )

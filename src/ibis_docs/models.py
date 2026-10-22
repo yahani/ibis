@@ -95,61 +95,58 @@ class ExtractedInvoice(_Model):
 # What Claude fills (E3). Amounts, dates and the currency are copied as printed, as text, and
 # read in Python (money.py, dates.py), so the model never does arithmetic or format conversion.
 # Field descriptions are part of the JSON schema Claude sees.
+#
+# Every field is a required plain string, with "" for "not printed": the API rejects a schema with
+# this many optional or `string | null` fields as too complex. Python reads "" as empty (None).
 
-PRINTED = "Exactly as printed, including any sign, brackets or symbol. null if not printed."
+NOT_PRINTED = 'Empty string "" if not printed.'
+PRINTED = "Exactly as printed, including any sign, brackets or symbol. " + NOT_PRINTED
 
 
 class RawLineItem(_Model):
-    description: str = Field(description="The line's description as printed")
-    sku: str | None = Field(default=None, description="Item code or SKU. null if not printed.")
-    quantity: str | None = Field(default=None, description=PRINTED)
-    unit_price: str | None = Field(default=None, description=PRINTED)
-    line_total: str | None = Field(default=None, description=PRINTED)
-    tax_rate: str | None = Field(
-        default=None,
-        description="This line's tax rate as printed, e.g. '20%'. null if not printed.",
+    description: str = Field(
+        description="The line's description as printed, leaving out the item code if it goes in sku"
     )
+    sku: str = Field(description="Item code or SKU. " + NOT_PRINTED)
+    quantity: str = Field(description=PRINTED)
+    unit_price: str = Field(description=PRINTED)
+    line_total: str = Field(description=PRINTED)
+    tax_rate: str = Field(description="This line's tax rate as printed, e.g. '20%'. " + NOT_PRINTED)
 
 
 class RawInvoice(_Model):
     doc_type: DocType = Field(
         description="invoice, credit_note (credits money back), packing_slip (no prices), or other"
     )
-    supplier_name: str | None = Field(
-        default=None, description="The supplier (seller) who issued the document, not the customer"
+    supplier_name: str = Field(
+        description="The supplier (seller) who issued the document, not the customer"
     )
-    supplier_tax_id: str | None = Field(
-        default=None, description="The supplier's VAT, GST or tax number. null if not printed."
+    supplier_tax_id: str = Field(
+        description="The supplier's VAT, GST or tax number. " + NOT_PRINTED
     )
-    invoice_number: str | None = Field(
-        default=None,
+    invoice_number: str = Field(
         description="The document's own number (for a packing slip, the slip number). "
-        "null if not printed; never use a PO, order or customer number instead.",
+        "Never use a PO, order or customer number instead. " + NOT_PRINTED
     )
-    invoice_date: str | None = Field(default=None, description="Exactly as printed")
-    due_date: str | None = Field(
-        default=None,
-        description="Exactly as printed. null if no date is printed, even when payment terms "
-        "like 'Net 30' are shown.",
+    invoice_date: str = Field(
+        description="The document's date exactly as printed (for a packing slip, its ship or "
+        "slip date). " + NOT_PRINTED
     )
-    currency: str | None = Field(
-        default=None,
+    due_date: str = Field(
+        description="Exactly as printed. Empty string if no due date is printed, even when "
+        "payment terms like 'Net 30' are shown."
+    )
+    currency: str = Field(
         description="The currency code if printed (e.g. 'GBP'), otherwise the symbol used on "
-        "the amounts (e.g. '£'). null if neither is printed.",
+        "the amounts (e.g. '£'). Empty string if neither is printed."
     )
-    po_number: str | None = Field(
-        default=None, description="The buyer's purchase order number. null if not printed."
-    )
-    subtotal: str | None = Field(default=None, description=PRINTED)
-    tax: str | None = Field(default=None, description="Total tax amount. " + PRINTED)
-    discount: str | None = Field(default=None, description=PRINTED)
-    shipping: str | None = Field(
-        default=None, description="Shipping, delivery or freight charge. " + PRINTED
-    )
-    total: str | None = Field(default=None, description="The amount due. " + PRINTED)
-    line_items: list[RawLineItem] = Field(
-        default_factory=list, description="Every line item, on every page, in order"
-    )
+    po_number: str = Field(description="The buyer's purchase order number. " + NOT_PRINTED)
+    subtotal: str = Field(description=PRINTED)
+    tax: str = Field(description="Total tax amount. " + PRINTED)
+    discount: str = Field(description=PRINTED)
+    shipping: str = Field(description="Shipping, delivery or freight charge. " + PRINTED)
+    total: str = Field(description="The amount due. " + PRINTED)
+    line_items: list[RawLineItem] = Field(description="Every line item, on every page, in order")
 
 
 class SourceFile(_Model):

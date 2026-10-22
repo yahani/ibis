@@ -1065,6 +1065,9 @@ def layout_euro(doc: Doc, path: Path) -> None:
     _build(doc, path, story)
 
 
+# Layouts that don't print the supplier's tax ID (US sales invoices often leave out the EIN).
+NO_TAX_ID = frozenset({"us_sales"})
+
 LAYOUTS = {
     "classic": layout_classic,
     "modern": layout_modern,
@@ -1125,7 +1128,7 @@ def answer(doc: Doc) -> dict:
         "fields": {
             "doc_type": doc.doc_type,
             "supplier_name": doc.supplier.name,
-            "supplier_tax_id": doc.tax_id,
+            "supplier_tax_id": None if doc.supplier.layout in NO_TAX_ID else doc.tax_id,
             "invoice_number": doc.invoice_number,
             "invoice_date": doc.invoice_date.isoformat(),
             "due_date": doc.due_date.isoformat() if doc.due_date else None,

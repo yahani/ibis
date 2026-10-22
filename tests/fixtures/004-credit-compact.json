@@ -1,0 +1,43 @@
+{
+  "file": "004-credit-compact.pdf",
+  "model": "claude-haiku-5-5",
+  "recorded": "2026-10-22",
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgHRy9Xj7oa8hsHpgANo9",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "thinking",
+        "thinking": "",
+        "signature": "CAQStQkKEAgTGAI4AUIIdGhpbmtpbmcSDGhoIRFQkM0XfN5OQRoMB51AsUfcwcKBAhOeIjCDROCAXpBnDXqJPmXPHaXO94gob9lIdVWXVvBRo9Kx3lrEMsTZkH9jl0sIMF1xsxAq0ghLvbzX3bprrOZJDWqBUbL8ALGKcrNol3DEAXQtHqAY4IsiFdcXoBmafbl7WwCPtDfY//k8EuGOFCO8OhxC2am2cHYXy2I5w+lJguXPER1IR5q6jU4GFGnIRE1aBU3ycp2qSGUxowW/kVglqdorFfN+fUPssvajuX9qJRntsczL/xgC9H4l8F/7UbRLf5A0Qat2/vbSaFEk8G4xHyktimdGF4Y9KhCT2v4QxTCcs8o/gtJCxteYCQKzVrlwWxBoFv6JYUDof+IvWE3ySep5IACQhYyjbwoKnvZYGkFFDS1CaoMy4aX3IXlviASnsW3SRmVX73HBQHe9B6BtUzyjUktrxF/UXK+WzBHYyAiXbco1n/SSfzbox4SkKT5i340FRfd5NEDfF7BT0TfXKxM69yuzr0ZHWZopFDhKHXkgtgUcwUv05OI8aTFA2hNtHOFSdUEerVjt1skrBJAgQE0yXxfSSjeGDnr66OalsD0lNbPSdkNotE0AuuZIN1uofQ2hD0MD08YUDWBZgK2f7AAHcde8FHKsSf++n94kEM0al7XGT8zHUHpkfBOMpcvfuOFAGraZGxfkdQeV4AwEs6XmH1wiuIFMnk5L4nKDwyq3YYQH+DrRG394S3LpnnhQUpwZ5qqwP7LknkbsYcJHcbluDW2ozMM8By131GTGnbRSWQgAm0CxNf1pUw0mAs7JfOazRqD1TQUp8JBRwL/GzP1EYTALBZ+3LXYTRYHzZf0iegEKEt+e55ZW7tosku7RZRtFOxcuu88xvSh7yhGKPZnkeM10e5NscqNwEfbY1jcarjj+xtiPDBQPOuGXINLzscgSjjGAeyckqb/SKFPwak0pdlfmSPTJAM1YGvNUYmKQjk0D1kRR5KWZqhzsmE4jsZ10GJw2KsFSOI5bE+dAXvaiZqMF0u1QNVQqn89LVOoIF4XBZDjZqgMjWJU0AQ8wsPOm6VR9GOwkfKnWE+nGcFwJbz5kt5NxS1+cXSKiyO4NN+/PIi4fggDeMveV6G6vojK3+kJ6w6TdSYRmfivR23y21k3nNaMajpHFYM3QmOCF94kVFzolnqIaOjxjV7uxASpWwEdRUTW1FklCFPbAwbrXsxOf9De1EWIFuFh9FqoSf/lNWutP2X+PoIy3pLZyacErb6di1Fqh3NddNFzoIDluIvVvCRjPr9A5lq1ZuNtnZpPaxxVlOzp1U94yQgihnIqK36lCWx4Mh6BqetzJegQpzdCS9dU7xu4b+iZ+MQSlzwAjcX5r7nGqzJFLXlPJ+RYWej3OxdxgRw3+JzuR/Bx/mfsra1o9hipSSWKLvtHWmJ52MY9SXLU/fZd4XdGd3R55HUC9MWPrZ8IlRvJ0B6QxKQLPIfvu7UeInWxWoOIjknhwSXptenvkHAF8JGqbjSf8MLYO7JesGL74l1/remKehqnc86PXcRsivvpVffgadLYd9sbtAsEqHWvhsX5mjcJDa9yX7hgB"
+      },
+      {
+        "type": "text",
+        "text": "{\"doc_type\":\"credit_note\",\"supplier_name\":\"Fenwick & Dray Supplies\",\"supplier_tax_id\":\"GB993336525\",\"invoice_number\":\"CN-FD/26/0857\",\"invoice_date\":\"2026-08-29\",\"due_date\":\"\",\"currency\":\"GBP\",\"po_number\":\"\",\"subtotal\":\"-£1,606.96\",\"tax\":\"-£36.15\",\"discount\":\"\",\"shipping\":\"\",\"total\":\"-£1,643.11\",\"line_items\":[{\"description\":\"Nitrile gloves, box of 100\",\"sku\":\"GL-749\",\"quantity\":\"-20\",\"unit_price\":\"7.71\",\"line_total\":\"-154.20\",\"tax_rate\":\"20%\"},{\"description\":\"Surface cleaner 5L\",\"sku\":\"\",\"quantity\":\"-2\",\"unit_price\":\"14.60\",\"line_total\":\"-29.20\",\"tax_rate\":\"0%\"},{\"description\":\"Blue roll 2-ply, 6 pack\",\"sku\":\"BR-628\",\"quantity\":\"-2\",\"unit_price\":\"13.28\",\"line_total\":\"-26.56\",\"tax_rate\":\"20%\"},{\"description\":\"Bin liners heavy duty, 200\",\"sku\":\"BL-729\",\"quantity\":\"-100\",\"unit_price\":\"13.97\",\"line_total\":\"-1,397.00\",\"tax_rate\":\"0%\"}]}"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 4275,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 762,
+      "output_tokens_details": {
+        "thinking_tokens": 339
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}
