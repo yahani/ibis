@@ -1,0 +1,31 @@
+# Secrets
+.env
+*.json.key
+service-account*.json
+
+# Client documents and output never go in the repo
+inbox/
+output/
+processed/
+needs-review/
+config.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Review aid, rebuilt by demo/generate.py --contact-sheet
+demo/contact-sheet.png
