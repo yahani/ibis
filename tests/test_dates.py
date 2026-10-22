@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 
-from ibis_docs.dates import Order, infer_order, is_ambiguous, parse_date
+from ibis_docs.dates import DateOrder, Order, Settled, is_ambiguous, parse_date, resolve_order
 
 
 @pytest.mark.parametrize(
@@ -47,17 +47,55 @@ def test_not_a_date(text):
         parse_date(text)
 
 
-def test_infer_order_from_a_part_over_12():
-    assert infer_order(["13/09/2026", "03/10/2026"]) == (Order.DAY_FIRST, False)
-    assert infer_order(["09/20/2026", None]) == (Order.MONTH_FIRST, False)
-    # Even when the currency suggests the other way.
-    assert infer_order(["13/09/2026"], "USD") == (Order.DAY_FIRST, False)
+TODAY = date(2026, 10, 22)
+DF, MF = Order.DAY_FIRST, Order.MONTH_FIRST
 
 
-def test_infer_order_falls_back_to_currency():
-    assert infer_order(["03/09/2026"], "USD") == (Order.MONTH_FIRST, True)
-    assert infer_order(["03/09/2026"], "GBP") == (Order.DAY_FIRST, True)
-    assert infer_order([None, "18 August 2026"], None) == (Order.DAY_FIRST, True)
+def resolve(invoice, due=None, hint=None):
+    return resolve_order(invoice, due, today=TODAY, hint=hint)
+
+
+def test_a_part_over_12_settles_every_date_on_the_document():
+    assert resolve("06/08/2026", "20/08/2026") == DateOrder(DF, Settled.PRINTED)
+    assert resolve("07/01/2026", "09/25/2026") == DateOrder(MF, Settled.PRINTED)
+    # Printed evidence beats a hint.
+    assert resolve("13/09/2026", hint=MF) == DateOrder(DF, Settled.PRINTED)
+
+
+def test_dates_that_contradict_each_other():
+    assert resolve("13/09/2026", "09/25/2026") == DateOrder(None, Settled.CONFLICT)
+
+
+def test_a_due_date_before_the_invoice_date_rules_an_order_out():
+    # Day first: 5 Aug -> 4 Sep. Month first: May 8 -> Apr 9, due before issued.
+    assert resolve("05/08/2026", "04/09/2026") == DateOrder(DF, Settled.RULED_OUT)
+    assert resolve("08/05/2026", "09/04/2026") == DateOrder(MF, Settled.RULED_OUT)
+
+
+def test_a_date_far_in_the_future_rules_an_order_out():
+    # On 22 Oct 2026, 12/09/2026 month first is 9 Dec: more than a month ahead.
+    assert resolve("12/09/2026") == DateOrder(DF, Settled.RULED_OUT)
+    # 10/11/2026 day first is 10 Nov, only 19 days ahead: not ruled out.
+    assert resolve("10/11/2026") == DateOrder(None, Settled.AMBIGUOUS)
+
+
+def test_an_unreadable_date_rules_nothing_out():
+    assert resolve("02/30/2026") == DateOrder(MF, Settled.PRINTED)  # 30 > 12
+    # 31/02 is day first by its 31, and then isn't a real date: reported when it's parsed.
+    assert resolve("31/02/2026") == DateOrder(DF, Settled.PRINTED)
+    # An unreadable due date doesn't make the invoice date look contradictory.
+    assert resolve("03/09/2026", "soon") == DateOrder(None, Settled.AMBIGUOUS)
+
+
+def test_a_hint_settles_what_the_document_does_not():
+    assert resolve("03/09/2026", hint=MF) == DateOrder(MF, Settled.HINT)
+    assert resolve("03/09/2026") == DateOrder(None, Settled.AMBIGUOUS)
+
+
+def test_no_order_needed():
+    assert resolve("18 August 2026", "2026-09-17") == DateOrder(DF, Settled.NOT_NEEDED)
+    assert resolve(None, None) == DateOrder(DF, Settled.NOT_NEEDED)
+    assert resolve("09/09/2026") == DateOrder(DF, Settled.NOT_NEEDED)  # same either way
 
 
 def test_is_ambiguous():

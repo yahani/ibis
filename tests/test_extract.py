@@ -7,7 +7,16 @@ import httpx2
 import pytest
 
 from ibis_docs.config import Config
-from ibis_docs.extract import SYSTEM_PROMPT, ApiSetupError, extract, make_client, to_extracted
+from ibis_docs.dates import Order, Settled
+from ibis_docs.extract import (
+    FALLBACK_BETA,
+    SYSTEM_PROMPT,
+    ApiSetupError,
+    ReadContext,
+    extract,
+    make_client,
+    to_extracted,
+)
 from ibis_docs.models import DocType, RawInvoice
 from tests.fakes import FakeClaude, error_response, message
 
@@ -19,6 +28,7 @@ REPLY = {
     "doc_type": "invoice",
     "supplier_name": "Harbourline Packaging Ltd",
     "supplier_tax_id": "GB861142741",
+    "supplier_country": "",
     "invoice_number": "INV-2026-0697",
     "invoice_date": "18 August 2026",
     "due_date": "",
@@ -144,27 +154,64 @@ def test_reply_is_read_into_typed_values():
     assert result.raw.total == "£1,812.86"
 
 
+TODAY = date(2026, 10, 22)
+
+
+def read(cfg: Config | None = None, orders: dict | None = None, **changes):
+    """Read a reply (REPLY with `changes`) and return (invoice, {code: message}, date order)."""
+    raw = RawInvoice.model_validate(reply(**changes))
+    reading = to_extracted(raw, cfg or config(), ReadContext(today=TODAY, date_orders=orders or {}))
+    return reading.invoice, {r.code: r.message for r in reading.issues}, reading.date_order
+
+
 def test_european_amounts_and_credit_note_signs():
-    raw = RawInvoice.model_validate(
-        reply(
-            doc_type="credit_note",
-            currency="€",
-            subtotal="-1.299,00 €",
-            tax="(246,81)",
-            total="1.545,81-",
-            invoice_date="26.08.2026",
-        )
+    inv, issues, _ = read(
+        doc_type="credit_note",
+        currency="€",
+        subtotal="-1.299,00 €",
+        tax="(246,81)",
+        discount="5,00",
+        total="1.540,81-",
+        invoice_date="26.08.2026",
     )
-    inv, issues = to_extracted(raw, config())
-    assert issues == []
+    assert issues == {}
     assert inv.doc_type == DocType.CREDIT_NOTE
     assert inv.currency == "EUR"
     assert (inv.subtotal, inv.tax, inv.total) == (
         Decimal("-1299.00"),
         Decimal("-246.81"),
-        Decimal("-1545.81"),
+        Decimal("-1540.81"),
     )
+    # A credit note's discount is negative too, so subtotal + tax - discount = total holds.
+    assert inv.discount == Decimal("-5.00")
     assert inv.invoice_date == date(2026, 8, 26)
+
+
+@pytest.mark.parametrize("printed", ["-38.59", "(38.59)", "38.59", "£38.59-"])
+def test_a_discount_is_stored_as_the_amount_taken_off(printed):
+    inv, _, _ = read(discount=printed)
+    assert inv.discount == Decimal("38.59")
+
+
+def test_the_documents_decimal_mark_settles_three_digit_amounts():
+    lines = [line(description="Wax", quantity="2", unit_price="12,125", line_total="24,25")]
+    inv, issues, _ = read(currency="€", subtotal="", tax="", total="1.299,00 €", line_items=lines)
+    assert inv.line_items[0].unit_price == Decimal("12.125")  # not 12125
+    assert inv.total == Decimal("1299.00")
+    assert issues == {}
+
+    # A supplier's decimal_mark in config wins when the document shows nothing either way.
+    lines = [line(description="Wax", quantity="1,000")]
+    cfg = config(suppliers=[{"name": "Harbourline Packaging Ltd", "decimal_mark": ","}])
+    inv, _, _ = read(cfg, subtotal="", tax="", total="", line_items=lines)
+    assert inv.line_items[0].quantity == Decimal("1.000")
+
+
+def test_a_three_decimal_currency_with_nothing_to_settle_the_mark_is_flagged():
+    cfg = config(validation={"allowed_currencies": ["KWD"]})
+    inv, issues, _ = read(cfg, currency="KWD", subtotal="", tax="", total="1.250", line_items=[])
+    assert inv.total is None
+    assert issues["ambiguous_amount"].startswith("total '1.250' could be read with either mark")
 
 
 def test_packing_slip_without_prices():
@@ -172,76 +219,108 @@ def test_packing_slip_without_prices():
     raw = RawInvoice.model_validate(
         {**BLANK, "doc_type": "packing_slip", "invoice_number": "PS-1", "line_items": lines}
     )
-    inv, issues = to_extracted(raw, config())
-    assert issues == []
+    reading = to_extracted(raw, config(), ReadContext(today=TODAY))
+    assert reading.issues == []
+    inv = reading.invoice
     assert inv.total is None and inv.currency is None
     assert inv.line_items[0].quantity == Decimal("12")
     assert inv.line_items[0].unit_price is None
 
 
 def test_dates_use_the_documents_own_order():
-    raw = RawInvoice.model_validate(reply(invoice_date="09/20/2026", due_date="10/05/2026"))
-    inv, issues = to_extracted(raw, config())
+    inv, issues, order = read(invoice_date="09/20/2026", due_date="10/05/2026")
     assert (inv.invoice_date, inv.due_date) == (date(2026, 9, 20), date(2026, 10, 5))
-    assert issues == []
+    assert issues == {}
+    assert order.settled_by == Settled.PRINTED
 
 
-def test_ambiguous_dates_are_read_by_currency_and_noted():
-    raw = RawInvoice.model_validate(reply(invoice_date="03/09/2026", currency="$"))
-    inv, issues = to_extracted(raw, config())
-    assert inv.invoice_date == date(2026, 3, 9)
-    assert issues == [
-        "invoice date '03/09/2026' could be day/month or month/day; read as "
-        "09 Mar 2026 (month first, assumed from the currency)"
-    ]
-
-    inv, issues = to_extracted(
-        RawInvoice.model_validate(reply(invoice_date="03/09/2026")), config()
-    )
-    assert inv.invoice_date == date(2026, 9, 3)
-    assert "day first" in issues[0]
+def test_an_unsettled_date_is_left_empty_with_both_readings():
+    inv, issues, order = read(invoice_date="03/09/2026")
+    assert inv.invoice_date is None
+    assert issues == {
+        "ambiguous_date": "invoice date '03/09/2026' could be 3 Sep 2026 or 9 Mar 2026; "
+        "nothing on the document settles which"
+    }
+    assert order.settled_by == Settled.AMBIGUOUS
 
 
-def test_unreadable_values_become_empty_with_an_issue():
+@pytest.mark.parametrize(
+    ("hints", "expected"),
+    [
+        ({"orders": {"harbourline packaging ltd": Order.MONTH_FIRST}}, date(2026, 3, 9)),
+        ({"supplier_country": "United Kingdom"}, date(2026, 9, 3)),
+        ({"supplier_country": "USA"}, date(2026, 3, 9)),
+        (
+            {
+                "cfg": config(
+                    suppliers=[{"name": "Harbourline Packaging Ltd", "date_order": "month_first"}]
+                )
+            },
+            date(2026, 3, 9),
+        ),
+    ],
+)
+def test_a_hint_settles_an_ambiguous_date(hints, expected):
+    inv, issues, order = read(invoice_date="03/09/2026", **hints)
+    assert inv.invoice_date == expected
+    assert issues == {}
+    assert order.settled_by == Settled.HINT
+
+
+def test_a_country_that_writes_both_ways_is_no_help():
+    inv, issues, _ = read(invoice_date="03/09/2026", supplier_country="Canada")
+    assert inv.invoice_date is None and "ambiguous_date" in issues
+
+
+def test_dates_that_contradict_each_other_are_left_empty():
+    inv, issues, _ = read(invoice_date="13/09/2026", due_date="09/25/2026")
+    assert inv.invoice_date is None and inv.due_date is None
+    assert issues["conflicting_dates"].startswith("the dates don't agree on day/month order")
+
+
+def test_unreadable_values_become_empty_with_a_reason():
     lines = [line(description="  ", quantity="a few", line_total="34.00")]
-    raw = RawInvoice.model_validate(
-        reply(total="see attached", invoice_date="soon", currency="dubloons", line_items=lines)
+    inv, issues, _ = read(
+        total="see attached", invoice_date="soon", currency="dubloons", line_items=lines
     )
-    inv, issues = to_extracted(raw, config())
     assert inv.total is None and inv.invoice_date is None and inv.currency is None
     assert inv.line_items[0].quantity is None
     assert inv.line_items[0].description == "(line 1: no description printed)"
-    assert issues == [
-        "currency 'dubloons' isn't a known code or symbol",
-        "invoice date 'soon' isn't a readable date",
-        "total 'see attached' isn't a readable amount",
-        "line 1 has no description",
-        "line 1 quantity 'a few' isn't a readable amount",
-    ]
+    assert issues == {
+        "unknown_currency": "currency 'dubloons' isn't a known code or symbol",
+        "unreadable_date": "invoice date 'soon' isn't a readable date",
+        "unreadable_amount": "line 1 quantity 'a few' isn't a readable amount",
+        "missing_description": "line 1 has no description",
+    }
+
+
+def test_reasons_name_the_field_they_are_about():
+    raw = RawInvoice.model_validate(reply(total="see attached"))
+    (reason,) = to_extracted(raw, config(), ReadContext(today=TODAY)).issues
+    assert (reason.code, reason.field) == ("unreadable_amount", "total")
 
 
 def test_currency_symbols_from_config_and_supplier_hints():
-    raw = RawInvoice.model_validate(reply(currency="$", supplier_name="Outback Supplies"))
+    changes = {"currency": "$", "supplier_name": "Outback Supplies"}
     # A bare "$" is USD by default...
-    assert to_extracted(raw, config())[0].currency == "USD"
+    assert read(**changes)[0].currency == "USD"
     # ...a client's symbol table can remap it...
     remapped = config(validation={"allowed_currencies": ["AUD"], "currency_symbols": {"$": "AUD"}})
-    assert to_extracted(raw, remapped)[0].currency == "AUD"
+    assert read(remapped, **changes)[0].currency == "AUD"
     # ...and a known supplier's hint settles a shared symbol.
     hinted = config(
         validation={"allowed_currencies": ["AUD", "USD"]},
         suppliers=[{"name": "outback supplies", "currency": "AUD"}],
     )
-    inv, issues = to_extracted(raw, hinted)
-    assert inv.currency == "AUD" and issues == []
+    inv, issues, _ = read(hinted, **changes)
+    assert inv.currency == "AUD" and issues == {}
 
 
 def test_a_printed_code_that_contradicts_the_hint_is_kept_and_noted():
-    raw = RawInvoice.model_validate(reply(currency="EUR"))
     cfg = config(suppliers=[{"name": "Harbourline Packaging Ltd", "currency": "GBP"}])
-    inv, issues = to_extracted(raw, cfg)
+    inv, issues, _ = read(cfg, currency="EUR")
     assert inv.currency == "EUR"
-    assert issues == ["currency printed as 'EUR' (EUR), but config says GBP"]
+    assert issues == {"currency_conflict": "currency printed as 'EUR' (EUR), but config says GBP"}
 
 
 # --- when things go wrong ------------------------------------------------------------------
@@ -323,3 +402,21 @@ def test_other_type_errors_are_not_hidden():
 
     with pytest.raises(TypeError, match="a bug"):
         extract(Broken(), PDF, HAIKU, config())
+
+
+def test_the_escalation_call_turns_on_the_refusal_fallback_and_records_who_answered():
+    fake = FakeClaude(message(REPLY, model="claude-opus-4-8"))
+    result = extract(fake.client, PDF, "claude-sonnet-5-5", config(), fallback=True)
+    assert result.ok
+    (sent,) = fake.requests
+    assert sent["model"] == "claude-sonnet-5-5"
+    assert sent["fallbacks"] == "default"
+    assert FALLBACK_BETA in fake.headers[0]["anthropic-beta"]
+    # The fallback model answered; that's the one recorded.
+    assert result.model == "claude-opus-4-8"
+
+
+def test_the_default_call_has_no_fallback():
+    result, fake = run(message(REPLY))
+    assert "fallbacks" not in fake.requests[0]
+    assert result.model == HAIKU

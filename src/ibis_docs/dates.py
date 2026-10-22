@@ -1,16 +1,23 @@
 """Dates as printed on invoices.
 
 Claude copies dates exactly as printed; this module turns them into `date` objects. Numeric dates
-like 03/09/2026 are ambiguous (3 September in the UK, March 9 in the US), so the order is decided
-per document: a part over 12 settles it, otherwise the currency suggests it and the caller is told
-the order was assumed.
+like 03/09/2026 are ambiguous (3 September in the UK, March 9 in the US), so the order is settled
+per document (`resolve_order`), in this order:
+
+1. A part over 12 on any of the document's dates (13/09/2026 can only be day first).
+2. Ruling out impossible readings: an invoice date well in the future, or a due date before the
+   invoice date.
+3. A hint from outside the document: the supplier's setting in config, the order remembered from
+   their earlier documents, or their printed country.
+
+If none of these settles it, the order stays unknown and the document goes to review.
 """
 
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
-from datetime import date
+from dataclasses import dataclass
+from datetime import date, timedelta
 from enum import StrEnum
 
 MONTHS = {
@@ -35,13 +42,29 @@ MONTHS = {
     for name in names
 }
 
-# Currencies whose invoices usually print month first. Everything else defaults to day first.
-MONTH_FIRST_CURRENCIES = frozenset({"USD"})
+# A reading this far after the run date is ruled out. Generous, so an invoice dated a few days
+# ahead is never "corrected" to a reading months earlier.
+FUTURE_MARGIN = timedelta(days=31)
 
 
 class Order(StrEnum):
     DAY_FIRST = "day_first"
     MONTH_FIRST = "month_first"
+
+
+class Settled(StrEnum):
+    PRINTED = "printed"  # a part over 12 on the document
+    RULED_OUT = "ruled_out"  # the other order gives an impossible date
+    HINT = "hint"  # supplier setting, remembered order or country
+    NOT_NEEDED = "not_needed"  # no date on the document reads two ways
+    AMBIGUOUS = "ambiguous"  # nothing settles it
+    CONFLICT = "conflict"  # the document's dates contradict each other
+
+
+@dataclass(frozen=True)
+class DateOrder:
+    order: Order | None  # None when ambiguous or conflicting
+    settled_by: Settled
 
 
 _ISO = re.compile(r"(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})")
@@ -62,23 +85,57 @@ def _numeric_parts(text: str) -> tuple[int, int] | None:
     return (int(match.group(1)), int(match.group(2))) if match else None
 
 
-def infer_order(texts: Iterable[str | None], currency: str | None = None) -> tuple[Order, bool]:
-    """Pick day-first or month-first for a document's numeric dates.
+def resolve_order(
+    invoice_date: str | None,
+    due_date: str | None,
+    *,
+    today: date,
+    hint: Order | None = None,
+) -> DateOrder:
+    """Settle day-first or month-first for a document's numeric dates (see the module docstring)."""
+    numeric = [t for t in (invoice_date, due_date) if _numeric_parts(t or "")]
+    if not numeric:
+        return DateOrder(Order.DAY_FIRST, Settled.NOT_NEEDED)
 
-    Returns the order and whether it was assumed (True when no date settles it on its own).
-    """
-    for text in texts:
-        parts = _numeric_parts(text or "")
-        if parts is None:
-            continue
-        first, second = parts
-        if first > 12 >= second:
-            return Order.DAY_FIRST, False
-        if second > 12 >= first:
-            return Order.MONTH_FIRST, False
-    if currency in MONTH_FIRST_CURRENCIES:
-        return Order.MONTH_FIRST, True
-    return Order.DAY_FIRST, True
+    candidates = {Order.DAY_FIRST, Order.MONTH_FIRST}
+    for text in numeric:
+        first, second = _numeric_parts(text)
+        if first > 12:
+            candidates &= {Order.DAY_FIRST}
+        if second > 12:
+            candidates &= {Order.MONTH_FIRST}
+    if not candidates:
+        return DateOrder(None, Settled.CONFLICT)
+    if len(candidates) == 1:
+        return DateOrder(candidates.pop(), Settled.PRINTED)
+
+    for order in list(candidates):
+        issued, due = _quiet_parse(invoice_date, order), _quiet_parse(due_date, order)
+        if (issued and issued > today + FUTURE_MARGIN) or (issued and due and due < issued):
+            candidates.discard(order)
+    if not candidates:
+        return DateOrder(None, Settled.CONFLICT)
+    if len(candidates) == 1:
+        return DateOrder(candidates.pop(), Settled.RULED_OUT)
+
+    if not any(is_ambiguous(t) for t in numeric):
+        return DateOrder(Order.DAY_FIRST, Settled.NOT_NEEDED)  # e.g. 09/09/2026
+    if hint:
+        return DateOrder(hint, Settled.HINT)
+    return DateOrder(None, Settled.AMBIGUOUS)
+
+
+def _quiet_parse(text: str | None, order: Order) -> date | None:
+    """A date if `text` reads as one; an unreadable date is reported elsewhere."""
+    try:
+        return parse_date(text, order)
+    except ValueError:
+        return None
+
+
+def is_numeric(text: str | None) -> bool:
+    """True for a slash or dash date like 03/09/2026, whose order has to be settled."""
+    return _numeric_parts(text or "") is not None
 
 
 def is_ambiguous(text: str | None) -> bool:

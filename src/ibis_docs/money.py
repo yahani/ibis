@@ -8,7 +8,7 @@ Australia maps "$" to AUD).
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from decimal import Decimal, InvalidOperation
 
 # Active ISO 4217 currency codes (excluding funds, metals and testing codes).
@@ -50,6 +50,9 @@ DEFAULT_SYMBOLS: dict[str, str] = {
     "Fr.": "CHF",
 }
 
+# Currencies whose minor unit has three decimals (1.250 KWD is one dinar and 250 fils).
+THREE_DECIMAL_CURRENCIES = frozenset({"BHD", "IQD", "JOD", "KWD", "LYD", "OMR", "TND"})
+
 # Symbol and code characters stripped from an amount before reading the number.
 _NOT_NUMBER = re.compile(r"[^\d.,'\s\u00a0\u202f()\-\u2212+]")
 _SPACES = re.compile(r"[\s\u00a0\u202f']")
@@ -87,8 +90,14 @@ def normalise_currency(text: str | None, symbols: Mapping[str, str] | None = Non
     return None
 
 
-def parse_amount(value: str | int | float | Decimal | None) -> Decimal | None:
+def parse_amount(
+    value: str | int | float | Decimal | None, decimal_mark: str | None = None
+) -> Decimal | None:
     """Read an amount as printed: '1,299.00', '1.299,00', '£51.77', '-12.00', '(12.00)'.
+
+    `decimal_mark` ("." or ",") is the document's own decimal mark when known; it settles
+    amounts like '12,125' that read either way. Without it, one mark followed by exactly three
+    digits is read as a thousands separator.
 
     Returns None for empty input. Raises ValueError when the text isn't an amount.
     """
@@ -125,7 +134,7 @@ def parse_amount(value: str | int | float | Decimal | None) -> Decimal | None:
     if not re.fullmatch(r"[\d.,]*\d[\d.,]*", text):
         raise ValueError(f"not an amount: {original!r}")
 
-    text = _to_plain_decimal(text, original)
+    text = _to_plain_decimal(text, original, decimal_mark)
     try:
         amount = Decimal(text)
     except InvalidOperation as exc:  # pragma: no cover - guarded by the regex above
@@ -133,11 +142,15 @@ def parse_amount(value: str | int | float | Decimal | None) -> Decimal | None:
     return -amount if negative else amount
 
 
-def _to_plain_decimal(text: str, original: str) -> str:
+def _to_plain_decimal(text: str, original: str, known_mark: str | None = None) -> str:
     """Decide which of '.' and ',' is the decimal mark and return '1299.00' style text."""
     has_dot, has_comma = "." in text, "," in text
     if has_dot and has_comma:
         decimal_mark = "." if text.rfind(".") > text.rfind(",") else ","
+    elif known_mark and (has_dot or has_comma):
+        mark = "." if has_dot else ","
+        # A repeated mark can only be a thousands separator ("1.234.567").
+        decimal_mark = mark if mark == known_mark and text.count(mark) == 1 else ""
     elif has_dot or has_comma:
         mark = "." if has_dot else ","
         parts = text.split(mark)
@@ -174,3 +187,53 @@ def _grouped_ok(integer: str) -> bool:
         and len(groups[-1]) == 3
         and all(len(g) in (2, 3) for g in groups[1:-1])
     )
+
+
+def _number_part(text: str) -> str:
+    return re.sub(r"[^\d.,]", "", re.sub(r"(?<=[^\W\d_])\.", "", text)).strip(".,")
+
+
+def is_ambiguous_amount(text: str | None) -> bool:
+    """True when one mark is followed by exactly three digits ('1,299', '12.125'): a thousands
+    separator or a three-decimal amount, depending on the document's convention."""
+    number = _number_part(text or "")
+    marks = [c for c in number if c in ".,"]
+    if len(marks) != 1:
+        return False
+    integer, _, fraction = number.partition(marks[0])
+    return len(fraction) == 3 and integer not in ("", "0")
+
+
+def infer_decimal_mark(texts: Iterable[str | None]) -> str | None:
+    """The decimal mark a document uses, from amounts that only read one way.
+
+    '1.299,00' or '12,50' say ","; '1,812.86' or '0.75' say "."; '1.234.567' says "," (a repeated
+    mark is a thousands separator). None when no amount settles it, or amounts disagree.
+    """
+    seen: set[str] = set()
+    for text in texts:
+        number = _number_part(text or "")
+        dots, commas = number.count("."), number.count(",")
+        if dots and commas:
+            seen.add("." if number.rfind(".") > number.rfind(",") else ",")
+        elif dots + commas == 1:
+            mark = "." if dots else ","
+            integer, _, fraction = number.partition(mark)
+            if len(fraction) != 3 or integer in ("", "0"):
+                seen.add(mark)
+        elif dots > 1:
+            seen.add(",")
+        elif commas > 1:
+            seen.add(".")
+    return seen.pop() if len(seen) == 1 else None
+
+
+def format_amount(amount: Decimal, currency: str | None = None) -> str:
+    """For messages: '£1,812.86', '-€12.40', 'CHF 431.28', or '1,812.86' with no currency."""
+    places = max(2, -int(amount.as_tuple().exponent))
+    number = f"{abs(amount):,.{places}f}"
+    sign = "-" if amount < 0 else ""
+    symbol = {"GBP": "£", "USD": "$", "EUR": "€"}.get(currency or "")
+    if symbol:
+        return f"{sign}{symbol}{number}"
+    return f"{sign}{currency} {number}" if currency else f"{sign}{number}"

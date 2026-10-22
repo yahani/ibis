@@ -35,7 +35,8 @@ class Score:
 
 
 def same(expected: object, got: object) -> bool:
-    """Compare an answer-key value (JSON: ISO dates, amounts as strings) with an extracted one."""
+    """Compare an answer-key value (JSON: ISO dates, amounts as strings) with an extracted one.
+    Text compares ignoring spacing and letter case."""
     if expected is None or got is None:
         return expected is None and got is None
     if isinstance(got, Decimal):
@@ -44,7 +45,8 @@ def same(expected: object, got: object) -> bool:
         return date.fromisoformat(str(expected)) == got
     if isinstance(got, Enum):
         got = got.value
-    return " ".join(str(expected).split()) == " ".join(str(got).split())
+    # Spacing and letter case aren't data: "KITTIWAKE COFFEE ROASTERS" as printed is right.
+    return " ".join(str(expected).split()).casefold() == " ".join(str(got).split()).casefold()
 
 
 def score(invoice: ExtractedInvoice, answer: dict) -> Score:

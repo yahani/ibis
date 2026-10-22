@@ -116,3 +116,58 @@ def test_iso_codes():
         assert is_iso_currency(code)
     for code in ("XXX", "ABC", "US", "EURO"):
         assert not is_iso_currency(code)
+
+
+# --- the document's decimal mark (session 3) --------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("texts", "mark"),
+    [
+        (["1.299,00 €"], ","),
+        (["12,50"], ","),
+        (["1.234.567"], ","),
+        (["1,812.86"], "."),
+        (["£51.77", "0.75"], "."),
+        (["1,234,567"], "."),
+        (["1,299", "12.125", None, ""], None),  # nothing settles it
+        (["1,812.86", "1.299,00"], None),  # amounts disagree
+    ],
+)
+def test_infer_decimal_mark(texts, mark):
+    from ibis_docs.money import infer_decimal_mark
+
+    assert infer_decimal_mark(texts) == mark
+
+
+def test_a_known_decimal_mark_settles_three_digit_amounts():
+    assert parse_amount("12,125", ",") == Decimal("12.125")
+    assert parse_amount("12,125", ".") == Decimal("12125")
+    assert parse_amount("1.299", ",") == Decimal("1299")
+    assert parse_amount("1.234.567", ",") == Decimal("1234567")
+
+
+def test_is_ambiguous_amount():
+    from ibis_docs.money import is_ambiguous_amount
+
+    assert is_ambiguous_amount("1,299") and is_ambiguous_amount("£12.125")
+    assert not is_ambiguous_amount("0.125")  # a leading 0 is never followed by thousands
+    assert not is_ambiguous_amount("1,299.00") and not is_ambiguous_amount("12.50")
+    assert not is_ambiguous_amount(None) and not is_ambiguous_amount("1.234.567")
+
+
+@pytest.mark.parametrize(
+    ("amount", "currency", "text"),
+    [
+        ("1812.86", "GBP", "£1,812.86"),
+        ("-12.4", "EUR", "-€12.40"),
+        ("431.28", "CHF", "CHF 431.28"),
+        ("1.250", "KWD", "KWD 1.250"),
+        ("5", None, "5.00"),
+        ("2504.51", "USD", "$2,504.51"),
+    ],
+)
+def test_format_amount(amount, currency, text):
+    from ibis_docs.money import format_amount
+
+    assert format_amount(Decimal(amount), currency) == text

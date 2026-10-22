@@ -10,8 +10,8 @@ from ibis_docs.discover import discover as discover_files
 from ibis_docs.discover import record_seen
 from ibis_docs.extract import ApiSetupError
 from tests.conftest import EXAMPLE_CONFIG
-from tests.fakes import FakeClaude, error_response, message
-from tests.test_extract import REPLY
+from tests.fakes import FakeClaude, by_document, error_response, message
+from tests.test_pipeline import GOOD, HAIKU, SONNET, TODAY
 
 DEMO = Path(__file__).resolve().parent.parent / "demo" / "invoices"
 
@@ -62,7 +62,7 @@ def test_check_config_bad(write_config):
 @pytest.mark.parametrize(
     ("args", "session"),
     [
-        (["run"], 3),
+        (["run"], 4),
         (["cost", "--estimate", "inbox"], 4),
     ],
 )
@@ -78,7 +78,20 @@ def test_stub_commands_still_check_config(tmp_path):
     assert "not found" in result.output
 
 
-# --- run --dry-run (E2) ---------------------------------------------------------------------
+@pytest.fixture
+def fake_claude(monkeypatch):
+    """Install a fake Claude answering {pdf path: {model: response}}, and fix today's date."""
+    monkeypatch.setattr("ibis_docs.cli.today", lambda: TODAY)
+
+    def install(answers=None):
+        fake = FakeClaude(route=by_document(answers or {}))
+        monkeypatch.setattr("ibis_docs.cli.make_client", lambda: fake.client)
+        return fake
+
+    return install
+
+
+# --- run --dry-run --------------------------------------------------------------------------
 
 
 @pytest.fixture
@@ -93,31 +106,61 @@ def project(tmp_path, example_data, write_config):
     return write_config(example_data)
 
 
-def test_dry_run_lists_what_would_be_processed_and_skipped(project):
+CLASSIC, EURO = DEMO / "001-inv-classic.pdf", DEMO / "006-inv-euro.pdf"
+
+
+def test_dry_run_reads_checks_and_summarises(project, fake_claude):
+    fake = fake_claude(
+        {
+            CLASSIC: {HAIKU: message(GOOD)},
+            EURO: {
+                HAIKU: message({**GOOD, "invoice_number": "RE-1", "total": "£1,877.20"}),
+                SONNET: message(
+                    {**GOOD, "invoice_number": "RE-1", "total": "£1,877.20"}, model=SONNET
+                ),
+            },
+        }
+    )
     result = runner.invoke(app, ["run", "--dry-run", "-c", str(project)])
     assert result.exit_code == 0, result.output
     out = " ".join(result.output.split())  # column widths aside
-    assert "nothing is sent to Claude, written or moved" in out
-    assert "3 PDF(s) to process" in out
-    assert "006-inv-euro.pdf 2 pages" in out
-    assert "resend.pdf 1 page (same file as 001-inv-classic.pdf)" in out
-    assert "1 skipped:" in out
-    assert "notes.txt not a PDF" in out
+    assert "documents are read and checked, but nothing is written or moved" in out
+    assert "Reading 3 document(s)" in out
+    assert "✓ 001-inv-classic.pdf ok" in out
+    assert "! 006-inv-euro.pdf review (claude-sonnet-5-5)" in out
+    assert "the total doesn't add up" in out
+    assert "! resend.pdf review identical file to 001-inv-classic.pdf" in out
+    assert "Skipped 1: - notes.txt not a PDF" in out
+    assert "Ibis read 3 documents. 1 checked out. 2 need a look." in out
+    assert (
+        "Tokens: claude-haiku-5-5 8,000 in / 1,000 out; claude-sonnet-5-5 4,000 in / 500 out" in out
+    )
+    assert len(fake.requests) == 3  # the identical copy costs nothing
 
 
-def test_dry_run_skips_files_from_earlier_runs(project):
+def test_dry_run_skips_files_from_earlier_runs(project, fake_claude):
+    fake_claude({EURO: {HAIKU: message(GOOD)}})
     inbox, output = project.parent / "inbox", project.parent / "output"
     record_seen(output, discover_files(inbox, 20).found[:1])
     result = runner.invoke(app, ["run", "--dry-run", "-c", str(project)])
-    assert "1 PDF(s) to process" in result.output
+    assert "Reading 1 document(s)" in result.output
     assert result.output.count("already processed in an earlier run") == 2
+    assert "Ibis read 1 document. 1 checked out." in result.output
 
 
-def test_dry_run_writes_nothing(project):
+def test_dry_run_writes_nothing(project, fake_claude):
+    fake_claude({CLASSIC: {HAIKU: message(GOOD)}, EURO: {HAIKU: message(GOOD)}})
     before = sorted(p.relative_to(project.parent) for p in project.parent.rglob("*"))
     runner.invoke(app, ["run", "--dry-run", "-c", str(project)])
     after = sorted(p.relative_to(project.parent) for p in project.parent.rglob("*"))
     assert before == after
+
+
+def test_dry_run_with_nothing_new(tmp_path, example_data, write_config, fake_claude):
+    (tmp_path / "inbox").mkdir()
+    result = runner.invoke(app, ["run", "--dry-run", "-c", str(write_config(example_data))])
+    assert result.exit_code == 0
+    assert "No new PDFs" in result.output
 
 
 def test_dry_run_without_an_input_folder(write_config, example_data):
@@ -127,50 +170,60 @@ def test_dry_run_without_an_input_folder(write_config, example_data):
     assert "change input_dir" in result.output
 
 
-# --- show (E3) ------------------------------------------------------------------------------
+def test_dry_run_reports_failed_documents(project, fake_claude):
+    broken = error_response(500, "overloaded")
+    fake_claude({CLASSIC: {HAIKU: broken, SONNET: broken}, EURO: {HAIKU: message(GOOD)}})
+    result = runner.invoke(app, ["run", "--dry-run", "-c", str(project)])
+    assert "Ibis read 3 documents. 1 checked out. 1 needs a look. 1 couldn't be read." in (
+        " ".join(result.output.split())
+    )
 
 
-@pytest.fixture
-def fake_claude(monkeypatch):
-    def install(*responses):
-        fake = FakeClaude(*responses)
-        monkeypatch.setattr("ibis_docs.cli.make_client", lambda: fake.client)
-        return fake
+def test_dry_run_without_credentials(project, monkeypatch):
+    def no_client():
+        raise ApiSetupError("no usable API credentials: set ANTHROPIC_API_KEY in .env")
 
-    return install
+    monkeypatch.setattr("ibis_docs.cli.make_client", no_client)
+    result = runner.invoke(app, ["run", "--dry-run", "-c", str(project)])
+    assert result.exit_code == 1
+    assert "set ANTHROPIC_API_KEY in .env" in result.output
 
 
-def test_show_prints_the_fields(fake_claude):
-    fake = fake_claude(message(REPLY, input_tokens=5210, output_tokens=812))
-    pdf = DEMO / "001-inv-classic.pdf"
-    result = runner.invoke(app, ["show", str(pdf), "-c", str(EXAMPLE_CONFIG)])
+# --- show -----------------------------------------------------------------------------------
+
+
+def test_show_prints_the_fields_and_checks(fake_claude):
+    fake = fake_claude({CLASSIC: {HAIKU: message(GOOD, input_tokens=5210, output_tokens=812)}})
+    result = runner.invoke(app, ["show", str(CLASSIC), "-c", str(EXAMPLE_CONFIG)])
     assert result.exit_code == 0, result.output
     out = result.output
-    assert "001-inv-classic.pdf  (claude-haiku-5-5, 5,210 input / 812 output tokens)" in out
+    assert "001-inv-classic.pdf  (claude-haiku-5-5 5,210 in / 812 out)" in out
     assert "supplier:  Harbourline Packaging Ltd (tax ID GB861142741)" in out
     assert "date:      2026-08-18" in out
-    assert "due:       —" in out
-    assert "total:     1812.86" in out
+    assert "due:       2026-09-17" in out
+    assert "total:     1777.20" in out
     assert "lines (2):" in out
     assert "20        1.70       34.00  Double-wall shipping box 40x30x20 [BX-964]" in out
-    assert "validation comes in session 3" in out
+    assert "✓ ok (final read: claude-haiku-5-5)" in out
     assert len(fake.requests) == 1
 
 
-def test_show_lists_values_it_could_not_read(fake_claude):
-    fake_claude(message({**REPLY, "total": "illegible"}))
-    pdf = DEMO / "001-inv-classic.pdf"
-    result = runner.invoke(app, ["show", str(pdf), "-c", str(EXAMPLE_CONFIG)])
+def test_show_lists_the_reasons(fake_claude):
+    bad = {**GOOD, "total": "illegible"}
+    fake_claude({CLASSIC: {HAIKU: message(bad), SONNET: message(bad, model=SONNET)}})
+    result = runner.invoke(app, ["show", str(CLASSIC), "-c", str(EXAMPLE_CONFIG)])
     assert result.exit_code == 0
-    assert "! total 'illegible' isn't a readable amount" in result.output
+    assert "! review (final read: claude-sonnet-5-5)" in result.output
+    assert "- total 'illegible' isn't a readable amount" in result.output
 
 
 def test_show_reports_a_failed_extraction(fake_claude):
-    fake_claude(error_response(500, "overloaded"))
-    pdf = DEMO / "001-inv-classic.pdf"
-    result = runner.invoke(app, ["show", str(pdf), "-c", str(EXAMPLE_CONFIG)])
+    fake_claude({CLASSIC: {HAIKU: error_response(500, "overloaded"), SONNET: error_response(529)}})
+    result = runner.invoke(app, ["show", str(CLASSIC), "-c", str(EXAMPLE_CONFIG)])
     assert result.exit_code == 1
-    assert "✗ the API returned an error (500): overloaded" in result.output
+    assert "(claude-haiku-5-5 failed, claude-sonnet-5-5 failed)" in result.output
+    assert "✗ failed" in result.output
+    assert "- claude-haiku-5-5: the API returned an error (500): overloaded" in result.output
 
 
 def test_show_without_credentials(monkeypatch):
@@ -178,8 +231,7 @@ def test_show_without_credentials(monkeypatch):
         raise ApiSetupError("no usable API credentials: set ANTHROPIC_API_KEY in .env")
 
     monkeypatch.setattr("ibis_docs.cli.make_client", no_client)
-    pdf = DEMO / "001-inv-classic.pdf"
-    result = runner.invoke(app, ["show", str(pdf), "-c", str(EXAMPLE_CONFIG)])
+    result = runner.invoke(app, ["show", str(CLASSIC), "-c", str(EXAMPLE_CONFIG)])
     assert result.exit_code == 1
     assert "set ANTHROPIC_API_KEY in .env" in result.output
 
@@ -196,3 +248,11 @@ def test_show_checks_the_file_before_calling_claude(tmp_path, fake_claude):
     assert result.exit_code == 1
     assert "file not found" in result.output
     assert fake.requests == []
+
+
+def test_today_is_the_real_date():
+    from datetime import date
+
+    from ibis_docs.cli import today
+
+    assert today() == date.today()

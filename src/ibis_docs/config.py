@@ -5,11 +5,12 @@ from __future__ import annotations
 import re
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 
+from ibis_docs.dates import Order
 from ibis_docs.money import is_iso_currency, symbol_table
 
 DEFAULT_CURRENCIES = ["USD", "GBP", "EUR"]
@@ -120,6 +121,12 @@ class Outputs(_Strict):
 class SupplierHint(_Strict):
     name: str = Field(min_length=1)
     currency: str | None = None
+    decimal_mark: Literal[".", ","] | None = Field(
+        default=None, description='The decimal mark this supplier prints: "." or ","'
+    )
+    date_order: Order | None = Field(
+        default=None, description="day_first (13/09/2026) or month_first (09/13/2026)"
+    )
     notes: str | None = Field(default=None, description="Layout tips passed to the model")
 
     @field_validator("currency")

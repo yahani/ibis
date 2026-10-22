@@ -9,6 +9,7 @@ Money is Decimal, never float. Anything the document doesn't show stays None, ne
 
 from __future__ import annotations
 
+import re
 from datetime import date
 from decimal import Decimal
 from enum import StrEnum
@@ -122,7 +123,11 @@ class RawInvoice(_Model):
         description="The supplier (seller) who issued the document, not the customer"
     )
     supplier_tax_id: str = Field(
-        description="The supplier's VAT, GST or tax number. " + NOT_PRINTED
+        description="The supplier's VAT, GST or other tax number. " + NOT_PRINTED
+    )
+    supplier_country: str = Field(
+        description="The country in the supplier's printed address, as printed. Empty string if "
+        "the address doesn't name a country; don't work it out from a city or postcode."
     )
     invoice_number: str = Field(
         description="The document's own number (for a packing slip, the slip number). "
@@ -149,6 +154,21 @@ class RawInvoice(_Model):
     line_items: list[RawLineItem] = Field(description="Every line item, on every page, in order")
 
 
+class Reason(_Model):
+    """Why a document needs a look: a stable code for tests and exports, and a plain message."""
+
+    code: str
+    message: str
+    field: str | None = Field(default=None, description="The field it's about, if one")
+
+
+def supplier_key(name: str | None) -> str | None:
+    """Supplier names compared loosely: 'Larchmont Labels Inc.' == 'larchmont labels inc'."""
+    if not name:
+        return None
+    return " ".join(re.sub(r"[^\w]+", " ", name.casefold()).split()) or None
+
+
 class SourceFile(_Model):
     name: str = Field(min_length=1)
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
@@ -159,7 +179,7 @@ class Invoice(ExtractedInvoice):
 
     source_file: SourceFile
     status: Status = Status.REVIEW
-    reasons: list[str] = Field(default_factory=list)
+    reasons: list[Reason] = Field(default_factory=list)
     model: str | None = Field(default=None, description="Model that produced the final result")
 
     @classmethod
