@@ -1,0 +1,19 @@
+# Weekly dependency update check (spec: Security). Dependabot opens a PR per update;
+# CI runs on it, so a breaking update shows up as a failing check before it's merged.
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
