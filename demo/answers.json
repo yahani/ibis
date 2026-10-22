@@ -1,0 +1,3381 @@
+{
+  "generated_by": "demo/generate.py",
+  "seed": 22102026,
+  "allowed_currencies": [
+    "USD",
+    "GBP",
+    "EUR"
+  ],
+  "documents": [
+    {
+      "file": "001-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB861142741",
+        "invoice_number": "INV-2026-0697",
+        "invoice_date": "2026-08-18",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "1510.72",
+        "tax": "302.14",
+        "discount": null,
+        "shipping": null,
+        "total": "1812.86",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": "BX-964",
+            "quantity": "20",
+            "unit_price": "1.70",
+            "line_total": "34.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-821",
+            "quantity": "1",
+            "unit_price": "18.67",
+            "line_total": "18.67",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": "VF-921",
+            "quantity": "50",
+            "unit_price": "28.94",
+            "line_total": "1447.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragile tape 48mm x 66m",
+            "sku": "TP-640",
+            "quantity": "5",
+            "unit_price": "2.21",
+            "line_total": "11.05",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "002-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Copperleaf Print Co.",
+        "supplier_tax_id": "GB747407509",
+        "invoice_number": "CP00439",
+        "invoice_date": "2026-09-13",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "771.86",
+        "tax": "146.65",
+        "discount": "38.59",
+        "shipping": "8.35",
+        "total": "888.27",
+        "line_items": [
+          {
+            "description": "Thank-you cards A6, 500",
+            "sku": "TC-237",
+            "quantity": "6",
+            "unit_price": "34.21",
+            "line_total": "205.26",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll",
+            "sku": null,
+            "quantity": "20",
+            "unit_price": "18.61",
+            "line_total": "372.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets",
+            "sku": "TS-988",
+            "quantity": "5",
+            "unit_price": "38.88",
+            "line_total": "194.40",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "003-inv-us_sales.pdf",
+      "layout": "us_sales",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Larchmont Labels Inc.",
+        "supplier_tax_id": "56-6429566",
+        "invoice_number": "000442",
+        "invoice_date": "2026-09-25",
+        "due_date": null,
+        "currency": "USD",
+        "po_number": "PO-54926",
+        "subtotal": "2504.51",
+        "tax": "0.00",
+        "discount": null,
+        "shipping": "12.82",
+        "total": "2517.33",
+        "line_items": [
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll",
+            "sku": "TL-46-105",
+            "quantity": "12",
+            "unit_price": "17.74",
+            "line_total": "212.88",
+            "tax_rate": null
+          },
+          {
+            "description": "Barcode labels 2x1, 1000/roll",
+            "sku": null,
+            "quantity": "1",
+            "unit_price": "8.96",
+            "line_total": "8.96",
+            "tax_rate": null
+          },
+          {
+            "description": "Ribbon wax 110mm x 74m",
+            "sku": "RB-110-325",
+            "quantity": "24",
+            "unit_price": "8.08",
+            "line_total": "193.92",
+            "tax_rate": null
+          },
+          {
+            "description": "Label printer service kit",
+            "sku": "SK-01-123",
+            "quantity": "25",
+            "unit_price": "66.72",
+            "line_total": "1668.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll, white",
+            "sku": "TL-46-194",
+            "quantity": "25",
+            "unit_price": "16.83",
+            "line_total": "420.75",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "004-credit-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "credit_note",
+        "supplier_name": "Fenwick & Dray Supplies",
+        "supplier_tax_id": "GB993336525",
+        "invoice_number": "CN-FD/26/0857",
+        "invoice_date": "2026-08-29",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "-1606.96",
+        "tax": "-36.15",
+        "discount": null,
+        "shipping": null,
+        "total": "-1643.11",
+        "line_items": [
+          {
+            "description": "Nitrile gloves, box of 100",
+            "sku": "GL-749",
+            "quantity": "-20",
+            "unit_price": "7.71",
+            "line_total": "-154.20",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Surface cleaner 5L",
+            "sku": null,
+            "quantity": "-2",
+            "unit_price": "14.60",
+            "line_total": "-29.20",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Blue roll 2-ply, 6 pack",
+            "sku": "BR-628",
+            "quantity": "-2",
+            "unit_price": "13.28",
+            "line_total": "-26.56",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Bin liners heavy duty, 200",
+            "sku": "BL-729",
+            "quantity": "-100",
+            "unit_price": "13.97",
+            "line_total": "-1397.00",
+            "tax_rate": "0"
+          }
+        ]
+      }
+    },
+    {
+      "file": "005-inv-plain_text.pdf",
+      "layout": "plain_text",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Kittiwake Coffee Roasters",
+        "supplier_tax_id": "GB450814441",
+        "invoice_number": "KW00097",
+        "invoice_date": "2026-08-28",
+        "due_date": "2026-09-27",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "2798.75",
+        "tax": "559.75",
+        "discount": null,
+        "shipping": null,
+        "total": "3358.50",
+        "line_items": [
+          {
+            "description": "House blend beans 1kg",
+            "sku": "HB1K-304",
+            "quantity": "6",
+            "unit_price": "16.15",
+            "line_total": "96.90",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg",
+            "sku": "ET1K-937",
+            "quantity": "25",
+            "unit_price": "27.49",
+            "line_total": "687.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g",
+            "sku": "DC500-412",
+            "quantity": "24",
+            "unit_price": "10.96",
+            "line_total": "263.04",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000",
+            "sku": "CU8-522",
+            "quantity": "12",
+            "unit_price": "43.81",
+            "line_total": "525.72",
+            "tax_rate": null
+          },
+          {
+            "description": "House blend beans 1kg, white",
+            "sku": "HB1K-774",
+            "quantity": "2",
+            "unit_price": "18.79",
+            "line_total": "37.58",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg, white",
+            "sku": "ET1K-170",
+            "quantity": "2",
+            "unit_price": "23.66",
+            "line_total": "47.32",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g, white",
+            "sku": "DC500-821",
+            "quantity": "1",
+            "unit_price": "8.94",
+            "line_total": "8.94",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000, white",
+            "sku": null,
+            "quantity": "20",
+            "unit_price": "56.60",
+            "line_total": "1132.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "006-inv-euro.pdf",
+      "layout": "euro",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "multi-page",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Brandt & Vogel Textil GmbH",
+        "supplier_tax_id": "DE404540251",
+        "invoice_number": "RE-2026-00808",
+        "invoice_date": "2026-08-26",
+        "due_date": "2026-09-25",
+        "currency": "EUR",
+        "po_number": "PO-57425",
+        "subtotal": "7520.03",
+        "tax": "1729.61",
+        "discount": null,
+        "shipping": "13.43",
+        "total": "9263.07",
+        "line_items": [
+          {
+            "description": "Cotton tote bag natural",
+            "sku": "TB-N-461",
+            "quantity": "100",
+            "unit_price": "2.55",
+            "line_total": "255.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70",
+            "sku": "TT-O-614",
+            "quantity": "20",
+            "unit_price": "5.31",
+            "line_total": "106.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4",
+            "sku": "LN-4-181",
+            "quantity": "50",
+            "unit_price": "12.43",
+            "line_total": "621.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable",
+            "sku": "AP-C-242",
+            "quantity": "100",
+            "unit_price": "8.74",
+            "line_total": "874.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, white",
+            "sku": "TB-N-956",
+            "quantity": "1",
+            "unit_price": "1.55",
+            "line_total": "1.55",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, white",
+            "sku": "TT-O-490",
+            "quantity": "3",
+            "unit_price": "3.17",
+            "line_total": "9.51",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, white",
+            "sku": "LN-4-860",
+            "quantity": "6",
+            "unit_price": "11.55",
+            "line_total": "69.30",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, white",
+            "sku": "AP-C-118",
+            "quantity": "12",
+            "unit_price": "11.65",
+            "line_total": "139.80",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, black",
+            "sku": "TB-N-354",
+            "quantity": "6",
+            "unit_price": "2.28",
+            "line_total": "13.68",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, black",
+            "sku": "TT-O-389",
+            "quantity": "25",
+            "unit_price": "4.98",
+            "line_total": "124.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, black",
+            "sku": "LN-4-555",
+            "quantity": "24",
+            "unit_price": "9.86",
+            "line_total": "236.64",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, black",
+            "sku": "AP-C-303",
+            "quantity": "25",
+            "unit_price": "8.04",
+            "line_total": "201.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, large",
+            "sku": "TB-N-767",
+            "quantity": "24",
+            "unit_price": "2.18",
+            "line_total": "52.32",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, large",
+            "sku": "TT-O-365",
+            "quantity": "3",
+            "unit_price": "3.17",
+            "line_total": "9.51",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, large",
+            "sku": "LN-4-463",
+            "quantity": "50",
+            "unit_price": "14.71",
+            "line_total": "735.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, large",
+            "sku": null,
+            "quantity": "2",
+            "unit_price": "9.70",
+            "line_total": "19.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, small",
+            "sku": "TB-N-635",
+            "quantity": "6",
+            "unit_price": "2.47",
+            "line_total": "14.82",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, small",
+            "sku": "TT-O-549",
+            "quantity": "50",
+            "unit_price": "3.40",
+            "line_total": "170.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, small",
+            "sku": "LN-4-253",
+            "quantity": "50",
+            "unit_price": "9.88",
+            "line_total": "494.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, small",
+            "sku": "AP-C-709",
+            "quantity": "20",
+            "unit_price": "10.16",
+            "line_total": "203.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, natural",
+            "sku": "TB-N-668",
+            "quantity": "25",
+            "unit_price": "2.77",
+            "line_total": "69.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, natural",
+            "sku": null,
+            "quantity": "25",
+            "unit_price": "3.18",
+            "line_total": "79.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, natural",
+            "sku": "LN-4-174",
+            "quantity": "12",
+            "unit_price": "10.68",
+            "line_total": "128.16",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, natural",
+            "sku": "AP-C-788",
+            "quantity": "1",
+            "unit_price": "7.68",
+            "line_total": "7.68",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, blue",
+            "sku": "TB-N-314",
+            "quantity": "24",
+            "unit_price": "2.80",
+            "line_total": "67.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, blue",
+            "sku": null,
+            "quantity": "50",
+            "unit_price": "4.82",
+            "line_total": "241.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, blue",
+            "sku": "LN-4-764",
+            "quantity": "2",
+            "unit_price": "12.57",
+            "line_total": "25.14",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, blue",
+            "sku": "AP-C-881",
+            "quantity": "3",
+            "unit_price": "10.31",
+            "line_total": "30.93",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, green",
+            "sku": "TB-N-225",
+            "quantity": "12",
+            "unit_price": "1.86",
+            "line_total": "22.32",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, green",
+            "sku": null,
+            "quantity": "50",
+            "unit_price": "4.64",
+            "line_total": "232.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, green",
+            "sku": null,
+            "quantity": "2",
+            "unit_price": "14.17",
+            "line_total": "28.34",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, green",
+            "sku": "AP-C-501",
+            "quantity": "20",
+            "unit_price": "11.64",
+            "line_total": "232.80",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, grey",
+            "sku": "TB-N-989",
+            "quantity": "25",
+            "unit_price": "1.41",
+            "line_total": "35.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, grey",
+            "sku": null,
+            "quantity": "10",
+            "unit_price": "4.41",
+            "line_total": "44.10",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, grey",
+            "sku": "LN-4-805",
+            "quantity": "10",
+            "unit_price": "13.83",
+            "line_total": "138.30",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, grey",
+            "sku": "AP-C-986",
+            "quantity": "100",
+            "unit_price": "9.69",
+            "line_total": "969.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, red",
+            "sku": "TB-N-103",
+            "quantity": "25",
+            "unit_price": "1.59",
+            "line_total": "39.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, red",
+            "sku": "TT-O-138",
+            "quantity": "24",
+            "unit_price": "4.68",
+            "line_total": "112.32",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, red",
+            "sku": "LN-4-488",
+            "quantity": "6",
+            "unit_price": "13.79",
+            "line_total": "82.74",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, red",
+            "sku": "AP-C-146",
+            "quantity": "6",
+            "unit_price": "8.49",
+            "line_total": "50.94",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, oak",
+            "sku": "TB-N-201",
+            "quantity": "20",
+            "unit_price": "2.51",
+            "line_total": "50.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, oak",
+            "sku": "TT-O-371",
+            "quantity": "24",
+            "unit_price": "3.73",
+            "line_total": "89.52",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, oak",
+            "sku": "LN-4-447",
+            "quantity": "24",
+            "unit_price": "12.25",
+            "line_total": "294.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, oak",
+            "sku": "AP-C-188",
+            "quantity": "5",
+            "unit_price": "8.46",
+            "line_total": "42.30",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, navy",
+            "sku": "TB-N-228",
+            "quantity": "24",
+            "unit_price": "1.96",
+            "line_total": "47.04",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, navy",
+            "sku": "TT-O-212",
+            "quantity": "2",
+            "unit_price": "4.41",
+            "line_total": "8.82",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "007-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Saltmarsh Candle Works",
+        "supplier_tax_id": "54-2986121",
+        "invoice_number": "SCW-0206",
+        "invoice_date": "2026-10-08",
+        "due_date": null,
+        "currency": "USD",
+        "po_number": "PO-32825",
+        "subtotal": "730.70",
+        "tax": "0.00",
+        "discount": null,
+        "shipping": "22.06",
+        "total": "752.76",
+        "line_items": [
+          {
+            "description": "Soy wax flakes 20kg",
+            "sku": "WX20-481",
+            "quantity": "10",
+            "unit_price": "73.07",
+            "line_total": "730.70",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "008-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Quillon Office Goods",
+        "supplier_tax_id": "07-4280092",
+        "invoice_number": "Q-20260699",
+        "invoice_date": "2026-08-26",
+        "due_date": "2026-09-25",
+        "currency": "USD",
+        "po_number": "PO-13485",
+        "subtotal": "1609.25",
+        "tax": "126.13",
+        "discount": "80.46",
+        "shipping": null,
+        "total": "1654.92",
+        "line_items": [
+          {
+            "description": "Copy paper A4 80gsm, box of 5",
+            "sku": "CPA4-664",
+            "quantity": "25",
+            "unit_price": "27.17",
+            "line_total": "679.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Gel pens black, 12",
+            "sku": null,
+            "quantity": "100",
+            "unit_price": "9.30",
+            "line_total": "930.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "009-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Oriel Botanicals",
+        "supplier_tax_id": "IE1018429WA",
+        "invoice_number": "OB26-075",
+        "invoice_date": "2026-08-10",
+        "due_date": "2026-09-09",
+        "currency": "EUR",
+        "po_number": "PO-70097",
+        "subtotal": "1605.46",
+        "tax": "33.46",
+        "discount": null,
+        "shipping": "9.21",
+        "total": "1648.13",
+        "line_items": [
+          {
+            "description": "Dried lavender bunch",
+            "sku": "LAV-901",
+            "quantity": "3",
+            "unit_price": "3.58",
+            "line_total": "10.74",
+            "tax_rate": "23"
+          },
+          {
+            "description": "Eucalyptus stems, 10",
+            "sku": "EUC-385",
+            "quantity": "100",
+            "unit_price": "8.47",
+            "line_total": "847.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Pampas grass natural, 5",
+            "sku": "PMP-330",
+            "quantity": "50",
+            "unit_price": "12.26",
+            "line_total": "613.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Florist wire 0.7mm reel",
+            "sku": "FWR-997",
+            "quantity": "25",
+            "unit_price": "3.20",
+            "line_total": "80.00",
+            "tax_rate": "23"
+          },
+          {
+            "description": "Dried lavender bunch, white",
+            "sku": "LAV-721",
+            "quantity": "24",
+            "unit_price": "2.28",
+            "line_total": "54.72",
+            "tax_rate": "23"
+          }
+        ]
+      }
+    },
+    {
+      "file": "010-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB567395930",
+        "invoice_number": "INV-2026-0702",
+        "invoice_date": "2026-09-01",
+        "due_date": "2026-10-01",
+        "currency": "GBP",
+        "po_number": "PO-11996",
+        "subtotal": "3697.36",
+        "tax": "702.50",
+        "discount": "184.87",
+        "shipping": null,
+        "total": "4214.99",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": null,
+            "quantity": "20",
+            "unit_price": "1.00",
+            "line_total": "20.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-340",
+            "quantity": "100",
+            "unit_price": "29.60",
+            "line_total": "2960.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": "VF-873",
+            "quantity": "24",
+            "unit_price": "29.89",
+            "line_total": "717.36",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "011-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Copperleaf Print Co.",
+        "supplier_tax_id": "GB848996650",
+        "invoice_number": "CP00446",
+        "invoice_date": "2026-08-06",
+        "due_date": "2026-08-20",
+        "currency": "GBP",
+        "po_number": "PO-37413",
+        "subtotal": "11656.85",
+        "tax": "2214.80",
+        "discount": "582.84",
+        "shipping": "6.38",
+        "total": "13295.19",
+        "line_items": [
+          {
+            "description": "Thank-you cards A6, 500",
+            "sku": "TC-343",
+            "quantity": "5",
+            "unit_price": "49.72",
+            "line_total": "248.60",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll",
+            "sku": null,
+            "quantity": "1",
+            "unit_price": "16.50",
+            "line_total": "16.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets",
+            "sku": "TS-316",
+            "quantity": "100",
+            "unit_price": "44.31",
+            "line_total": "4431.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft swing tags, 1000",
+            "sku": "ST-982",
+            "quantity": "25",
+            "unit_price": "23.31",
+            "line_total": "582.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Thank-you cards A6, 500, white",
+            "sku": "TC-406",
+            "quantity": "25",
+            "unit_price": "49.94",
+            "line_total": "1248.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll, white",
+            "sku": "LB-555",
+            "quantity": "50",
+            "unit_price": "14.49",
+            "line_total": "724.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets, white",
+            "sku": "TS-204",
+            "quantity": "100",
+            "unit_price": "44.05",
+            "line_total": "4405.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "012-inv-us_sales.pdf",
+      "layout": "us_sales",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Larchmont Labels Inc.",
+        "supplier_tax_id": "20-3835227",
+        "invoice_number": "000445",
+        "invoice_date": "2026-10-13",
+        "due_date": "2026-11-12",
+        "currency": "USD",
+        "po_number": "PO-25781",
+        "subtotal": "839.07",
+        "tax": "69.22",
+        "discount": null,
+        "shipping": "21.96",
+        "total": "930.25",
+        "line_items": [
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll",
+            "sku": "TL-46-183",
+            "quantity": "1",
+            "unit_price": "17.42",
+            "line_total": "17.42",
+            "tax_rate": null
+          },
+          {
+            "description": "Barcode labels 2x1, 1000/roll",
+            "sku": "BC-21-294",
+            "quantity": "12",
+            "unit_price": "9.24",
+            "line_total": "110.88",
+            "tax_rate": null
+          },
+          {
+            "description": "Ribbon wax 110mm x 74m",
+            "sku": "RB-110-729",
+            "quantity": "20",
+            "unit_price": "7.80",
+            "line_total": "156.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Label printer service kit",
+            "sku": "SK-01-687",
+            "quantity": "3",
+            "unit_price": "73.63",
+            "line_total": "220.89",
+            "tax_rate": null
+          },
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll, white",
+            "sku": "TL-46-939",
+            "quantity": "3",
+            "unit_price": "13.86",
+            "line_total": "41.58",
+            "tax_rate": null
+          },
+          {
+            "description": "Barcode labels 2x1, 1000/roll, white",
+            "sku": "BC-21-161",
+            "quantity": "10",
+            "unit_price": "11.83",
+            "line_total": "118.30",
+            "tax_rate": null
+          },
+          {
+            "description": "Ribbon wax 110mm x 74m, white",
+            "sku": "RB-110-868",
+            "quantity": "24",
+            "unit_price": "7.25",
+            "line_total": "174.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "013-credit-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "credit_note",
+        "supplier_name": "Fenwick & Dray Supplies",
+        "supplier_tax_id": "GB133193508",
+        "invoice_number": "CN-FD/26/0862",
+        "invoice_date": "2026-10-11",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "-2124.44",
+        "tax": "-424.89",
+        "discount": null,
+        "shipping": null,
+        "total": "-2549.33",
+        "line_items": [
+          {
+            "description": "Nitrile gloves, box of 100",
+            "sku": "GL-335",
+            "quantity": "-5",
+            "unit_price": "5.34",
+            "line_total": "-26.70",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Surface cleaner 5L",
+            "sku": "SC-355",
+            "quantity": "-50",
+            "unit_price": "15.12",
+            "line_total": "-756.00",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Blue roll 2-ply, 6 pack",
+            "sku": "BR-655",
+            "quantity": "-24",
+            "unit_price": "9.67",
+            "line_total": "-232.08",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Bin liners heavy duty, 200",
+            "sku": "BL-228",
+            "quantity": "-6",
+            "unit_price": "11.38",
+            "line_total": "-68.28",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Nitrile gloves, box of 100, white",
+            "sku": "GL-881",
+            "quantity": "-100",
+            "unit_price": "5.96",
+            "line_total": "-596.00",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Surface cleaner 5L, white",
+            "sku": null,
+            "quantity": "-25",
+            "unit_price": "15.59",
+            "line_total": "-389.75",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Blue roll 2-ply, 6 pack, white",
+            "sku": "BR-657",
+            "quantity": "-3",
+            "unit_price": "8.91",
+            "line_total": "-26.73",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Bin liners heavy duty, 200, white",
+            "sku": "BL-907",
+            "quantity": "-2",
+            "unit_price": "14.45",
+            "line_total": "-28.90",
+            "tax_rate": "20"
+          }
+        ]
+      }
+    },
+    {
+      "file": "014-inv-plain_text.pdf",
+      "layout": "plain_text",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Kittiwake Coffee Roasters",
+        "supplier_tax_id": "GB148547720",
+        "invoice_number": "KW00101",
+        "invoice_date": "2026-07-17",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "946.39",
+        "tax": "189.28",
+        "discount": null,
+        "shipping": null,
+        "total": "1135.67",
+        "line_items": [
+          {
+            "description": "House blend beans 1kg",
+            "sku": "HB1K-406",
+            "quantity": "12",
+            "unit_price": "14.62",
+            "line_total": "175.44",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg",
+            "sku": null,
+            "quantity": "25",
+            "unit_price": "22.47",
+            "line_total": "561.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g",
+            "sku": "DC500-329",
+            "quantity": "20",
+            "unit_price": "10.46",
+            "line_total": "209.20",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "015-inv-euro.pdf",
+      "layout": "euro",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Brandt & Vogel Textil GmbH",
+        "supplier_tax_id": "DE611060580",
+        "invoice_number": "RE-2026-00813",
+        "invoice_date": "2026-09-25",
+        "due_date": "2026-11-09",
+        "currency": "EUR",
+        "po_number": null,
+        "subtotal": "882.27",
+        "tax": "202.92",
+        "discount": null,
+        "shipping": null,
+        "total": "1085.19",
+        "line_items": [
+          {
+            "description": "Cotton tote bag natural",
+            "sku": "TB-N-590",
+            "quantity": "20",
+            "unit_price": "1.68",
+            "line_total": "33.60",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70",
+            "sku": "TT-O-865",
+            "quantity": "50",
+            "unit_price": "4.54",
+            "line_total": "227.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4",
+            "sku": "LN-4-263",
+            "quantity": "5",
+            "unit_price": "13.27",
+            "line_total": "66.35",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable",
+            "sku": "AP-C-252",
+            "quantity": "5",
+            "unit_price": "9.26",
+            "line_total": "46.30",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, white",
+            "sku": "TB-N-404",
+            "quantity": "1",
+            "unit_price": "1.52",
+            "line_total": "1.52",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, white",
+            "sku": "TT-O-527",
+            "quantity": "10",
+            "unit_price": "4.30",
+            "line_total": "43.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, white",
+            "sku": "LN-4-987",
+            "quantity": "25",
+            "unit_price": "10.23",
+            "line_total": "255.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable, white",
+            "sku": "AP-C-203",
+            "quantity": "25",
+            "unit_price": "8.35",
+            "line_total": "208.75",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "016-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Saltmarsh Candle Works",
+        "supplier_tax_id": "14-1652703",
+        "invoice_number": "SCW-0208",
+        "invoice_date": "2026-09-01",
+        "due_date": "2026-09-15",
+        "currency": "USD",
+        "po_number": "PO-45449",
+        "subtotal": "2086.65",
+        "tax": "0.00",
+        "discount": null,
+        "shipping": null,
+        "total": "2086.65",
+        "line_items": [
+          {
+            "description": "Soy wax flakes 20kg",
+            "sku": "WX20-585",
+            "quantity": "5",
+            "unit_price": "69.94",
+            "line_total": "349.70",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100",
+            "sku": "WK15-175",
+            "quantity": "5",
+            "unit_price": "6.98",
+            "line_total": "34.90",
+            "tax_rate": null
+          },
+          {
+            "description": "Amber jar 30cl with lid",
+            "sku": "JA30-800",
+            "quantity": "6",
+            "unit_price": "1.33",
+            "line_total": "7.98",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragrance oil 500ml",
+            "sku": "FO50-413",
+            "quantity": "10",
+            "unit_price": "25.24",
+            "line_total": "252.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Soy wax flakes 20kg, white",
+            "sku": "WX20-254",
+            "quantity": "25",
+            "unit_price": "56.96",
+            "line_total": "1424.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100, white",
+            "sku": "WK15-394",
+            "quantity": "3",
+            "unit_price": "5.89",
+            "line_total": "17.67",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "017-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Quillon Office Goods",
+        "supplier_tax_id": "92-2287995",
+        "invoice_number": "Q-20260701",
+        "invoice_date": "2026-09-16",
+        "due_date": "2026-09-30",
+        "currency": "USD",
+        "po_number": "PO-43840",
+        "subtotal": "3344.76",
+        "tax": "262.15",
+        "discount": "167.24",
+        "shipping": "18.74",
+        "total": "3458.41",
+        "line_items": [
+          {
+            "description": "Copy paper A4 80gsm, box of 5",
+            "sku": "CPA4-385",
+            "quantity": "24",
+            "unit_price": "25.49",
+            "line_total": "611.76",
+            "tax_rate": null
+          },
+          {
+            "description": "Gel pens black, 12",
+            "sku": "GP12-374",
+            "quantity": "24",
+            "unit_price": "9.63",
+            "line_total": "231.12",
+            "tax_rate": null
+          },
+          {
+            "description": "Archive box, 10 pack",
+            "sku": null,
+            "quantity": "1",
+            "unit_price": "15.50",
+            "line_total": "15.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Desk organiser, bamboo",
+            "sku": "DO-B-707",
+            "quantity": "1",
+            "unit_price": "19.38",
+            "line_total": "19.38",
+            "tax_rate": null
+          },
+          {
+            "description": "Copy paper A4 80gsm, box of 5, white",
+            "sku": "CPA4-641",
+            "quantity": "100",
+            "unit_price": "24.67",
+            "line_total": "2467.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "018-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "multi-page",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Oriel Botanicals",
+        "supplier_tax_id": "IE2369124WA",
+        "invoice_number": "OB26-078",
+        "invoice_date": "2026-08-14",
+        "due_date": "2026-09-13",
+        "currency": "EUR",
+        "po_number": "PO-14714",
+        "subtotal": "4477.05",
+        "tax": "616.02",
+        "discount": null,
+        "shipping": "13.16",
+        "total": "5106.23",
+        "line_items": [
+          {
+            "description": "Dried lavender bunch",
+            "sku": "LAV-655",
+            "quantity": "10",
+            "unit_price": "2.48",
+            "line_total": "24.80",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10",
+            "sku": "EUC-570",
+            "quantity": "20",
+            "unit_price": "7.67",
+            "line_total": "153.40",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5",
+            "sku": "PMP-722",
+            "quantity": "12",
+            "unit_price": "8.59",
+            "line_total": "103.08",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel",
+            "sku": "FWR-826",
+            "quantity": "10",
+            "unit_price": "2.66",
+            "line_total": "26.60",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Dried lavender bunch, white",
+            "sku": "LAV-566",
+            "quantity": "1",
+            "unit_price": "2.90",
+            "line_total": "2.90",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, white",
+            "sku": "EUC-243",
+            "quantity": "24",
+            "unit_price": "7.64",
+            "line_total": "183.36",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Pampas grass natural, 5, white",
+            "sku": "PMP-630",
+            "quantity": "6",
+            "unit_price": "12.33",
+            "line_total": "73.98",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, white",
+            "sku": "FWR-368",
+            "quantity": "100",
+            "unit_price": "2.60",
+            "line_total": "260.00",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, black",
+            "sku": "LAV-354",
+            "quantity": "50",
+            "unit_price": "2.97",
+            "line_total": "148.50",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, black",
+            "sku": "EUC-680",
+            "quantity": "24",
+            "unit_price": "8.16",
+            "line_total": "195.84",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, black",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": "11.40",
+            "line_total": "68.40",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, black",
+            "sku": "FWR-241",
+            "quantity": "24",
+            "unit_price": "1.97",
+            "line_total": "47.28",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, large",
+            "sku": "LAV-462",
+            "quantity": "20",
+            "unit_price": "3.65",
+            "line_total": "73.00",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, large",
+            "sku": null,
+            "quantity": "1",
+            "unit_price": "7.01",
+            "line_total": "7.01",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Pampas grass natural, 5, large",
+            "sku": "PMP-493",
+            "quantity": "24",
+            "unit_price": "10.27",
+            "line_total": "246.48",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, large",
+            "sku": "FWR-346",
+            "quantity": "20",
+            "unit_price": "2.14",
+            "line_total": "42.80",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, small",
+            "sku": "LAV-313",
+            "quantity": "24",
+            "unit_price": "3.54",
+            "line_total": "84.96",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, small",
+            "sku": "EUC-472",
+            "quantity": "5",
+            "unit_price": "6.68",
+            "line_total": "33.40",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, small",
+            "sku": "PMP-160",
+            "quantity": "6",
+            "unit_price": "11.98",
+            "line_total": "71.88",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, small",
+            "sku": "FWR-215",
+            "quantity": "12",
+            "unit_price": "2.88",
+            "line_total": "34.56",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, natural",
+            "sku": null,
+            "quantity": "24",
+            "unit_price": "3.87",
+            "line_total": "92.88",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Eucalyptus stems, 10, natural",
+            "sku": null,
+            "quantity": "1",
+            "unit_price": "6.75",
+            "line_total": "6.75",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, natural",
+            "sku": "PMP-634",
+            "quantity": "50",
+            "unit_price": "11.00",
+            "line_total": "550.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, natural",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": "2.45",
+            "line_total": "14.70",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, blue",
+            "sku": "LAV-388",
+            "quantity": "2",
+            "unit_price": "2.59",
+            "line_total": "5.18",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, blue",
+            "sku": "EUC-281",
+            "quantity": "10",
+            "unit_price": "7.91",
+            "line_total": "79.10",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Pampas grass natural, 5, blue",
+            "sku": "PMP-626",
+            "quantity": "20",
+            "unit_price": "12.56",
+            "line_total": "251.20",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, blue",
+            "sku": null,
+            "quantity": "2",
+            "unit_price": "2.38",
+            "line_total": "4.76",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, green",
+            "sku": "LAV-241",
+            "quantity": "24",
+            "unit_price": "2.31",
+            "line_total": "55.44",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, green",
+            "sku": "EUC-949",
+            "quantity": "10",
+            "unit_price": "8.60",
+            "line_total": "86.00",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, green",
+            "sku": "PMP-823",
+            "quantity": "10",
+            "unit_price": "9.46",
+            "line_total": "94.60",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, green",
+            "sku": "FWR-712",
+            "quantity": "24",
+            "unit_price": "2.63",
+            "line_total": "63.12",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, grey",
+            "sku": "LAV-227",
+            "quantity": "50",
+            "unit_price": "3.38",
+            "line_total": "169.00",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, grey",
+            "sku": null,
+            "quantity": "5",
+            "unit_price": "8.38",
+            "line_total": "41.90",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, grey",
+            "sku": "PMP-767",
+            "quantity": "10",
+            "unit_price": "12.82",
+            "line_total": "128.20",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, grey",
+            "sku": "FWR-853",
+            "quantity": "12",
+            "unit_price": "2.53",
+            "line_total": "30.36",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Dried lavender bunch, red",
+            "sku": "LAV-338",
+            "quantity": "100",
+            "unit_price": "3.72",
+            "line_total": "372.00",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, red",
+            "sku": "EUC-598",
+            "quantity": "5",
+            "unit_price": "8.67",
+            "line_total": "43.35",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, red",
+            "sku": "PMP-317",
+            "quantity": "1",
+            "unit_price": "13.41",
+            "line_total": "13.41",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, red",
+            "sku": "FWR-995",
+            "quantity": "100",
+            "unit_price": "3.12",
+            "line_total": "312.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Dried lavender bunch, oak",
+            "sku": "LAV-780",
+            "quantity": "2",
+            "unit_price": "2.48",
+            "line_total": "4.96",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, oak",
+            "sku": null,
+            "quantity": "3",
+            "unit_price": "7.39",
+            "line_total": "22.17",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Pampas grass natural, 5, oak",
+            "sku": "PMP-497",
+            "quantity": "10",
+            "unit_price": "10.22",
+            "line_total": "102.20",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Florist wire 0.7mm reel, oak",
+            "sku": "FWR-337",
+            "quantity": "12",
+            "unit_price": "2.00",
+            "line_total": "24.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Dried lavender bunch, navy",
+            "sku": "LAV-811",
+            "quantity": "2",
+            "unit_price": "2.76",
+            "line_total": "5.52",
+            "tax_rate": "21"
+          },
+          {
+            "description": "Eucalyptus stems, 10, navy",
+            "sku": null,
+            "quantity": "3",
+            "unit_price": "7.34",
+            "line_total": "22.02",
+            "tax_rate": "21"
+          }
+        ]
+      }
+    },
+    {
+      "file": "019-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB751670867",
+        "invoice_number": "INV-2026-0707",
+        "invoice_date": "2026-07-23",
+        "due_date": "2026-08-22",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "775.35",
+        "tax": "147.32",
+        "discount": "38.77",
+        "shipping": null,
+        "total": "883.90",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": "BX-711",
+            "quantity": "3",
+            "unit_price": "1.95",
+            "line_total": "5.85",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-858",
+            "quantity": "20",
+            "unit_price": "20.39",
+            "line_total": "407.80",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": null,
+            "quantity": "10",
+            "unit_price": "30.82",
+            "line_total": "308.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragile tape 48mm x 66m",
+            "sku": "TP-617",
+            "quantity": "25",
+            "unit_price": "2.14",
+            "line_total": "53.50",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "020-credit-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "credit_note",
+        "supplier_name": "Copperleaf Print Co.",
+        "supplier_tax_id": "GB092914959",
+        "invoice_number": "CN-CP00447",
+        "invoice_date": "2026-09-22",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "-5803.60",
+        "tax": "-1160.72",
+        "discount": null,
+        "shipping": null,
+        "total": "-6964.32",
+        "line_items": [
+          {
+            "description": "Thank-you cards A6, 500",
+            "sku": "TC-298",
+            "quantity": "-100",
+            "unit_price": "32.74",
+            "line_total": "-3274.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll",
+            "sku": "LB-179",
+            "quantity": "-50",
+            "unit_price": "17.64",
+            "line_total": "-882.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets",
+            "sku": "TS-282",
+            "quantity": "-20",
+            "unit_price": "43.32",
+            "line_total": "-866.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft swing tags, 1000",
+            "sku": "ST-157",
+            "quantity": "-1",
+            "unit_price": "21.20",
+            "line_total": "-21.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Thank-you cards A6, 500, white",
+            "sku": "TC-824",
+            "quantity": "-20",
+            "unit_price": "38.00",
+            "line_total": "-760.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "021-inv-us_sales.pdf",
+      "layout": "us_sales",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Larchmont Labels Inc.",
+        "supplier_tax_id": "91-6135270",
+        "invoice_number": "000452",
+        "invoice_date": "2026-07-01",
+        "due_date": null,
+        "currency": "USD",
+        "po_number": "PO-22023",
+        "subtotal": "370.46",
+        "tax": "29.04",
+        "discount": "18.52",
+        "shipping": "6.09",
+        "total": "387.07",
+        "line_items": [
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": "12.66",
+            "line_total": "75.96",
+            "tax_rate": null
+          },
+          {
+            "description": "Barcode labels 2x1, 1000/roll",
+            "sku": "BC-21-987",
+            "quantity": "25",
+            "unit_price": "11.78",
+            "line_total": "294.50",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "022-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Fenwick & Dray Supplies",
+        "supplier_tax_id": "GB573892262",
+        "invoice_number": "FD/26/0876",
+        "invoice_date": "2026-08-15",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": "PO-58130",
+        "subtotal": "155.00",
+        "tax": "31.00",
+        "discount": null,
+        "shipping": "7.08",
+        "total": "193.08",
+        "line_items": [
+          {
+            "description": "Nitrile gloves, box of 100",
+            "sku": "GL-978",
+            "quantity": "25",
+            "unit_price": "6.20",
+            "line_total": "155.00",
+            "tax_rate": "20"
+          }
+        ]
+      }
+    },
+    {
+      "file": "023-inv-plain_text.pdf",
+      "layout": "plain_text",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Kittiwake Coffee Roasters",
+        "supplier_tax_id": "GB454735388",
+        "invoice_number": "KW00105",
+        "invoice_date": "2026-08-12",
+        "due_date": "2026-09-26",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "8936.51",
+        "tax": "1787.30",
+        "discount": null,
+        "shipping": null,
+        "total": "10723.81",
+        "line_items": [
+          {
+            "description": "House blend beans 1kg",
+            "sku": "HB1K-337",
+            "quantity": "5",
+            "unit_price": "17.13",
+            "line_total": "85.65",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg",
+            "sku": "ET1K-691",
+            "quantity": "3",
+            "unit_price": "25.27",
+            "line_total": "75.81",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g",
+            "sku": "DC500-295",
+            "quantity": "25",
+            "unit_price": "9.53",
+            "line_total": "238.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000",
+            "sku": "CU8-108",
+            "quantity": "50",
+            "unit_price": "52.49",
+            "line_total": "2624.50",
+            "tax_rate": null
+          },
+          {
+            "description": "House blend beans 1kg, white",
+            "sku": "HB1K-998",
+            "quantity": "25",
+            "unit_price": "17.09",
+            "line_total": "427.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg, white",
+            "sku": "ET1K-281",
+            "quantity": "25",
+            "unit_price": "25.45",
+            "line_total": "636.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g, white",
+            "sku": "DC500-473",
+            "quantity": "10",
+            "unit_price": "9.88",
+            "line_total": "98.80",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000, white",
+            "sku": "CU8-117",
+            "quantity": "100",
+            "unit_price": "47.50",
+            "line_total": "4750.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "024-inv-euro.pdf",
+      "layout": "euro",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Brandt & Vogel Textil GmbH",
+        "supplier_tax_id": "DE554771968",
+        "invoice_number": "RE-2026-00814",
+        "invoice_date": "2026-07-24",
+        "due_date": null,
+        "currency": "EUR",
+        "po_number": null,
+        "subtotal": "152.73",
+        "tax": "29.02",
+        "discount": null,
+        "shipping": null,
+        "total": "181.75",
+        "line_items": [
+          {
+            "description": "Cotton tote bag natural",
+            "sku": "TB-N-597",
+            "quantity": "50",
+            "unit_price": "1.36",
+            "line_total": "68.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70",
+            "sku": null,
+            "quantity": "10",
+            "unit_price": "3.15",
+            "line_total": "31.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4",
+            "sku": "LN-4-902",
+            "quantity": "3",
+            "unit_price": "12.49",
+            "line_total": "37.47",
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable",
+            "sku": "AP-C-711",
+            "quantity": "2",
+            "unit_price": "7.88",
+            "line_total": "15.76",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "025-slip-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "packing_slip",
+        "supplier_name": "Saltmarsh Candle Works",
+        "supplier_tax_id": "36-6106824",
+        "invoice_number": "PS-SCW-0215",
+        "invoice_date": "2026-08-14",
+        "due_date": null,
+        "currency": null,
+        "po_number": "PO-67279",
+        "subtotal": null,
+        "tax": null,
+        "discount": null,
+        "shipping": null,
+        "total": null,
+        "line_items": [
+          {
+            "description": "Soy wax flakes 20kg",
+            "sku": "WX20-503",
+            "quantity": "3",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100",
+            "sku": "WK15-518",
+            "quantity": "3",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Amber jar 30cl with lid",
+            "sku": "JA30-633",
+            "quantity": "3",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Fragrance oil 500ml",
+            "sku": "FO50-477",
+            "quantity": "100",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Soy wax flakes 20kg, white",
+            "sku": null,
+            "quantity": "25",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100, white",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Amber jar 30cl with lid, white",
+            "sku": "JA30-453",
+            "quantity": "50",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Fragrance oil 500ml, white",
+            "sku": "FO50-287",
+            "quantity": "2",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "026-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Quillon Office Goods",
+        "supplier_tax_id": "51-6573787",
+        "invoice_number": "Q-20260705",
+        "invoice_date": "2026-09-30",
+        "due_date": "2026-11-14",
+        "currency": "USD",
+        "po_number": "PO-62066",
+        "subtotal": "3820.33",
+        "tax": "315.18",
+        "discount": null,
+        "shipping": null,
+        "total": "4135.51",
+        "line_items": [
+          {
+            "description": "Copy paper A4 80gsm, box of 5",
+            "sku": "CPA4-736",
+            "quantity": "3",
+            "unit_price": "25.17",
+            "line_total": "75.51",
+            "tax_rate": null
+          },
+          {
+            "description": "Gel pens black, 12",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": "7.52",
+            "line_total": "45.12",
+            "tax_rate": null
+          },
+          {
+            "description": "Archive box, 10 pack",
+            "sku": "AB10-902",
+            "quantity": "5",
+            "unit_price": "18.56",
+            "line_total": "92.80",
+            "tax_rate": null
+          },
+          {
+            "description": "Desk organiser, bamboo",
+            "sku": null,
+            "quantity": "100",
+            "unit_price": "23.86",
+            "line_total": "2386.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Copy paper A4 80gsm, box of 5, white",
+            "sku": "CPA4-235",
+            "quantity": "25",
+            "unit_price": "29.06",
+            "line_total": "726.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Gel pens black, 12, white",
+            "sku": null,
+            "quantity": "5",
+            "unit_price": "9.88",
+            "line_total": "49.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Archive box, 10 pack, white",
+            "sku": "AB10-958",
+            "quantity": "25",
+            "unit_price": "17.80",
+            "line_total": "445.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "027-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Oriel Botanicals",
+        "supplier_tax_id": "IE2696904WA",
+        "invoice_number": "OB26-081",
+        "invoice_date": "2026-09-05",
+        "due_date": "2026-10-20",
+        "currency": "EUR",
+        "po_number": null,
+        "subtotal": "391.62",
+        "tax": "24.52",
+        "discount": null,
+        "shipping": "10.70",
+        "total": "426.84",
+        "line_items": [
+          {
+            "description": "Dried lavender bunch",
+            "sku": "LAV-822",
+            "quantity": "100",
+            "unit_price": "2.85",
+            "line_total": "285.00",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Eucalyptus stems, 10",
+            "sku": "EUC-288",
+            "quantity": "6",
+            "unit_price": "7.88",
+            "line_total": "47.28",
+            "tax_rate": "23"
+          },
+          {
+            "description": "Pampas grass natural, 5",
+            "sku": "PMP-699",
+            "quantity": "6",
+            "unit_price": "9.89",
+            "line_total": "59.34",
+            "tax_rate": "23"
+          }
+        ]
+      }
+    },
+    {
+      "file": "028-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB413601649",
+        "invoice_number": "INV-2026-0713",
+        "invoice_date": "2026-08-29",
+        "due_date": "2026-10-13",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "32.00",
+        "tax": "6.40",
+        "discount": null,
+        "shipping": null,
+        "total": "38.40",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": null,
+            "quantity": "20",
+            "unit_price": "1.60",
+            "line_total": "32.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "029-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Copperleaf Print Co.",
+        "supplier_tax_id": "GB223720214",
+        "invoice_number": "CP00455",
+        "invoice_date": "2026-09-11",
+        "due_date": "2026-09-25",
+        "currency": "GBP",
+        "po_number": "PO-77520",
+        "subtotal": "1369.96",
+        "tax": "260.29",
+        "discount": "68.50",
+        "shipping": null,
+        "total": "1561.75",
+        "line_items": [
+          {
+            "description": "Thank-you cards A6, 500",
+            "sku": null,
+            "quantity": "5",
+            "unit_price": "51.38",
+            "line_total": "256.90",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll",
+            "sku": "LB-849",
+            "quantity": "2",
+            "unit_price": "17.44",
+            "line_total": "34.88",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets",
+            "sku": "TS-739",
+            "quantity": "5",
+            "unit_price": "61.91",
+            "line_total": "309.55",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft swing tags, 1000",
+            "sku": "ST-599",
+            "quantity": "2",
+            "unit_price": "33.54",
+            "line_total": "67.08",
+            "tax_rate": null
+          },
+          {
+            "description": "Thank-you cards A6, 500, white",
+            "sku": "TC-883",
+            "quantity": "3",
+            "unit_price": "41.87",
+            "line_total": "125.61",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll, white",
+            "sku": "LB-746",
+            "quantity": "24",
+            "unit_price": "13.41",
+            "line_total": "321.84",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets, white",
+            "sku": "TS-366",
+            "quantity": "5",
+            "unit_price": "50.82",
+            "line_total": "254.10",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "030-inv-us_sales.pdf",
+      "layout": "us_sales",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Larchmont Labels Inc.",
+        "supplier_tax_id": "41-1255973",
+        "invoice_number": "000455",
+        "invoice_date": "2026-07-25",
+        "due_date": "2026-09-08",
+        "currency": "USD",
+        "po_number": "PO-44680",
+        "subtotal": "80.85",
+        "tax": "6.67",
+        "discount": null,
+        "shipping": null,
+        "total": "87.52",
+        "line_items": [
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll",
+            "sku": "TL-46-345",
+            "quantity": "5",
+            "unit_price": "16.17",
+            "line_total": "80.85",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "031-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Fenwick & Dray Supplies",
+        "supplier_tax_id": "GB827972237",
+        "invoice_number": "FD/26/0882",
+        "invoice_date": "2026-07-08",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "16.32",
+        "tax": "0.00",
+        "discount": null,
+        "shipping": null,
+        "total": "16.32",
+        "line_items": [
+          {
+            "description": "Nitrile gloves, box of 100",
+            "sku": "GL-206",
+            "quantity": "3",
+            "unit_price": "5.44",
+            "line_total": "16.32",
+            "tax_rate": "0"
+          }
+        ]
+      }
+    },
+    {
+      "file": "032-inv-plain_text.pdf",
+      "layout": "plain_text",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Kittiwake Coffee Roasters",
+        "supplier_tax_id": "GB708323086",
+        "invoice_number": "KW00110",
+        "invoice_date": "2026-07-28",
+        "due_date": "2026-09-11",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "1839.02",
+        "tax": "367.80",
+        "discount": null,
+        "shipping": null,
+        "total": "2206.82",
+        "line_items": [
+          {
+            "description": "House blend beans 1kg",
+            "sku": "HB1K-549",
+            "quantity": "3",
+            "unit_price": "17.83",
+            "line_total": "53.49",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg",
+            "sku": "ET1K-955",
+            "quantity": "25",
+            "unit_price": "24.78",
+            "line_total": "619.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g",
+            "sku": "DC500-523",
+            "quantity": "3",
+            "unit_price": "9.59",
+            "line_total": "28.77",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000",
+            "sku": "CU8-651",
+            "quantity": "20",
+            "unit_price": "52.00",
+            "line_total": "1040.00",
+            "tax_rate": null
+          },
+          {
+            "description": "House blend beans 1kg, white",
+            "sku": "HB1K-294",
+            "quantity": "6",
+            "unit_price": "16.21",
+            "line_total": "97.26",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "033-slip-euro.pdf",
+      "layout": "euro",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "packing_slip",
+        "supplier_name": "Brandt & Vogel Textil GmbH",
+        "supplier_tax_id": "DE762748511",
+        "invoice_number": "PS-RE-2026-00817",
+        "invoice_date": "2026-07-18",
+        "due_date": null,
+        "currency": null,
+        "po_number": null,
+        "subtotal": null,
+        "tax": null,
+        "discount": null,
+        "shipping": null,
+        "total": null,
+        "line_items": [
+          {
+            "description": "Cotton tote bag natural",
+            "sku": null,
+            "quantity": "25",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70",
+            "sku": "TT-O-235",
+            "quantity": "3",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4",
+            "sku": "LN-4-859",
+            "quantity": "50",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Canvas apron, adjustable",
+            "sku": "AP-C-251",
+            "quantity": "6",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton tote bag natural, white",
+            "sku": "TB-N-501",
+            "quantity": "25",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70, white",
+            "sku": "TT-O-945",
+            "quantity": "5",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4, white",
+            "sku": "LN-4-845",
+            "quantity": "1",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "034-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Saltmarsh Candle Works",
+        "supplier_tax_id": "97-2326660",
+        "invoice_number": "SCW-0221",
+        "invoice_date": "2026-09-17",
+        "due_date": "2026-11-16",
+        "currency": "USD",
+        "po_number": null,
+        "subtotal": "1859.88",
+        "tax": "0.00",
+        "discount": null,
+        "shipping": null,
+        "total": "1859.88",
+        "line_items": [
+          {
+            "description": "Soy wax flakes 20kg",
+            "sku": "WX20-836",
+            "quantity": "12",
+            "unit_price": "64.50",
+            "line_total": "774.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100",
+            "sku": "WK15-612",
+            "quantity": "12",
+            "unit_price": "5.49",
+            "line_total": "65.88",
+            "tax_rate": null
+          },
+          {
+            "description": "Amber jar 30cl with lid",
+            "sku": "JA30-426",
+            "quantity": "5",
+            "unit_price": "1.50",
+            "line_total": "7.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragrance oil 500ml",
+            "sku": null,
+            "quantity": "3",
+            "unit_price": "26.70",
+            "line_total": "80.10",
+            "tax_rate": null
+          },
+          {
+            "description": "Soy wax flakes 20kg, white",
+            "sku": "WX20-196",
+            "quantity": "5",
+            "unit_price": "62.48",
+            "line_total": "312.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100, white",
+            "sku": "WK15-377",
+            "quantity": "100",
+            "unit_price": "6.20",
+            "line_total": "620.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "035-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Quillon Office Goods",
+        "supplier_tax_id": "14-6451915",
+        "invoice_number": "Q-20260707",
+        "invoice_date": "2026-09-15",
+        "due_date": "2026-09-29",
+        "currency": "USD",
+        "po_number": null,
+        "subtotal": "854.45",
+        "tax": "51.27",
+        "discount": null,
+        "shipping": null,
+        "total": "905.72",
+        "line_items": [
+          {
+            "description": "Copy paper A4 80gsm, box of 5",
+            "sku": "CPA4-527",
+            "quantity": "20",
+            "unit_price": "25.42",
+            "line_total": "508.40",
+            "tax_rate": null
+          },
+          {
+            "description": "Gel pens black, 12",
+            "sku": "GP12-825",
+            "quantity": "25",
+            "unit_price": "9.57",
+            "line_total": "239.25",
+            "tax_rate": null
+          },
+          {
+            "description": "Archive box, 10 pack",
+            "sku": "AB10-458",
+            "quantity": "5",
+            "unit_price": "21.36",
+            "line_total": "106.80",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "036-slip-compact.pdf",
+      "layout": "compact",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "some optional fields not printed",
+      "fields": {
+        "doc_type": "packing_slip",
+        "supplier_name": "Oriel Botanicals",
+        "supplier_tax_id": "IE1368511WA",
+        "invoice_number": "PS-OB26-085",
+        "invoice_date": "2026-09-16",
+        "due_date": null,
+        "currency": null,
+        "po_number": null,
+        "subtotal": null,
+        "tax": null,
+        "discount": null,
+        "shipping": null,
+        "total": null,
+        "line_items": [
+          {
+            "description": "Dried lavender bunch",
+            "sku": "LAV-787",
+            "quantity": "24",
+            "unit_price": null,
+            "line_total": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "037-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "review",
+      "expected_reasons": [
+        "line_math"
+      ],
+      "note": "line 2 total is 10x qty x price",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB979415552",
+        "invoice_number": "INV-2026-0718",
+        "invoice_date": "2026-08-12",
+        "due_date": "2026-10-11",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "9536.73",
+        "tax": "1907.35",
+        "discount": null,
+        "shipping": null,
+        "total": "11444.08",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": "BX-110",
+            "quantity": "25",
+            "unit_price": "1.31",
+            "line_total": "32.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-513",
+            "quantity": "50",
+            "unit_price": "18.64",
+            "line_total": "9320.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": "VF-345",
+            "quantity": "2",
+            "unit_price": "32.99",
+            "line_total": "65.98",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragile tape 48mm x 66m",
+            "sku": "TP-861",
+            "quantity": "50",
+            "unit_price": "2.36",
+            "line_total": "118.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "038-inv-modern.pdf",
+      "layout": "modern",
+      "expected_status": "review",
+      "expected_reasons": [
+        "lines_vs_subtotal"
+      ],
+      "note": "subtotal is 12.40 more than the lines",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Copperleaf Print Co.",
+        "supplier_tax_id": "GB696732060",
+        "invoice_number": "CP00459",
+        "invoice_date": "2026-09-22",
+        "due_date": "2026-10-06",
+        "currency": "GBP",
+        "po_number": "PO-40455",
+        "subtotal": "3128.16",
+        "tax": "591.99",
+        "discount": "155.79",
+        "shipping": "6.60",
+        "total": "3570.96",
+        "line_items": [
+          {
+            "description": "Thank-you cards A6, 500",
+            "sku": "TC-499",
+            "quantity": "50",
+            "unit_price": "39.71",
+            "line_total": "1985.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Product labels 50x30 roll",
+            "sku": null,
+            "quantity": "2",
+            "unit_price": "13.82",
+            "line_total": "27.64",
+            "tax_rate": null
+          },
+          {
+            "description": "Branded tissue paper, 480 sheets",
+            "sku": "TS-563",
+            "quantity": "10",
+            "unit_price": "52.49",
+            "line_total": "524.90",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft swing tags, 1000",
+            "sku": "ST-404",
+            "quantity": "2",
+            "unit_price": "31.46",
+            "line_total": "62.92",
+            "tax_rate": null
+          },
+          {
+            "description": "Thank-you cards A6, 500, white",
+            "sku": null,
+            "quantity": "12",
+            "unit_price": "42.90",
+            "line_total": "514.80",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "039-inv-us_sales.pdf",
+      "layout": "us_sales",
+      "expected_status": "review",
+      "expected_reasons": [
+        "total_mismatch"
+      ],
+      "note": "total is off by 100",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Larchmont Labels Inc.",
+        "supplier_tax_id": "88-2555280",
+        "invoice_number": "000459",
+        "invoice_date": "2026-09-30",
+        "due_date": null,
+        "currency": "USD",
+        "po_number": "PO-45305",
+        "subtotal": "720.02",
+        "tax": "59.40",
+        "discount": null,
+        "shipping": "19.03",
+        "total": "898.45",
+        "line_items": [
+          {
+            "description": "Thermal shipping labels 4x6, 500/roll",
+            "sku": "TL-46-616",
+            "quantity": "25",
+            "unit_price": "17.32",
+            "line_total": "433.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Barcode labels 2x1, 1000/roll",
+            "sku": "BC-21-605",
+            "quantity": "25",
+            "unit_price": "10.74",
+            "line_total": "268.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Ribbon wax 110mm x 74m",
+            "sku": "RB-110-806",
+            "quantity": "2",
+            "unit_price": "9.26",
+            "line_total": "18.52",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "040-inv-compact.pdf",
+      "layout": "compact",
+      "expected_status": "review",
+      "expected_reasons": [
+        "due_before_invoice"
+      ],
+      "note": "due date 15 days before invoice date",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Fenwick & Dray Supplies",
+        "supplier_tax_id": "GB482022370",
+        "invoice_number": "FD/26/0888",
+        "invoice_date": "2026-10-10",
+        "due_date": "2026-09-25",
+        "currency": "GBP",
+        "po_number": "PO-85038",
+        "subtotal": "619.51",
+        "tax": "114.81",
+        "discount": "30.98",
+        "shipping": null,
+        "total": "703.34",
+        "line_items": [
+          {
+            "description": "Nitrile gloves, box of 100",
+            "sku": "GL-846",
+            "quantity": "3",
+            "unit_price": "5.08",
+            "line_total": "15.24",
+            "tax_rate": "0"
+          },
+          {
+            "description": "Surface cleaner 5L",
+            "sku": "SC-832",
+            "quantity": "50",
+            "unit_price": "11.48",
+            "line_total": "574.00",
+            "tax_rate": "20"
+          },
+          {
+            "description": "Blue roll 2-ply, 6 pack",
+            "sku": null,
+            "quantity": "3",
+            "unit_price": "10.09",
+            "line_total": "30.27",
+            "tax_rate": "20"
+          }
+        ]
+      }
+    },
+    {
+      "file": "041-inv-plain_text.pdf",
+      "layout": "plain_text",
+      "expected_status": "review",
+      "expected_reasons": [
+        "missing_invoice_number"
+      ],
+      "note": "no invoice number printed",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Kittiwake Coffee Roasters",
+        "supplier_tax_id": "GB720457349",
+        "invoice_number": null,
+        "invoice_date": "2026-09-12",
+        "due_date": "2026-10-12",
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "1455.19",
+        "tax": "291.04",
+        "discount": null,
+        "shipping": null,
+        "total": "1746.23",
+        "line_items": [
+          {
+            "description": "House blend beans 1kg",
+            "sku": null,
+            "quantity": "6",
+            "unit_price": "14.79",
+            "line_total": "88.74",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg",
+            "sku": "ET1K-918",
+            "quantity": "6",
+            "unit_price": "25.59",
+            "line_total": "153.54",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g",
+            "sku": "DC500-214",
+            "quantity": "3",
+            "unit_price": "9.46",
+            "line_total": "28.38",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000",
+            "sku": "CU8-364",
+            "quantity": "2",
+            "unit_price": "52.58",
+            "line_total": "105.16",
+            "tax_rate": null
+          },
+          {
+            "description": "House blend beans 1kg, white",
+            "sku": "HB1K-100",
+            "quantity": "24",
+            "unit_price": "17.22",
+            "line_total": "413.28",
+            "tax_rate": null
+          },
+          {
+            "description": "Single origin Ethiopia 1kg, white",
+            "sku": null,
+            "quantity": "3",
+            "unit_price": "22.69",
+            "line_total": "68.07",
+            "tax_rate": null
+          },
+          {
+            "description": "Decaf blend 500g, white",
+            "sku": null,
+            "quantity": "24",
+            "unit_price": "10.44",
+            "line_total": "250.56",
+            "tax_rate": null
+          },
+          {
+            "description": "Compostable cups 8oz, 1000, white",
+            "sku": "CU8-719",
+            "quantity": "6",
+            "unit_price": "57.91",
+            "line_total": "347.46",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "042-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "review",
+      "expected_reasons": [
+        "currency_not_allowed"
+      ],
+      "note": "CHF is not in the allowed list",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Saltmarsh Candle Works",
+        "supplier_tax_id": "CHE-457.457.457",
+        "invoice_number": "SCW-0225",
+        "invoice_date": "2026-08-12",
+        "due_date": "2026-09-11",
+        "currency": "CHF",
+        "po_number": "PO-25207",
+        "subtotal": "431.28",
+        "tax": "34.93",
+        "discount": null,
+        "shipping": null,
+        "total": "466.21",
+        "line_items": [
+          {
+            "description": "Soy wax flakes 20kg",
+            "sku": "WX20-147",
+            "quantity": "2",
+            "unit_price": "75.60",
+            "line_total": "151.20",
+            "tax_rate": null
+          },
+          {
+            "description": "Cotton wicks 150mm, 100",
+            "sku": "WK15-382",
+            "quantity": "2",
+            "unit_price": "7.38",
+            "line_total": "14.76",
+            "tax_rate": null
+          },
+          {
+            "description": "Amber jar 30cl with lid",
+            "sku": "JA30-832",
+            "quantity": "100",
+            "unit_price": "1.44",
+            "line_total": "144.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragrance oil 500ml",
+            "sku": "FO50-385",
+            "quantity": "3",
+            "unit_price": "21.44",
+            "line_total": "64.32",
+            "tax_rate": null
+          },
+          {
+            "description": "Soy wax flakes 20kg, white",
+            "sku": "WX20-643",
+            "quantity": "1",
+            "unit_price": "57.00",
+            "line_total": "57.00",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "043-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "review",
+      "expected_reasons": [
+        "duplicate"
+      ],
+      "note": "resend of INV-2026-0697",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB861142741",
+        "invoice_number": "INV-2026-0697",
+        "invoice_date": "2026-08-18",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "1510.72",
+        "tax": "302.14",
+        "discount": null,
+        "shipping": null,
+        "total": "1812.86",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": "BX-964",
+            "quantity": "20",
+            "unit_price": "1.70",
+            "line_total": "34.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-821",
+            "quantity": "1",
+            "unit_price": "18.67",
+            "line_total": "18.67",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": "VF-921",
+            "quantity": "50",
+            "unit_price": "28.94",
+            "line_total": "1447.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragile tape 48mm x 66m",
+            "sku": "TP-640",
+            "quantity": "5",
+            "unit_price": "2.21",
+            "line_total": "11.05",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "044-inv-euro.pdf",
+      "layout": "euro",
+      "expected_status": "ok_or_review",
+      "expected_reasons": [
+        "hard_to_read"
+      ],
+      "note": "scanned: blurred and tilted; flag it or read it right",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Brandt & Vogel Textil GmbH",
+        "supplier_tax_id": "DE473268628",
+        "invoice_number": "RE-2026-00822",
+        "invoice_date": "2026-09-29",
+        "due_date": null,
+        "currency": "EUR",
+        "po_number": null,
+        "subtotal": "116.38",
+        "tax": "22.11",
+        "discount": null,
+        "shipping": "14.25",
+        "total": "152.74",
+        "line_items": [
+          {
+            "description": "Cotton tote bag natural",
+            "sku": "TB-N-429",
+            "quantity": "1",
+            "unit_price": "2.03",
+            "line_total": "2.03",
+            "tax_rate": null
+          },
+          {
+            "description": "Organic tea towel 50x70",
+            "sku": "TT-O-349",
+            "quantity": "25",
+            "unit_price": "3.59",
+            "line_total": "89.75",
+            "tax_rate": null
+          },
+          {
+            "description": "Linen napkin set of 4",
+            "sku": "LN-4-717",
+            "quantity": "2",
+            "unit_price": "12.30",
+            "line_total": "24.60",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "045-inv-copy-of-001.pdf",
+      "layout": "classic",
+      "expected_status": "review",
+      "expected_reasons": [
+        "duplicate_file"
+      ],
+      "note": "identical bytes to 001-inv-classic.pdf",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Harbourline Packaging Ltd",
+        "supplier_tax_id": "GB861142741",
+        "invoice_number": "INV-2026-0697",
+        "invoice_date": "2026-08-18",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "1510.72",
+        "tax": "302.14",
+        "discount": null,
+        "shipping": null,
+        "total": "1812.86",
+        "line_items": [
+          {
+            "description": "Double-wall shipping box 40x30x20",
+            "sku": "BX-964",
+            "quantity": "20",
+            "unit_price": "1.70",
+            "line_total": "34.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Kraft mailer bag, 250 pack",
+            "sku": "MB-821",
+            "quantity": "1",
+            "unit_price": "18.67",
+            "line_total": "18.67",
+            "tax_rate": null
+          },
+          {
+            "description": "Paper void fill roll 450mm",
+            "sku": "VF-921",
+            "quantity": "50",
+            "unit_price": "28.94",
+            "line_total": "1447.00",
+            "tax_rate": null
+          },
+          {
+            "description": "Fragile tape 48mm x 66m",
+            "sku": "TP-640",
+            "quantity": "5",
+            "unit_price": "2.21",
+            "line_total": "11.05",
+            "tax_rate": null
+          }
+        ]
+      }
+    }
+  ]
+}
