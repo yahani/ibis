@@ -54,11 +54,11 @@ Run on 2026-10-22 with `uv run pytest --cov=ibis_docs`:
 
 | Suite | Tests | Result |
 |---|---|---|
-| `test_money.py` | 66 | ✅ pass |
+| `test_money.py` | 62 | ✅ pass |
 | `test_models.py` | 13 | ✅ pass |
 | `test_config.py` | 30 | ✅ pass |
 | `test_cli.py` | 10 | ✅ pass |
-| `test_demo_set.py` | 97 | ✅ pass |
+| `test_demo_set.py` | 101 | ✅ pass |
 | **Total** | **216** | **✅ all pass** |
 
 Coverage 99% (`config` 99%, `models` 99%, `money` 98%, `cli` 100%); target 90%. `ruff check` and
