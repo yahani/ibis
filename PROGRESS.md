@@ -109,8 +109,26 @@ What the first live run found, and what changed:
 Session 3: validation (E5), duplicates (E6), status and reasons (E7), escalation to Sonnet 5.5
 (E4). Inputs already in place: `Extraction.issues` (values that couldn't be read, ambiguous
 dates), `Found.duplicate_of` (identical files, no API call needed), and the 9 broken demo
-invoices with their expected reasons in `answers.json`. Decide whether an assumed date order
-(`issues`) sends a document to review or is only noted.
+invoices with their expected reasons in `answers.json`.
+
+Session 3, ambiguous numeric dates (E5, E7). **Decided: a date whose day/month order is still
+unknown sends the document to review**, never `ok`. Only noting it would let a date that's months
+out (9 Mar instead of 3 Sep) reach the sheet as checked: wrong VAT quarter, wrong due and overdue
+dates. Today `extract.py` falls back to the currency (USD → month first, else day first), which
+fails for `$` suppliers in Canada and Australia and for European suppliers invoicing in USD. To
+keep the review list short, settle as many dates as possible first, in this order:
+
+1. A part over 12 on any date in the document (already done in `dates.infer_order`).
+2. Optional per-supplier `date_order: day_first | month_first` in config, next to `decimal_mark`.
+3. Remember each supplier's order: once one of their documents has an unambiguous date
+   (`13/09/2026`), store the order in `output/.ibis/` and use it for that supplier from then on.
+4. The supplier's printed country: add `supplier_country` to `RawInvoice` (copied from the
+   address, "" if not printed), a better signal than currency.
+5. Rule out the future: a reading that falls after the run date is impossible (on 22 Oct 2026,
+   `11/10/2026` must be 11 Oct).
+
+Still ambiguous after that → `review`, reason "date 03/09/2026 could be 3 Sep or 9 Mar 2026".
+Drop the currency fallback. Add demo invoices with ambiguous dates, both settled and unsettled.
 
 Session 3, ambiguous decimal marks (E5). `parse_amount` handles comma decimals (`1.299,00`,
 `1 299,00 €`, `€ 51,77`), but one mark followed by exactly three digits is always read as a
