@@ -20,6 +20,8 @@ flagged. Reason codes are:
     duplicate            same supplier and invoice number as an earlier document
     duplicate_file       byte-for-byte copy of an earlier file
     hard_to_read         a blurred, tilted scan: must be read correctly or flagged, never wrong
+    ambiguous_date       a numeric date like 03/09/2026 that nothing on the document or in the
+                         set settles as day/month or month/day
 """
 
 from __future__ import annotations
@@ -280,6 +282,22 @@ SUPPLIERS = [
         date_style="dotted",
     ),
 ]
+
+
+# Not in SUPPLIERS, so adding it changes nothing about the other documents. It prints UK-style
+# numeric dates and has no other documents in the set, so nothing else settles its date order.
+AMBIGUOUS_DATES_SUPPLIER = Supplier(
+    "Marram Ceramics",
+    ("Unit 5, Porthmeor Studios", "St Ives TR26 1NG"),
+    "classic",
+    "MC-{n:04d}",
+    (
+        ("Stoneware mug, speckled glaze", "MG", "6.80", "9.50"),
+        ("Serving bowl 25cm", "SB", "14.00", "21.00"),
+        ("Bud vase, small", "BV", "4.20", "7.00"),
+    ),
+    date_style="short_uk",
+)
 
 
 # --------------------------------------------------------------------------------------------
@@ -546,9 +564,25 @@ def build_documents(currencies: list[str], seed: int) -> tuple[list[Doc], list[s
     d.note = "scanned: blurred and tilted; flag it or read it right"
     docs.append(d)
 
-    for i, doc in enumerate(docs, start=1):
+    # Ambiguous numeric dates from a supplier with no other documents in the set.
+    s = AMBIGUOUS_DATES_SUPPLIER
+    supplier_currency[s.name] = s.home_currency if s.home_currency in currencies else currencies[0]
+    counters[s.name] = rng.randint(40, 900)
+    d = new_doc(len(docs), s, n_lines=3)
+    d.invoice_date, d.due_date = date(2026, 8, 5), date(2026, 9, 4)
+    d.note = "05/08/2026 due 04/09/2026: only day-first keeps the due date after the invoice"
+    docs.append(d)
+    d = broken("ambiguous_date", "03/09/2026 and nothing to settle day/month order", s, n_lines=2)
+    d.invoice_date, d.due_date = date(2026, 9, 3), None
+    docs.append(d)
+
+    number = 0
+    for doc in docs:
+        number += 1
         prefix = {"invoice": "inv", "packing_slip": "slip", "credit_note": "credit"}[doc.doc_type]
-        doc.file = f"{i:03d}-{prefix}-{doc.supplier.layout}.pdf"
+        doc.file = f"{number:03d}-{prefix}-{doc.supplier.layout}.pdf"
+        if "hard_to_read" in doc.expected_reasons:
+            number += 1  # the next number is the byte-identical copy that generate() makes
     return docs, list(currencies)
 
 
@@ -1154,6 +1188,20 @@ def answer(doc: Doc) -> dict:
     }
 
 
+def _byte_copy(pdf_dir: Path, answers: list[dict], number: int) -> dict:
+    """A byte-for-byte copy of the first invoice, as if one email attachment was saved twice."""
+    first = next(a for a in answers if a["fields"]["doc_type"] == "invoice")
+    copy_name = f"{number:03d}-inv-copy-of-{first['file'][:3]}.pdf"
+    shutil.copyfile(pdf_dir / first["file"], pdf_dir / copy_name)
+    return {
+        **first,
+        "file": copy_name,
+        "expected_status": "review",
+        "expected_reasons": ["duplicate_file"],
+        "note": f"identical bytes to {first['file']}",
+    }
+
+
 def generate(out_dir: Path, currencies: list[str], seed: int = DEFAULT_SEED) -> list[dict]:
     """Write the PDFs to out_dir/invoices and the key to out_dir/answers.json."""
     currencies = [c.strip().upper() for c in currencies if c.strip()]
@@ -1177,20 +1225,8 @@ def generate(out_dir: Path, currencies: list[str], seed: int = DEFAULT_SEED) -> 
         else:
             render(doc, path)
         answers.append(answer(doc))
-
-    # A byte-for-byte copy of the first invoice, as if the same email attachment was saved twice.
-    first = next(a for a in answers if a["fields"]["doc_type"] == "invoice")
-    copy_name = f"{len(answers) + 1:03d}-inv-copy-of-{first['file'][:3]}.pdf"
-    shutil.copyfile(pdf_dir / first["file"], pdf_dir / copy_name)
-    answers.append(
-        {
-            **first,
-            "file": copy_name,
-            "expected_status": "review",
-            "expected_reasons": ["duplicate_file"],
-            "note": f"identical bytes to {first['file']}",
-        }
-    )
+        if "hard_to_read" in doc.expected_reasons:
+            answers.append(_byte_copy(pdf_dir, answers, int(doc.file[:3]) + 1))
 
     key = {
         "generated_by": "demo/generate.py",

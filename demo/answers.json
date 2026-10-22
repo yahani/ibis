@@ -3376,6 +3376,96 @@
           }
         ]
       }
+    },
+    {
+      "file": "046-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "ok",
+      "expected_reasons": [],
+      "note": "05/08/2026 due 04/09/2026: only day-first keeps the due date after the invoice",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Marram Ceramics",
+        "supplier_tax_id": "GB334092154",
+        "invoice_number": "MC-0350",
+        "invoice_date": "2026-08-05",
+        "due_date": "2026-09-04",
+        "currency": "GBP",
+        "po_number": "PO-57879",
+        "subtotal": "1052.93",
+        "tax": "210.59",
+        "discount": null,
+        "shipping": null,
+        "total": "1263.52",
+        "line_items": [
+          {
+            "description": "Stoneware mug, speckled glaze",
+            "sku": "MG-520",
+            "quantity": "3",
+            "unit_price": "9.31",
+            "line_total": "27.93",
+            "tax_rate": null
+          },
+          {
+            "description": "Serving bowl 25cm",
+            "sku": "SB-246",
+            "quantity": "50",
+            "unit_price": "14.43",
+            "line_total": "721.50",
+            "tax_rate": null
+          },
+          {
+            "description": "Bud vase, small",
+            "sku": "BV-762",
+            "quantity": "50",
+            "unit_price": "6.07",
+            "line_total": "303.50",
+            "tax_rate": null
+          }
+        ]
+      }
+    },
+    {
+      "file": "047-inv-classic.pdf",
+      "layout": "classic",
+      "expected_status": "review",
+      "expected_reasons": [
+        "ambiguous_date"
+      ],
+      "note": "03/09/2026 and nothing to settle day/month order",
+      "fields": {
+        "doc_type": "invoice",
+        "supplier_name": "Marram Ceramics",
+        "supplier_tax_id": "GB919624184",
+        "invoice_number": "MC-0357",
+        "invoice_date": "2026-09-03",
+        "due_date": null,
+        "currency": "GBP",
+        "po_number": null,
+        "subtotal": "200.20",
+        "tax": "40.04",
+        "discount": null,
+        "shipping": "10.94",
+        "total": "251.18",
+        "line_items": [
+          {
+            "description": "Stoneware mug, speckled glaze",
+            "sku": "MG-727",
+            "quantity": "24",
+            "unit_price": "7.08",
+            "line_total": "169.92",
+            "tax_rate": null
+          },
+          {
+            "description": "Serving bowl 25cm",
+            "sku": "SB-595",
+            "quantity": "2",
+            "unit_price": "15.14",
+            "line_total": "30.28",
+            "tax_rate": null
+          }
+        ]
+      }
     }
   ]
 }

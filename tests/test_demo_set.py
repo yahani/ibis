@@ -105,7 +105,7 @@ def test_every_broken_kind_is_present():
     assert set(BROKEN) == {
         "line_math", "lines_vs_subtotal", "total_mismatch", "due_before_invoice",
         "missing_invoice_number", "currency_not_allowed", "duplicate", "duplicate_file",
-        "hard_to_read",
+        "hard_to_read", "ambiguous_date",
     }  # fmt: skip
 
 
@@ -166,6 +166,21 @@ def test_scan_is_flag_or_correct():
     assert scan["expected_status"] == "ok_or_review"
     i = inv(scan)
     assert lines_ok(i) and lines_sum_ok(i) and total_ok(i)
+
+
+def test_ambiguous_dates():
+    """046 is settled by its due date; 047 has nothing to settle it."""
+    settled = next(d for d in CLEAN if d["file"].startswith("046"))
+    unsettled = BROKEN["ambiguous_date"]
+    assert settled["fields"]["supplier_name"] == unsettled["fields"]["supplier_name"]
+    assert (settled["fields"]["invoice_date"], settled["fields"]["due_date"]) == (
+        "2026-08-05",
+        "2026-09-04",
+    )
+    assert unsettled["fields"]["invoice_date"] == "2026-09-03"
+    assert unsettled["fields"]["due_date"] is None
+    others = [d for d in DOCS if d["fields"]["supplier_name"] == settled["fields"]["supplier_name"]]
+    assert len(others) == 2  # no other document from this supplier settles the order
 
 
 def _sha(name: str) -> str:
