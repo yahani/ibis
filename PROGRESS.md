@@ -76,6 +76,17 @@ writing the Claude calls, re-read the current docs on PDF document blocks and st
 outputs (Decimal fields in the JSON schema, and whether to have Claude return amounts as
 printed strings that `parse_amount` reads).
 
+Session 3, ambiguous decimal marks (E5). `parse_amount` handles comma decimals (`1.299,00`,
+`1 299,00 €`, `€ 51,77`), but one mark followed by exactly three digits is always read as a
+thousands separator: `12,125` → 12125 (a 3-decimal unit price) and `1.250 KWD` → 1250 (should be
+1.250). Validation would catch most of these through the line maths, but fix them at the source:
+
+- Use the invoice currency: for 3-decimal currencies (KWD, BHD, OMR, JOD, TND, LYD, IQD) read
+  `x.xxx` as a decimal.
+- Optional per-supplier hint in config: `decimal_mark: ","`.
+- If an amount is still ambiguous, flag the invoice for review with a plain reason
+  ("amount '12,125' could be 12.125 or 12125") instead of picking one.
+
 ## 4. Blocked / needs you
 
 - Review the session 1 checklist (below).
