@@ -80,7 +80,7 @@ Other currencies: `uv run python demo/generate.py --currencies USD,AUD,NZD` (any
 | 4 | E8, E9, E12, full `run`, `cost --estimate`, accuracy run | ✅ reviewed | `dbd0fbc` … `26d4eca` |
 | 5 | E10 review page, README, demo, acceptance checklist, secrets scan | ✅ awaiting your checks | `3f2b299` … this commit |
 
-Repo: private at github.com/yahani/ibis (make public in session 5, after the secrets scan).
+Repo: public at github.com/yahani/ibis since 2026-10-23, all rights reserved (no licence).
 
 ## 2. Acceptance checklist (the spec's, with the evidence)
 
@@ -123,8 +123,8 @@ them yourself"); where I ran it too, the result is noted.
   is the slowest step. A second person is the real test.*
 - ✅ No API key or real document anywhere in the history: gitleaks over all 26 commits found
   nothing; no `.env`, `config.yaml`, key file, `inbox/` or `output/` was ever committed; every one
-  of the 47 PDFs ever committed is one `demo/generate.py` makes. (Commit author emails are a
-  local machine address; see section 4.)
+  of the 47 PDFs ever committed is one `demo/generate.py` makes. (Commit authors were rewritten
+  from a local machine address to the GitHub account's email before going public.)
 
 ## 3. Test results
 
@@ -219,22 +219,13 @@ Session 2 live run (extraction only, 5 invoices): 65/65 header fields, every lin
 
 ## 4. Next
 
-**Before making the repo public (your decisions):**
-
-- **Commit author email.** All 26 commits carry `yahahewagama@Yahas-MacBook-Pro-2.local` (git has
-  no `user.email` set), which shows your Mac's user and machine name, and GitHub won't link the
-  commits to your profile. Options: set your GitHub no-reply address for future commits only, or
-  also rewrite the existing commits' author (a force-push; safe while the repo is private and only
-  you use it).
-- **Licence.** Without one, the code is public to read but all rights reserved, which suits a
-  portfolio piece you sell setups of. MIT would let anyone reuse it.
-- **Visibility.** github.com/yahani/ibis is private; making it public is a one-way door in
-  practice (forks and caches keep copies).
+**Decided before going public (2026-10-23):** commit authors rewritten to the GitHub account's
+email (force-push while private); no licence, so all rights reserved; repo made public.
 
 **Portfolio:** the one-page case study is drafted (a private page; share it from its Share menu),
 and the Upwork / Fiverr listing text is drafted (kept out of this repo because it has prices).
 Still to do: record the 60-second video from `docs/DEMO.md`, and link the repo from the case
-study once it's public.
+study.
 
 Tuning, if cost matters later: the Sonnet retry is most of the spend on broken documents and
 always confirmed the first read on the demo set. Try `effort: low` for the retry model only, or
@@ -255,4 +246,4 @@ Later, when a client needs it:
 ## 5. Needs you
 
 1. The two ☐ items left in section 2: run twice and see nothing new; a stranger follows the README.
-2. The three decisions under "Before making the repo public" in section 4.
+2. The portfolio steps in section 4: the video, and sharing the case study.

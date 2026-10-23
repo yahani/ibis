@@ -40,6 +40,7 @@ could explain gets one more read on a stronger model; if it still fails, it goes
 - [Privacy and security](#privacy-and-security)
 - [Troubleshooting](#troubleshooting)
 - [Development](#development)
+- [Licence](#licence)
 
 ## Quick start (about 10 minutes)
 
@@ -276,3 +277,8 @@ uv run python scripts/accuracy.py         # live: the whole demo set, scored (ab
 
 How it fits together is in [ARCHITECTURE.md](ARCHITECTURE.md); what's built, measured and next
 is in [PROGRESS.md](PROGRESS.md).
+
+## Licence
+
+© 2026 Yaha Hewagama. All rights reserved. The code is public to read; it isn't licensed for
+reuse. Get in touch if you'd like Ibis set up for your business.
