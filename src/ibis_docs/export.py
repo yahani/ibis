@@ -260,22 +260,119 @@ def spreadsheet_key(id_or_url: str) -> str:
     return match.group(1) if match else id_or_url.strip()
 
 
-def write_google_sheet(spreadsheet: str, payload: dict[str, list[list]], credentials: Path) -> str:
-    """Replace each named worksheet's contents with `payload`. Returns the spreadsheet's URL."""
+def _rgb(hex_colour: str) -> dict:
+    return {
+        k: int(hex_colour[i : i + 2], 16) / 255 for k, i in (("red", 0), ("green", 2), ("blue", 4))
+    }
+
+
+_SHEETS_FORMATS = {
+    Kind.MONEY: {"type": "NUMBER", "pattern": _FORMATS[Kind.MONEY]},
+    Kind.NUMBER: {"type": "NUMBER", "pattern": _FORMATS[Kind.NUMBER]},
+    Kind.DATE: {"type": "DATE", "pattern": _FORMATS[Kind.DATE]},
+    Kind.DATETIME: {"type": "DATE_TIME", "pattern": _FORMATS[Kind.DATETIME]},
+}
+
+
+def _runs(indexes: set[int]) -> list[tuple[int, int]]:
+    """Consecutive runs as (start, end) half-open ranges: {1, 2, 3, 7} -> [(1, 4), (7, 8)]."""
+    runs: list[tuple[int, int]] = []
+    for i in sorted(indexes):
+        if runs and runs[-1][1] == i:
+            runs[-1] = (runs[-1][0], i + 1)
+        else:
+            runs.append((i, i + 1))
+    return runs
+
+
+def format_requests(sheet_id: int, sheet: Sheet) -> list[dict]:
+    """Sheets API batchUpdate requests that give a worksheet the Excel file's look: a frozen
+    green header, number and date formats, amber rows for review, columns sized to fit."""
+
+    def cells(rows: tuple[int, int] | None = None, cols: tuple[int, int] | None = None) -> dict:
+        grid: dict = {"sheetId": sheet_id}
+        if rows:
+            grid.update(startRowIndex=rows[0], endRowIndex=rows[1])
+        if cols:
+            grid.update(startColumnIndex=cols[0], endColumnIndex=cols[1])
+        return grid
+
+    def paint(grid: dict, fmt: dict, fields: str) -> dict:
+        return {"repeatCell": {"range": grid, "cell": {"userEnteredFormat": fmt}, "fields": fields}}
+
+    body_rows = (1, len(sheet.rows) + 1)
+    requests = [
+        # Start clean, so a row that was amber last run isn't amber now.
+        paint(cells(), {}, "userEnteredFormat"),
+        paint(
+            cells(rows=(0, 1)),
+            {
+                "backgroundColor": _rgb("23735F"),
+                "textFormat": {"bold": True, "foregroundColor": _rgb("FFFFFF")},
+            },
+            "userEnteredFormat(backgroundColor,textFormat)",
+        ),
+        {
+            "updateSheetProperties": {
+                "properties": {"sheetId": sheet_id, "gridProperties": {"frozenRowCount": 1}},
+                "fields": "gridProperties.frozenRowCount",
+            }
+        },
+    ]
+    if sheet.rows:
+        for col, column in enumerate(sheet.columns):
+            if column.kind in _SHEETS_FORMATS:
+                requests.append(
+                    paint(
+                        cells(rows=body_rows, cols=(col, col + 1)),
+                        {"numberFormat": _SHEETS_FORMATS[column.kind]},
+                        "userEnteredFormat.numberFormat",
+                    )
+                )
+        for start, end in _runs(sheet.review_rows):
+            requests.append(
+                paint(
+                    cells(rows=(start + 1, end + 1)),
+                    {"backgroundColor": _rgb("F3E6CF")},
+                    "userEnteredFormat.backgroundColor",
+                )
+            )
+    requests.append(
+        {
+            "autoResizeDimensions": {
+                "dimensions": {
+                    "sheetId": sheet_id,
+                    "dimension": "COLUMNS",
+                    "startIndex": 0,
+                    "endIndex": len(sheet.columns),
+                }
+            }
+        }
+    )
+    return requests
+
+
+def write_google_sheet(spreadsheet: str, sheets: list[Sheet], credentials: Path) -> str:
+    """Replace each sheet's worksheet with its rows and formatting. Returns the spreadsheet's
+    URL. Worksheets Ibis doesn't own are left alone."""
     import gspread  # optional dependency: uv sync --extra sheets
 
     book = gspread.service_account(filename=str(credentials)).open_by_key(
         spreadsheet_key(spreadsheet)
     )
+    payload = sheets_payload(sheets)
     existing = {ws.title: ws for ws in book.worksheets()}
-    for name, rows in payload.items():
-        ws = existing.get(name) or book.add_worksheet(
-            title=name, rows=max(len(rows), 1), cols=len(rows[0])
-        )
+    requests: list[dict] = []
+    for sheet in sheets:
+        rows = payload[sheet.name]
+        # At least two rows: Sheets won't freeze the header of a sheet that has nothing else.
+        size = {"rows": max(len(rows), 2), "cols": len(rows[0])}
+        ws = existing.get(sheet.name) or book.add_worksheet(title=sheet.name, **size)
         ws.clear()
+        ws.resize(**size)  # also drops rows left over from a longer earlier export
         ws.update(rows, "A1", value_input_option="USER_ENTERED")
-        ws.freeze(rows=1)
-        ws.format("1:1", {"textFormat": {"bold": True}})
+        requests += format_requests(ws.id, sheet)
+    book.batch_update({"requests": requests})
     return book.url
 
 

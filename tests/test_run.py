@@ -251,8 +251,10 @@ def test_google_sheet_written(project, monkeypatch):
     monkeypatch.setenv(run_module.GOOGLE_CREDENTIALS_ENV, "/keys/sa.json")
     calls = {}
 
-    def write(spreadsheet, payload, credentials):
-        calls.update(spreadsheet=spreadsheet, sheets=list(payload), credentials=credentials)
+    def write(spreadsheet, sheets, credentials):
+        calls.update(
+            spreadsheet=spreadsheet, sheets=[s.name for s in sheets], credentials=credentials
+        )
         return "https://docs.google.com/spreadsheets/d/KEY"
 
     monkeypatch.setattr(export, "write_google_sheet", write)

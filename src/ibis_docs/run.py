@@ -82,7 +82,7 @@ def keep(outcome: Outcome, config: Config, run_id: str, now: datetime) -> Kept:
             try:
                 url = export.write_google_sheet(
                     config.outputs.google_sheet.spreadsheet_id,
-                    export.sheets_payload(sheets),
+                    sheets,
                     Path(credentials),
                 )
                 kept.outputs.append(url)

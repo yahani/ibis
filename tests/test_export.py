@@ -7,7 +7,9 @@ from openpyxl import load_workbook
 
 from ibis_docs import export
 from ibis_docs.export import (
+    _runs,
     build_sheets,
+    format_requests,
     sheets_payload,
     spreadsheet_key,
     write_csv,
@@ -176,34 +178,38 @@ def test_spreadsheet_key():
 
 
 class FakeWorksheet:
-    def __init__(self, title):
-        self.title, self.calls = title, []
+    def __init__(self, title, sheet_id):
+        self.title, self.id, self.calls = title, sheet_id, []
 
     def clear(self):
         self.calls.append("clear")
 
+    def resize(self, rows, cols):
+        self.calls.append(("resize", rows, cols))
+
     def update(self, rows, start, value_input_option):
         self.calls.append(("update", start, value_input_option, rows))
-
-    def freeze(self, rows):
-        self.calls.append(("freeze", rows))
-
-    def format(self, cells, fmt):
-        self.calls.append(("format", cells))
 
 
 class FakeBook:
     url = "https://docs.google.com/spreadsheets/d/KEY"
 
     def __init__(self):
-        self.sheets = {"Invoices": FakeWorksheet("Invoices")}
+        self.sheets = {
+            "Sheet1": FakeWorksheet("Sheet1", 0),
+            "Invoices": FakeWorksheet("Invoices", 1),
+        }
+        self.batches = []
 
     def worksheets(self):
         return list(self.sheets.values())
 
     def add_worksheet(self, title, rows, cols):
-        self.sheets[title] = FakeWorksheet(title)
+        self.sheets[title] = FakeWorksheet(title, len(self.sheets) + 10)
         return self.sheets[title]
+
+    def batch_update(self, body):
+        self.batches.append(body)
 
 
 def test_google_sheet_writer(monkeypatch, tmp_path):
@@ -217,18 +223,80 @@ def test_google_sheet_writer(monkeypatch, tmp_path):
             opened["key"] = key
             return book
 
-    monkeypatch.setattr(
-        gspread,
-        "service_account",
-        lambda filename: opened.setdefault("creds", filename) and Client(),
-    )
-    payload = sheets_payload(build_sheets(RESULTS))
+    def service_account(filename):
+        opened["creds"] = filename
+        return Client()
+
+    monkeypatch.setattr(gspread, "service_account", service_account)
+    sheets = build_sheets(RESULTS)
+    payload = sheets_payload(sheets)
     url = write_google_sheet(
-        "https://docs.google.com/spreadsheets/d/KEY/edit", payload, tmp_path / "sa.json"
+        "https://docs.google.com/spreadsheets/d/KEY/edit", sheets, tmp_path / "sa.json"
     )
     assert url == FakeBook.url
     assert opened == {"key": "KEY", "creds": str(tmp_path / "sa.json")}
-    assert set(book.sheets) == {"Invoices", "Line items", "Needs review"}
-    for name, ws in book.sheets.items():
-        assert ws.calls[0] == "clear"
-        assert ws.calls[1] == ("update", "A1", "USER_ENTERED", payload[name])
+    assert set(book.sheets) == {"Sheet1", "Invoices", "Line items", "Needs review"}
+    assert book.sheets["Sheet1"].calls == []  # not Ibis's, left alone
+    for name in payload:
+        ws = book.sheets[name]
+        rows = payload[name]
+        assert ws.calls == [
+            "clear",
+            ("resize", max(len(rows), 2), len(rows[0])),
+            ("update", "A1", "USER_ENTERED", rows),
+        ]
+    # One batch of formatting for the whole spreadsheet.
+    (batch,) = book.batches
+    sheet_ids = {
+        r["repeatCell"]["range"]["sheetId"] for r in batch["requests"] if "repeatCell" in r
+    }
+    assert sheet_ids == {book.sheets[n].id for n in payload}
+
+
+def test_sheet_formatting_matches_the_excel_file():
+    invoices = build_sheets(RESULTS)[0]
+    requests = format_requests(7, invoices)
+    cells = [r["repeatCell"] for r in requests if "repeatCell" in r]
+
+    # Old formatting is cleared first.
+    assert cells[0] == {
+        "range": {"sheetId": 7},
+        "cell": {"userEnteredFormat": {}},
+        "fields": "userEnteredFormat",
+    }
+    header = cells[1]
+    assert header["range"] == {"sheetId": 7, "startRowIndex": 0, "endRowIndex": 1}
+    fmt = header["cell"]["userEnteredFormat"]
+    assert fmt["textFormat"]["bold"] is True
+    assert round(fmt["backgroundColor"]["red"] * 255) == 0x23
+
+    by_column = {
+        c["range"]["startColumnIndex"]: c["cell"]["userEnteredFormat"]["numberFormat"]
+        for c in cells
+        if "numberFormat" in c["cell"]["userEnteredFormat"]
+    }
+    headers = invoices.headers
+    assert by_column[headers.index("Total")] == {"type": "NUMBER", "pattern": "#,##0.00##"}
+    assert by_column[headers.index("Invoice date")] == {"type": "DATE", "pattern": "yyyy-mm-dd"}
+    assert by_column[headers.index("Processed")]["type"] == "DATE_TIME"
+    assert headers.index("Supplier") not in by_column  # text stays text
+
+    # The review row (the second document, sheet row 3) is amber.
+    amber = [c for c in cells if c["fields"] == "userEnteredFormat.backgroundColor"]
+    assert [(c["range"]["startRowIndex"], c["range"]["endRowIndex"]) for c in amber] == [(2, 3)]
+
+    frozen = next(r for r in requests if "updateSheetProperties" in r)
+    assert frozen["updateSheetProperties"]["properties"]["gridProperties"] == {"frozenRowCount": 1}
+    assert "autoResizeDimensions" in requests[-1]
+
+
+def test_an_empty_sheet_gets_only_its_header_formatted():
+    review = build_sheets([result("001.pdf")])[2]
+    assert review.rows == []
+    requests = format_requests(3, review)
+    assert not any("numberFormat" in str(r) for r in requests)
+
+
+def test_consecutive_review_rows_are_painted_together():
+    assert _runs({1, 2, 3, 7}) == [(1, 4), (7, 8)]
+    assert _runs(set()) == []

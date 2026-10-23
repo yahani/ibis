@@ -139,7 +139,9 @@ invoices a document costs about $0.001.
 The end-to-end run's 11 results written to a test spreadsheet with the service account from the
 price tracker (`GOOGLE_SERVICE_ACCOUNT_JSON` in `.env`). Read back: the three tabs created beside
 the existing one, amounts stored as numbers (credit note total `-1643.11`), dates as real dates,
-reasons in place. Not yet: number formats and the amber review rows that the Excel file has.
+reasons in place. Formatted like the Excel file (frozen green header, `1,812.86` money, `yyyy-mm-dd`
+dates, amber review rows, columns sized to fit) in one batched request; each export resets the old
+formatting first, so a row that's fixed loses its amber. Worksheets Ibis doesn't own are left alone.
 For client setups, give each client their own service account and sheet.
 
 ### End to end (session 4), `ibis run` on 11 demo PDFs and a text file
