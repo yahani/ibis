@@ -340,22 +340,65 @@ def test_cost_estimate_without_retries(project, fake_claude, example_data, write
     assert "Estimated cost: $" in result.output and "retry" not in result.output
 
 
-def test_review_opens_the_page_on_this_computer_only(monkeypatch):
-    calls = {}
+class FakeServer:
+    def __init__(self, command, env):
+        FakeServer.command, FakeServer.env = command, env
+        self.terminated = False
 
-    def call(command, env):
-        calls.update(command=command, env=env)
+    def wait(self):
         return 0
 
-    monkeypatch.setattr("ibis_docs.cli.subprocess.call", call)
+    def terminate(self):
+        self.terminated = True
+
+
+def test_review_opens_the_page_on_this_computer_only(monkeypatch):
+    opened = []
+    monkeypatch.setattr("ibis_docs.cli.subprocess.Popen", FakeServer)
+    monkeypatch.setattr("ibis_docs.cli._wait_for", lambda url, seconds: True)
+    monkeypatch.setattr("ibis_docs.cli.webbrowser.open", opened.append)
     result = runner.invoke(app, ["review", "-c", str(EXAMPLE_CONFIG)])
     assert result.exit_code == 0, result.output
-    command = calls["command"]
+    command = FakeServer.command
     assert command[1:4] == ["-m", "streamlit", "run"]
     assert command[4].endswith("review_app.py")
     assert command[command.index("--server.address") + 1] == "localhost"
+    assert command[command.index("--server.headless") + 1] == "true"
     assert command[command.index("--browser.gatherUsageStats") + 1] == "false"
-    assert calls["env"]["IBIS_CONFIG"] == str(EXAMPLE_CONFIG.resolve())
+    assert FakeServer.env["IBIS_CONFIG"] == str(EXAMPLE_CONFIG.resolve())
+    assert opened == ["http://localhost:8501"]
+
+
+def test_review_without_a_server_opens_no_browser(monkeypatch):
+    opened = []
+    monkeypatch.setattr("ibis_docs.cli.subprocess.Popen", FakeServer)
+    monkeypatch.setattr("ibis_docs.cli._wait_for", lambda url, seconds: False)
+    monkeypatch.setattr("ibis_docs.cli.webbrowser.open", opened.append)
+    runner.invoke(app, ["review", "-c", str(EXAMPLE_CONFIG)])
+    assert opened == []
+
+
+def test_review_stops_the_server_on_ctrl_c(monkeypatch):
+    servers = []
+
+    class Interrupted(FakeServer):
+        def __init__(self, command, env):
+            super().__init__(command, env)
+            servers.append(self)
+
+        def wait(self):
+            raise KeyboardInterrupt
+
+    monkeypatch.setattr("ibis_docs.cli.subprocess.Popen", Interrupted)
+    monkeypatch.setattr("ibis_docs.cli._wait_for", lambda url, seconds: False)
+    result = runner.invoke(app, ["review", "-c", str(EXAMPLE_CONFIG)])
+    assert result.exit_code == 0 and servers[0].terminated
+
+
+def test_wait_for_gives_up():
+    from ibis_docs.cli import _wait_for
+
+    assert _wait_for("http://localhost:9/nothing", seconds=0.5) is False
 
 
 def test_review_checks_the_config_first(tmp_path):

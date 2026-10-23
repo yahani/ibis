@@ -31,7 +31,8 @@ from tests.test_pipeline import GOOD, HAIKU, SONNET, TODAY
 DEMO = Path(__file__).resolve().parent.parent / "demo" / "invoices"
 A, B, C = (DEMO / n for n in ("001-inv-classic.pdf", "002-inv-modern.pdf", "003-inv-us_sales.pdf"))
 NOW = datetime(2026, 10, 23, 10, 0)
-APP = Path(__file__).resolve().parent.parent / "src" / "ibis_docs" / "review_app.py"
+# The root launcher, as `ibis review` runs it; it imports the page from the package.
+APP = Path(__file__).resolve().parent.parent / "review_app.py"
 
 # B's total is misread (1,877.20 instead of 1,777.20) on both reads; C is in CHF.
 BAD_TOTAL = {**GOOD, "invoice_number": "INV-2", "total": "£1,877.20"}

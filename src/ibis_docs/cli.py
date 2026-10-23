@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import importlib.util
 import os
 import subprocess
 import sys
+import time
+import urllib.request
+import webbrowser
 from datetime import date, datetime
 from pathlib import Path
 from typing import Annotated
@@ -237,23 +241,46 @@ def _print_document(doc: Document) -> None:
         typer.echo(f"    - {reason.message}")
 
 
+REVIEW_URL = "http://localhost:8501"
+
+
 @app.command()
 def review(config: ConfigOption = DEFAULT_CONFIG) -> None:
     """Open the review page: check flagged documents against their PDFs, fix, approve."""
     _load_or_exit(config)
-    from ibis_docs import review_app
-
+    page = importlib.util.find_spec("ibis_docs.review_app").origin
     command = [
-        sys.executable, "-m", "streamlit", "run", review_app.__file__,
+        sys.executable, "-m", "streamlit", "run", page,
         "--server.address", "localhost",  # this computer only
+        "--server.port", "8501",
+        "--server.headless", "true",  # no first-run email prompt; we open the browser below
         "--browser.gatherUsageStats", "false",
         "--theme.primaryColor", "#23735F",
         "--theme.backgroundColor", "#F7F8F6",
         "--theme.textColor", "#1C2321",
     ]  # fmt: skip
-    env = {**os.environ, review_app.CONFIG_ENV: str(config.resolve())}
-    typer.echo("Opening the review page on http://localhost:8501 (Ctrl+C to stop) ...")
-    raise typer.Exit(code=subprocess.call(command, env=env))
+    env = {**os.environ, "IBIS_CONFIG": str(config.resolve())}
+    typer.echo(f"Opening the review page on {REVIEW_URL} (Ctrl+C to stop) ...")
+    server = subprocess.Popen(command, env=env)
+    try:
+        if _wait_for(f"{REVIEW_URL}/_stcore/health", seconds=30):
+            webbrowser.open(REVIEW_URL)
+        raise typer.Exit(code=server.wait())
+    except KeyboardInterrupt:
+        server.terminate()
+        raise typer.Exit(code=0) from None
+
+
+def _wait_for(url: str, seconds: float) -> bool:
+    deadline = time.monotonic() + seconds
+    while time.monotonic() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=1) as response:
+                if response.status == 200:
+                    return True
+        except OSError:
+            time.sleep(0.3)
+    return False
 
 
 @app.command()
