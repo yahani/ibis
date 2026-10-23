@@ -26,6 +26,9 @@ outputs:
     enabled: false
     spreadsheet_id: ""
 
-suppliers:                  # optional hints for known layouts
+suppliers:                  # optional hints for known suppliers, matched by name
   - name: Acme Packaging Ltd
-    currency: GBP
+    currency: GBP             # settles a shared symbol such as "$"
+    # decimal_mark: ","       # "1.299,00" style; settles amounts like 12,125
+    # date_order: day_first   # or month_first; settles dates like 03/09/2026
+    # notes: "Total is in the box at the bottom left"   # passed to the model
