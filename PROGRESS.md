@@ -231,8 +231,10 @@ Session 2 live run (extraction only, 5 invoices): 65/65 header fields, every lin
 - **Visibility.** github.com/yahani/ibis is private; making it public is a one-way door in
   practice (forks and caches keep copies).
 
-**Portfolio:** the case study page and the Upwork / Fiverr listing (drafted after this checklist),
-and the 60-second video from `docs/DEMO.md`.
+**Portfolio:** the one-page case study is drafted (a private page; share it from its Share menu),
+and the Upwork / Fiverr listing text is drafted (kept out of this repo because it has prices).
+Still to do: record the 60-second video from `docs/DEMO.md`, and link the repo from the case
+study once it's public.
 
 Tuning, if cost matters later: the Sonnet retry is most of the spend on broken documents and
 always confirmed the first read on the demo set. Try `effort: low` for the retry model only, or
