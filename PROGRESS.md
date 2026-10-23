@@ -3,7 +3,7 @@
 Updated after every step. Requirement IDs refer to the spec (E1–E12). How the pieces fit
 together is in [ARCHITECTURE.md](ARCHITECTURE.md).
 
-_Last updated: 2026-10-22. Session 3 of 5 is built and waiting for your review._
+_Last updated: 2026-10-23. Session 4 of 5 is built; the Google Sheet needs one live test with your service account._
 
 ## 1. Done, by requirement
 
@@ -16,11 +16,11 @@ _Last updated: 2026-10-22. Session 3 of 5 is built and waiting for your review._
 | E5 | Validate | ✅ done | `validate.py` | Line maths, lines vs subtotal, subtotal + tax − discount + shipping = total (lines stand in for a missing subtotal), required fields by document type, due date before invoice date, invoice date in the future, currency not allowed, credit note with a positive total. Tolerance from config. |
 | E6 | Detect duplicates | ✅ done | `pipeline.py`, `memory.py` | Same supplier + invoice number (case and spaces ignored), within a run and against earlier runs (`output/.ibis/invoices.json`); identical file, with no API call. The later document is flagged, naming the earlier one. |
 | E7 | Confidence and review list | ✅ done | `validate.py`, `models.Reason` | `ok` only with no reasons; `review` with one or more; `failed` when no read came back. Each reason has a code (for tests and exports) and a plain message with the amounts: "the lines add up to £3,115.76, but the subtotal is £3,128.16 (£12.40 more)". |
-| E8 | Export | ⏳ session 4 | | |
-| E9 | Move files | ⏳ session 4 | | |
+| E8 | Export | ✅ done (Google Sheet: live test pending) | `export.py`, `results.py` | `invoices.csv`, `line_items.csv`, `ibis.xlsx` (Invoices, Line items, Needs review) and optionally a Google Sheet, all built from the same rows. **Cumulative:** every result is kept in `output/results/` and each run rebuilds the exports from all of them. CSV keeps amounts exact (UTF-8 with BOM so Excel shows £ €); Excel has real numbers and dates, a frozen green header, amber review rows. Invoice text can never run as a formula. Writes are atomic. |
+| E9 | Move files | ✅ done | `files.py`, `run.py` | After the exports are written: `ok` → `inbox/processed/`, `review`/`failed` → `inbox/needs-review/`; taken names get `-2`; skipped files stay. `move_files: false` turns it off. |
 | E10 | Review page | ⏳ session 5 | | |
-| E11 | CLI | 🟡 partly | `cli.py` | Working: `check-config`, `--version`, `show <file>` (fields and checks, saves nothing), `run --dry-run` (reads and checks everything, prints each status and reason and a summary such as "Ibis read 17 documents. 7 checked out. 10 need a look.", writes and moves nothing; **costs API money**). `run` and `cost --estimate` are session 4. |
-| E12 | Run report | ⏳ session 4 | | Token counts per model are already collected (`Outcome.tokens()`). |
+| E11 | CLI | ✅ done | `cli.py` | `check-config`, `--version`, `show <file>`, `run` (read, check, save, export, move, remember, report), `run --dry-run` (read and check only; costs API money), `cost --estimate <folder>` (input tokens counted exactly with the free token counter; shown as a range: no retries / 10% retried). |
+| E12 | Run report | ✅ done | `report.py` | Printed and saved to `output/reports/run-<time>.json`: documents, ok/review/failed, skipped with reasons, tokens and cost per model, files moved, outputs, time. File names and counts only, never invoice contents. |
 
 **Also built:**
 
@@ -29,6 +29,8 @@ _Last updated: 2026-10-22. Session 3 of 5 is built and waiting for your review._
 - `dates.py`: `parse_date` and `resolve_order` (see "Ambiguous dates" below).
 - `pipeline.py`: discover → read (4 in parallel) → learn date orders → check → retry → duplicates.
 - `memory.py`: what's kept between runs in `output/.ibis/` (invoice keys and supplier date orders; never amounts or contents). Written by `ibis run` in session 4; the dry run only reads it.
+- `run.py`: keeps a run in a safe order: results, exports, then moves, then memory. A failed document isn't remembered, so dropping it in again retries it.
+- `scripts/accuracy.py`: the whole demo set through the live pipeline, scored per field, with the actual cost next to the estimate.
 - `accuracy.py`: scores extracted fields against `answers.json` (text compared ignoring spacing and case).
 - `scripts/record_fixtures.py`: runs the pipeline live on the fixture set, saves every response to `tests/fixtures/`, prints statuses, reasons, accuracy and cost.
 - CI (`.github/workflows/ci.yml`): ruff check + format, `check-config` on the example, pytest with 90% coverage gate, gitleaks over full history. Dependabot weekly for uv and actions.
@@ -74,20 +76,21 @@ Other currencies: `uv run python demo/generate.py --currencies USD,AUD,NZD` (any
 |---|---|---|---|
 | 1 | Skeleton, E1, models, E11 shell, CI, demo generator + answer key | ✅ reviewed | `0d510ae` … `a1e88ec` |
 | 2 | E2, E3, recorded fixtures, `show`, `run --dry-run` | ✅ done | `c5d7136` … `82439b8` |
-| 3 | E4, E5, E6, E7, ambiguous dates and decimal marks, full dry run | ✅ awaiting review | `9357af8` … this commit |
+| 3 | E4, E5, E6, E7, ambiguous dates and decimal marks, full dry run | ✅ done | `9357af8` … `08467f6` |
+| 4 | E8, E9, E12, full `run`, `cost --estimate`, accuracy run | ✅ awaiting review | `dbd0fbc` … this commit |
 
 Repo: private at github.com/yahani/ibis (make public in session 5, after the secrets scan).
 
 ## 2. Test results
 
-Run on 2026-10-22 with `uv run pytest --cov=ibis_docs`:
+Run on 2026-10-23 with `uv run pytest --cov=ibis_docs`:
 
 | Suite | Tests | Result |
 |---|---|---|
 | `test_money.py` | 78 | ✅ pass |
-| `test_models.py` | 13 | ✅ pass |
+| `test_models.py` | 14 | ✅ pass |
 | `test_config.py` | 30 | ✅ pass |
-| `test_cli.py` | 21 | ✅ pass |
+| `test_cli.py` | 25 | ✅ pass |
 | `test_demo_set.py` | 105 | ✅ pass |
 | `test_dates.py` | 30 | ✅ pass |
 | `test_discover.py` | 12 | ✅ pass |
@@ -96,15 +99,48 @@ Run on 2026-10-22 with `uv run pytest --cov=ibis_docs`:
 | `test_pipeline.py` | 20 | ✅ pass |
 | `test_memory.py` | 2 | ✅ pass |
 | `test_recorded.py` | 13 | ✅ pass |
-| **Total** | **386** | **✅ all pass** |
+| `test_export.py` | 12 | ✅ pass |
+| `test_run.py` | 16 | ✅ pass |
+| `test_report.py` | 8 | ✅ pass |
+| **Total** | **427** | **✅ all pass** |
 
 Coverage 99% (every module 97% or more); target 90%. `ruff check` and `ruff format --check` clean.
 
 No test calls the Claude API. `tests/fakes.py` runs the real SDK client over a mock HTTP transport
-and routes each request by the PDF sent and the model asked, so the parallel pipeline is tested as
-it runs. `test_recorded.py` replays 21 real responses through the whole pipeline and checks the
-spec's acceptance criteria: expected status for every document, every broken one flagged with the
-right reason, only reason-free documents `ok`, no invented values, retries only where they help.
+and routes each request by the PDF sent and the model asked. `test_recorded.py` replays 21 real
+responses through the whole pipeline and checks the acceptance criteria. `test_export.py` checks
+that CSV, Excel and the Sheets payload carry the same data, cell by cell.
+
+### Accuracy run (session 4), whole demo set, 2026-10-23
+
+`uv run python scripts/accuracy.py`: all 47 documents through the live pipeline.
+
+| | Default effort | `--effort low` |
+|---|---|---|
+| Header fields right | **609/611 (99.7%)**, target 95% | 609/611 (99.7%) |
+| Per field | 100% on 11 of 13 fields; `supplier_tax_id` and `invoice_date` 46/47 | same |
+| Line items exactly right | **289/289** | 286/289 |
+| Expected status | **47/47** | 47/47 |
+| Broken documents flagged with the right reason | **9/9** | 9/9 |
+| Invented values | **0** | 0 |
+| Retried on Sonnet 5.5 | 5 (all broken documents) | 5 |
+| Cost | **$0.1117** (Haiku $0.045, Sonnet $0.067) | $0.1098 |
+| `cost --estimate` said | $0.1257 (+13%; target within 25%) | +14% |
+| Time | 64 s | 58 s |
+
+The two misses are by design: `044`'s tax ID is too blurred to read and was left empty, and
+`047`'s date can't be settled and goes to review. **Low effort is not worth it**: it saved $0.002
+on 47 documents and got 3 line items wrong, so the model default stays. The Sonnet retries are
+60% of the cost here because 10 of the 47 demo documents are broken on purpose; on ordinary
+invoices a document costs about $0.001.
+
+### End to end (session 4), `ibis run` on 11 demo PDFs and a text file
+
+9 `ok` moved to `processed/`, 2 flagged (CHF, identical copy) moved to `needs-review/`, the text
+file skipped and left in place; `invoices.csv`, `line_items.csv`, `ibis.xlsx` and a run report
+written; a second `ibis run` found nothing new. Cost $0.0091 (Haiku only, no retries needed);
+the estimate said $0.0103 without retries (+13%), and is now shown as a range because a single
+figure with 10% retries assumed ($0.026) overstates small clean batches.
 
 ### Live run (session 3), 2026-10-22
 
@@ -132,15 +168,13 @@ Session 2 live run (extraction only, 5 invoices): 65/65 header fields, every lin
 
 ## 3. Next
 
-Session 4: exports (E8), file moves (E9), run report and cost (E12), full `ibis run`, and the
-accuracy run on the whole demo set (target 95% of header fields). `ibis run` also writes
-`output/.ibis/` (seen files, invoice keys, learned date orders) so the next run skips and
-recognises what it's seen. In the exports, `reasons` become one readable column and their codes
-another.
+Session 5: the Streamlit review page (E10: the PDF beside the fields, edit, approve, re-export
+from `output/results/`), the README for a stranger to get running in 15 minutes, the demo script,
+the end-to-end checklist, and the secrets scan before making the repo public.
 
-Tuning to measure in session 4, not before: Haiku 5.5 runs with adaptive thinking at its default
-effort (`medium`); about half the output tokens on the packing slip were thinking. Try `low` effort
-on the full demo set and keep it only if accuracy holds.
+Tuning, if cost matters later: the Sonnet retry is most of the spend on broken documents and
+always confirmed the first read on the demo set. Try `effort: low` for the retry model only, or
+skip the retry for checks that a confirmed misread has never explained.
 
 Later, when a client needs it:
 
@@ -156,15 +190,20 @@ Later, when a client needs it:
 
 ## 4. Blocked / needs you
 
-- Review the session 3 checklist (below).
+- **Google Sheet live test.** Needs the path to your service account's JSON key and a test
+  spreadsheet shared (as Editor) with the service account's email. Then set
+  `GOOGLE_SERVICE_ACCOUNT_JSON` in `.env`, turn on `outputs.google_sheet` in `config.yaml`, and
+  run. For client setups, give each client their own service account.
+- Review the session 4 checklist (below).
 
-### Session 3 review checklist
+### Session 4 review checklist
 
-1. **Reasons read clearly.** Run `uv run python scripts/record_fixtures.py 037-inv-classic.pdf
-   038-inv-modern.pdf 039-inv-us_sales.pdf 047-inv-classic.pdf` (about $0.05) or read the live run
-   above, and judge each reason as a bookkeeper would: is it clear what's wrong and where to look?
-2. **Broken invoices are caught.** Open `037`–`047` in `demo/invoices/` next to their reasons.
-3. **Try the dry run** on your own `inbox/`: `uv run ibis run --dry-run -c config.example.yaml`.
-   It now calls Claude (about $0.001 a document, more for any that are retried).
-4. **The retry rule.** `RETRY_CODES` in `src/ibis_docs/validate.py` lists what's worth a second
-   read on Sonnet. Anything you'd add or remove?
+1. **Open the Excel file and check numbers by hand** (the spec's session 4 review). Run
+   `uv run ibis run` on a few demo PDFs in `inbox/` (or open the end-to-end run's
+   `output/ibis.xlsx`), pick three invoices, and compare totals, dates and line items with the PDFs.
+2. **The review list:** the "Needs review" sheet lists each flagged document with its reasons and
+   where its PDF now is.
+3. **Files moved correctly:** `inbox/processed/` and `inbox/needs-review/`; run again and nothing
+   new is processed.
+4. **The estimate:** `uv run ibis cost --estimate demo/invoices -c config.example.yaml` (free) and
+   compare with the accuracy run's $0.11.

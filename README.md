@@ -6,7 +6,7 @@ Ibis reads supplier invoices and packing slips (PDF), pulls out the key fields a
 re-adds every total in Python, and exports a clean sheet. Anything it can't verify goes on a
 review list with a plain reason instead of being guessed.
 
-> Status: in development (session 3 of 5). See [PROGRESS.md](PROGRESS.md).
+> Status: in development (session 4 of 5). See [PROGRESS.md](PROGRESS.md).
 
 ## Quick start
 

@@ -8,7 +8,7 @@ marked **planned**.
 | 1 | Skeleton, config (E1), models, CLI shell (E11), CI, demo invoices + answer key | ✅ done |
 | 2 | Discovery (E2), extraction (E3), recorded fixtures | ✅ done |
 | 3 | Validation (E5), duplicates (E6), status and reasons (E7), escalation (E4) | ✅ done |
-| 4 | Exports (E8), file moves (E9), run report and cost (E12) | planned |
+| 4 | Exports (E8), file moves (E9), run report and cost (E12) | ✅ done |
 | 5 | Streamlit review page (E10), README, demo script | planned |
 
 ## The pipeline
@@ -27,17 +27,17 @@ flowchart LR
     check -- passes --> ok["status ok"]
     check2 -- passes --> ok
     check2 -- fails --> review["status review + reasons"]
-    ok --> export["CSV / Excel / Sheets<br/>export.py (planned)"]
+    ok --> export["CSV / Excel / Sheets<br/>export.py ✅"]
     review --> export
-    export --> move["Move to processed/ or needs-review/<br/>files.py (planned)"]
-    move --> report["Run report<br/>report.py (planned)"]
+    export --> move["Move to processed/ or needs-review/<br/>run.py, files.py ✅"]
+    move --> report["Run report<br/>report.py ✅"]
 ```
 
 ## Modules
 
 ```mermaid
 flowchart TD
-    cli["cli.py<br/>check-config, show, run --dry-run ✅; run, cost planned"] --> pipeline["pipeline.py ✅<br/>process(): read, learn, check, retry, duplicates"]
+    cli["cli.py ✅<br/>check-config, show, run, run --dry-run, cost --estimate"] --> pipeline["pipeline.py ✅<br/>process(): read, learn, check, retry, duplicates"]
     cli --> config["config.py ✅<br/>Config, supplier hints"]
     cli --> discover["discover.py ✅<br/>discover(), check_pdf(), seen list"]
     pipeline --> extract["extract.py ✅<br/>extract(), to_extracted()"]
@@ -49,6 +49,40 @@ flowchart TD
     validate --> money
     gen["demo/generate.py ✅<br/>fake PDFs + answers.json"] --> money
     record["scripts/record_fixtures.py<br/>live API → tests/fixtures/"] --> pipeline
+    cli --> keep["run.py ✅<br/>keep(): results, exports, moves, memory"]
+    keep --> results["results.py ✅<br/>output/results/*.json"]
+    keep --> export["export.py ✅<br/>CSV, Excel, Google Sheet"]
+    keep --> files["files.py ✅<br/>processed/, needs-review/"]
+    cli --> report["report.py ✅<br/>RunReport, estimate()"]
+```
+
+## Keeping a run (`run.keep`)
+
+The order is what makes a failure safe:
+
+1. **Results** for this run go to `output/results/<file>-<hash>.json` (the invoice, status,
+   reasons, model calls and tokens, and where the PDF will be).
+2. **Exports** are rebuilt from *all* saved results, so they're one ledger across runs. Each file
+   is written to a temporary name and swapped in.
+3. **PDFs move** only after that, to free names in `processed/` or `needs-review/`.
+4. **Memory** is updated: seen files (not failed ones, so they can be retried), invoice keys for
+   duplicate detection, and learned date orders.
+
+The review page (session 5) edits a saved result and re-runs step 2.
+
+## Folders a run uses
+
+```text
+inbox/                      input_dir: drop PDFs here
+  processed/                ok documents, after a run
+  needs-review/             review and failed documents
+output/                     output_dir
+  invoices.csv              one row per document (all runs)
+  line_items.csv            one row per line
+  ibis.xlsx                 Invoices, Line items, Needs review
+  results/                  one JSON per document (the source for every export)
+  reports/run-<time>.json   counts, tokens, cost (no invoice contents)
+  .ibis/                    seen files, invoice keys, date orders (no amounts)
 ```
 
 ## The pipeline in detail (`pipeline.process`)
@@ -161,3 +195,9 @@ Pluggable at three levels:
   `fallbacks: "default"`); `Invoice.model` is the model that actually answered.
 - What Ibis remembers between runs (`output/.ibis/`) is names, hashes, invoice numbers and date
   orders only, never amounts or document contents.
+- Exports are cumulative and built from saved results, not from the run in memory, so a crash
+  between runs loses nothing and the review page can re-export after an edit.
+- openpyxl directly rather than pandas: one less heavy dependency, and full control of number
+  formats and text-only cells. gspread is an optional extra (`uv sync --extra sheets`).
+- A saved `Decimal` ("28.945") is read back exactly; printed-text parsing is only for what Claude
+  copies from a document.
