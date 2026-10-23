@@ -105,7 +105,7 @@ def test_estimate_counts_input_exactly_and_skips_identical_copies():
     assert sonnet_in == int(haiku_in * Decimal("0.10"))
     assert sonnet_out == int(haiku_out * Decimal("0.10") * Decimal("0.6"))
     assert (result.documents, result.pages) == (3, 4)
-    assert result.cost > 0
+    assert result.cost > result.cost_without_retries > 0
 
 
 def test_estimate_without_retries():

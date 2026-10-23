@@ -161,8 +161,15 @@ class Estimate:
 
     @property
     def cost(self) -> Decimal | None:
+        """With retries at the usual share."""
         costs = [cost_of(m, i, o) for m, (i, o) in self.tokens.items()]
         return None if any(c is None for c in costs) else sum(costs, Decimal(0))
+
+    @property
+    def cost_without_retries(self) -> Decimal | None:
+        """If every document passes its checks on the first read."""
+        model, (i, o) = next(iter(self.tokens.items()))
+        return cost_of(model, i, o)
 
 
 def expected_output(path: Path) -> int:

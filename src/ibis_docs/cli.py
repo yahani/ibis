@@ -265,11 +265,15 @@ def cost(
     typer.echo(f"{result.documents} document(s), {result.pages} page(s) in {estimate}")
     for model, (i, o) in result.tokens.items():
         typer.echo(f"  {model}: about {i:,} in / {o:,} out tokens, {dollars(cost_of(model, i, o))}")
-    typer.echo(f"Estimated cost: {dollars(result.cost)}")
-    if cfg.model.escalate_to:
+    if cfg.model.escalate_to and result.cost != result.cost_without_retries:
+        share = int(RETRY_SHARE * 100)
         typer.echo(
-            f"(Assumes {int(RETRY_SHARE * 100)}% of documents are retried on "
-            f"{cfg.model.escalate_to}; input tokens are counted exactly, output is estimated.)"
+            f"Estimated cost: {dollars(result.cost_without_retries)} if every document checks "
+            f"out first time; about {dollars(result.cost)} if {share}% need a retry on "
+            f"{cfg.model.escalate_to}."
         )
+    else:
+        typer.echo(f"Estimated cost: {dollars(result.cost)}")
+    typer.echo("(Input tokens are counted exactly; output tokens are estimated.)")
     if found.skipped:
         typer.echo(f"{len(found.skipped)} file(s) wouldn't be processed (not readable PDFs).")

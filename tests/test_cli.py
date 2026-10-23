@@ -298,8 +298,9 @@ def test_cost_estimate(project, fake_claude):
     out = " ".join(result.output.split())
     assert "3 document(s), 4 page(s)" in out
     assert "claude-haiku-5-5: about 8,800 in /" in out  # the identical copy isn't counted
-    assert "Estimated cost: $" in out
-    assert "Assumes 10% of documents are retried on claude-sonnet-5-5" in out
+    assert "if every document checks out first time; about $" in out
+    assert "if 10% need a retry on claude-sonnet-5-5" in out
+    assert "Input tokens are counted exactly" in out
     assert "1 file(s) wouldn't be processed" in out
 
 
@@ -327,3 +328,13 @@ def test_cost_estimate_api_errors(project, fake_claude, monkeypatch):
     monkeypatch.setattr("ibis_docs.cli.make_client", no_client)
     result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(project)])
     assert result.exit_code == 1 and "ANTHROPIC_API_KEY" in result.output
+
+
+def test_cost_estimate_without_retries(project, fake_claude, example_data, write_config):
+    example_data["model"]["escalate_to"] = None
+    config = write_config(example_data)
+    fake = fake_claude()
+    fake.route = lambda body: {"input_tokens": 4400}
+    inbox = project.parent / "inbox"
+    result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(config)])
+    assert "Estimated cost: $" in result.output and "retry" not in result.output
