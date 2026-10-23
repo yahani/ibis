@@ -29,3 +29,6 @@ build/
 
 # Review aid, rebuilt by demo/generate.py --contact-sheet
 demo/contact-sheet.png
+
+# Built by scripts/demo.sh
+demo-workspace/
