@@ -111,11 +111,11 @@ them yourself"); where I ran it too, the result is noted.
 
 **End to end (by hand)**
 
-- ☐ Drop 10 PDFs in `inbox/`, run once, get the Excel file, the review list, files moved.
-  *I ran it in a fresh clone (10 PDFs: 9 ok, 1 flagged, all moved, three sheets written).*
+- ✅ Drop 10 PDFs in `inbox/`, run once, get the Excel file, the review list, files moved.
+  *Run by hand with `scripts/demo.sh` (2026-10-23); also in a fresh clone (9 ok, 1 flagged).*
 - ☐ Running again processes nothing new. *Shown in the session 4 end-to-end run.*
-- ☐ Review page: open a flagged invoice, fix a field, approve, re-export shows the fix. *Shown
-  headless (`test_review.py`, and the demo's `047`), not yet clicked through in a browser.*
+- ✅ Review page: open a flagged invoice, fix a field, approve, re-export shows the fix. *Clicked
+  through in a browser with the demo (2026-10-23); also headless in `test_review.py`.*
 - ✅ `ibis cost --estimate` within 25% of actual: +13% on the whole demo set; on a clean batch the
   low end of the range was +13%.
 - ☐ Fresh clone + README gets a stranger running in under 15 minutes. *Followed the README in a
@@ -254,7 +254,5 @@ Later, when a client needs it:
 
 ## 5. Needs you
 
-1. The three ☐ items in section 2. For the review page: `scripts/demo.sh`, then in the browser
-   pick `047-inv-classic.pdf`, set the invoice date to `2026-09-03`, approve, and check the
-   Invoices sheet shows it `ok` with "approved …, edited invoice date" in **Reviewed**.
+1. The two ☐ items left in section 2: run twice and see nothing new; a stranger follows the README.
 2. The three decisions under "Before making the repo public" in section 4.
