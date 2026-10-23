@@ -1,7 +1,9 @@
 import shutil
+from datetime import datetime
 from pathlib import Path
 
 import pytest
+import yaml
 from typer.testing import CliRunner
 
 from ibis_docs import __version__
@@ -59,20 +61,7 @@ def test_check_config_bad(write_config):
     assert "modle: unknown field" in result.output
 
 
-@pytest.mark.parametrize(
-    ("args", "session"),
-    [
-        (["run"], 4),
-        (["cost", "--estimate", "inbox"], 4),
-    ],
-)
-def test_stub_commands_say_not_built(args, session):
-    result = runner.invoke(app, [*args, "-c", str(EXAMPLE_CONFIG)])
-    assert result.exit_code == 2
-    assert f"session {session}" in result.output
-
-
-def test_stub_commands_still_check_config(tmp_path):
+def test_commands_check_the_config_first(tmp_path):
     result = runner.invoke(app, ["run", "-c", str(tmp_path / "missing.yaml")])
     assert result.exit_code == 1
     assert "not found" in result.output
@@ -132,9 +121,9 @@ def test_dry_run_reads_checks_and_summarises(project, fake_claude):
     assert "! resend.pdf review identical file to 001-inv-classic.pdf" in out
     assert "Skipped 1: - notes.txt not a PDF" in out
     assert "Ibis read 3 documents. 1 checked out. 2 need a look." in out
-    assert (
-        "Tokens: claude-haiku-5-5 8,000 in / 1,000 out; claude-sonnet-5-5 4,000 in / 500 out" in out
-    )
+    assert "claude-haiku-5-5: 8,000 in / 1,000 out tokens, $0.0013" in out
+    assert "claude-sonnet-5-5: 4,000 in / 500 out tokens, $0.0130" in out
+    assert "Estimated API cost $0.0143" in out
     assert len(fake.requests) == 3  # the identical copy costs nothing
 
 
@@ -256,3 +245,85 @@ def test_today_is_the_real_date():
     from ibis_docs.cli import today
 
     assert today() == date.today()
+
+
+# --- the full run and the cost estimate -----------------------------------------------------
+
+
+def test_run_writes_the_sheets_moves_files_and_reports(project, fake_claude, monkeypatch):
+    monkeypatch.setattr("ibis_docs.cli.now", lambda: datetime(2026, 10, 23, 9, 30))
+    fake_claude(
+        {
+            CLASSIC: {HAIKU: message(GOOD)},
+            EURO: {HAIKU: message({**GOOD, "invoice_number": "RE-1"})},
+        }
+    )
+    result = runner.invoke(app, ["run", "-c", str(project)])
+    assert result.exit_code == 0, result.output
+    out = " ".join(result.output.split())
+    assert "Ibis read 3 documents. 2 checked out. 1 needs a look." in out
+    assert "Moved 2 PDF(s) to processed/." in out and "Moved 1 PDF(s) to needs-review/." in out
+    assert "invoices.csv, line_items.csv, ibis.xlsx" in out
+    output, inbox = project.parent / "output", project.parent / "inbox"
+    assert (output / "ibis.xlsx").is_file()
+    assert (output / "reports" / "run-20261023-093000.json").is_file()
+    assert sorted(p.name for p in (inbox / "processed").iterdir()) == [
+        "001-inv-classic.pdf",
+        "006-inv-euro.pdf",
+    ]
+    assert (inbox / "notes.txt").exists()  # skipped files stay put
+
+    # Running again processes nothing new.
+    again = runner.invoke(app, ["run", "-c", str(project)])
+    assert "No new PDFs" in again.output
+
+
+def test_run_reports_google_sheet_problems_without_failing(project, fake_claude, monkeypatch):
+    monkeypatch.delenv("GOOGLE_SERVICE_ACCOUNT_JSON", raising=False)
+    config = yaml.safe_load(project.read_text())
+    config["outputs"]["google_sheet"] = {"enabled": True, "spreadsheet_id": "KEY"}
+    project.write_text(yaml.safe_dump(config))
+    fake_claude({CLASSIC: {HAIKU: message(GOOD)}, EURO: {HAIKU: message(GOOD)}})
+    result = runner.invoke(app, ["run", "-c", str(project)])
+    assert result.exit_code == 0
+    assert "! Google Sheet not updated: set GOOGLE_SERVICE_ACCOUNT_JSON" in result.output
+
+
+def test_cost_estimate(project, fake_claude):
+    fake = fake_claude()
+    fake.route = lambda body: {"input_tokens": 4400}
+    inbox = project.parent / "inbox"
+    result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(project)])
+    assert result.exit_code == 0, result.output
+    out = " ".join(result.output.split())
+    assert "3 document(s), 4 page(s)" in out
+    assert "claude-haiku-5-5: about 8,800 in /" in out  # the identical copy isn't counted
+    assert "Estimated cost: $" in out
+    assert "Assumes 10% of documents are retried on claude-sonnet-5-5" in out
+    assert "1 file(s) wouldn't be processed" in out
+
+
+def test_cost_estimate_problems(project, fake_claude, tmp_path):
+    fake_claude()
+    missing = runner.invoke(app, ["cost", "--estimate", str(tmp_path / "nope"), "-c", str(project)])
+    assert missing.exit_code == 1 and "input folder not found" in missing.output
+
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    none = runner.invoke(app, ["cost", "--estimate", str(empty), "-c", str(project)])
+    assert "No PDFs to estimate" in none.output
+
+
+def test_cost_estimate_api_errors(project, fake_claude, monkeypatch):
+    fake = fake_claude()
+    fake.route = lambda body: error_response(500, "busy")
+    inbox = project.parent / "inbox"
+    result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(project)])
+    assert result.exit_code == 1 and "couldn't count tokens" in result.output
+
+    def no_client():
+        raise ApiSetupError("no usable API credentials: set ANTHROPIC_API_KEY in .env")
+
+    monkeypatch.setattr("ibis_docs.cli.make_client", no_client)
+    result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(project)])
+    assert result.exit_code == 1 and "ANTHROPIC_API_KEY" in result.output

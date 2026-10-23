@@ -8,6 +8,7 @@ model:
   default: claude-haiku-5-5
   escalate_to: claude-sonnet-5-5   # one retry for documents that fail the checks; null to skip
   max_pages: 20
+  effort: null               # low | medium | high; null uses each model's default
 
 validation:
   total_tolerance: "0.01"

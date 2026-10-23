@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "anthropic>=2.1.0",
+    "openpyxl>=3.1.5",
     "pydantic>=2.9",
     "pypdf>=6.21.2",
     "python-dotenv>=1.2.4",
@@ -16,8 +17,14 @@ dependencies = [
 [project.scripts]
 ibis = "ibis_docs.cli:app"
 
+[project.optional-dependencies]
+sheets = [
+    "gspread>=6.2.1",
+]
+
 [dependency-groups]
 dev = [
+    "gspread>=6.2.1",
     "pytest>=8.3",
     "pytest-cov>=5.0",
     "ruff>=0.7",

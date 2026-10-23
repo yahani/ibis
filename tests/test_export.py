@@ -1,0 +1,234 @@
+import csv
+from datetime import date, datetime
+from decimal import Decimal
+
+import pytest
+from openpyxl import load_workbook
+
+from ibis_docs import export
+from ibis_docs.export import (
+    build_sheets,
+    sheets_payload,
+    spreadsheet_key,
+    write_csv,
+    write_excel,
+    write_google_sheet,
+)
+from ibis_docs.models import Invoice, Reason, Status
+from ibis_docs.results import Result
+
+WHEN = datetime(2026, 10, 23, 9, 30)
+
+
+def result(name: str, status: Status = Status.OK, **fields) -> Result:
+    invoice = Invoice.model_validate(
+        {
+            "source_file": {"name": name, "sha256": "a" * 64},
+            "doc_type": "invoice",
+            "supplier_name": "Harbourline Packaging Ltd",
+            "invoice_number": "INV-1",
+            "invoice_date": "2026-08-18",
+            "currency": "GBP",
+            "subtotal": "1481.00",
+            "tax": "296.20",
+            "total": "1777.20",
+            "model": "claude-haiku-5-5",
+            "line_items": [
+                {
+                    "description": "Box",
+                    "quantity": "20",
+                    "unit_price": "1.70",
+                    "line_total": "34.00",
+                },
+                {
+                    "description": "Void fill",
+                    "quantity": "50",
+                    "unit_price": "28.945",
+                    "line_total": "1447.25",
+                },
+            ],
+            **fields,
+        }
+    )
+    invoice.status = status
+    if status != Status.OK:
+        invoice.reasons = [Reason(code="total_mismatch", message="the total doesn't add up")]
+    return Result(invoice=invoice, processed_at=WHEN, run_id="20261023-093000")
+
+
+RESULTS = [
+    result("001.pdf"),
+    result("002.pdf", Status.REVIEW, invoice_number="INV-2", due_date="2026-09-17"),
+]
+
+
+def read_csv(path):
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        return list(csv.reader(f))
+
+
+def test_three_sheets():
+    invoices, lines, review = build_sheets(RESULTS)
+    assert [s.name for s in (invoices, lines, review)] == ["Invoices", "Line items", "Needs review"]
+    assert len(invoices.rows) == 2 and len(lines.rows) == 4 and len(review.rows) == 1
+    assert invoices.review_rows == {1} and lines.review_rows == {2, 3} and review.review_rows == {0}
+
+
+def test_csv_keeps_amounts_exact(tmp_path):
+    invoices, lines, _ = build_sheets(RESULTS)
+    write_csv(tmp_path / "invoices.csv", invoices)
+    write_csv(tmp_path / "lines.csv", lines)
+    head, first, second = read_csv(tmp_path / "invoices.csv")
+    row = dict(zip(head, first, strict=True))
+    assert row["Total"] == "1777.20" and row["Invoice date"] == "2026-08-18"
+    assert row["Due date"] == "" and row["Status"] == "ok" and row["Reasons"] == ""
+    assert row["Processed"] == "2026-10-23T09:30:00"
+    review = dict(zip(head, second, strict=True))
+    assert review["Reasons"] == "the total doesn't add up"
+    assert review["Reason codes"] == "total_mismatch"
+    line = dict(zip(*read_csv(tmp_path / "lines.csv")[:3:2], strict=True))
+    assert line["Unit price"] == "28.945" and line["Line"] == "2"
+    # Excel needs the byte-order mark to show £ and € correctly.
+    assert (tmp_path / "invoices.csv").read_bytes().startswith(b"\xef\xbb\xbf")
+
+
+def test_excel_has_real_numbers_and_dates(tmp_path):
+    write_excel(tmp_path / "ibis.xlsx", build_sheets(RESULTS))
+    book = load_workbook(tmp_path / "ibis.xlsx")
+    assert book.sheetnames == ["Invoices", "Line items", "Needs review"]
+    ws = book["Invoices"]
+    headers = [c.value for c in ws[1]]
+    total = ws.cell(row=2, column=headers.index("Total") + 1)
+    assert total.value == Decimal("1777.20") or total.value == pytest.approx(1777.20)
+    assert total.number_format == "#,##0.00##"
+    issued = ws.cell(row=2, column=headers.index("Invoice date") + 1)
+    assert issued.value.date() == date(2026, 8, 18)
+    assert ws.freeze_panes == "A2"
+    assert ws.cell(row=1, column=1).fill.fgColor.rgb.endswith("23735F")
+    # The review row is amber; the ok row isn't.
+    assert ws.cell(row=3, column=1).fill.fgColor.rgb.endswith("F3E6CF")
+    assert ws.cell(row=2, column=1).fill.fgColor.rgb != ws.cell(row=3, column=1).fill.fgColor.rgb
+
+
+def test_all_outputs_carry_the_same_data(tmp_path):
+    """The spec's check: CSV, Excel and the Sheets payload match."""
+    sheets = build_sheets(RESULTS)
+    payload = sheets_payload(sheets)
+    write_excel(tmp_path / "ibis.xlsx", sheets)
+    book = load_workbook(tmp_path / "ibis.xlsx")
+    for sheet in sheets:
+        write_csv(tmp_path / "s.csv", sheet)
+        from_csv = read_csv(tmp_path / "s.csv")
+        from_excel = [[c.value for c in row] for row in book[sheet.name].iter_rows()]
+        from_sheets = payload[sheet.name]
+        assert len(from_csv) == len(from_excel) == len(from_sheets) == len(sheet.rows) + 1
+        for csv_row, xl_row, gs_row in zip(from_csv, from_excel, from_sheets, strict=True):
+            for text, xl, gs in zip(csv_row, xl_row, gs_row, strict=True):
+                assert _same(text, xl) and _same(text, gs), (sheet.name, text, xl, gs)
+
+
+def _same(text: str, value) -> bool:
+    if value is None or value == "":
+        return text == ""
+    if isinstance(value, (int, float, Decimal)):
+        return Decimal(text) == Decimal(str(value))
+    if isinstance(value, datetime):
+        return text.startswith(value.date().isoformat())
+    return str(value).replace(" ", "T") == text or str(value) == text
+
+
+@pytest.mark.parametrize("evil", ['=HYPERLINK("http://x")', "+1+1", "-2+3", "@SUM(A1)"])
+def test_invoice_text_never_runs_as_a_formula(tmp_path, evil):
+    r = result("001.pdf", supplier_name=evil)
+    sheets = build_sheets([r])
+    write_csv(tmp_path / "i.csv", sheets[0])
+    write_excel(tmp_path / "i.xlsx", sheets)
+    head, row = read_csv(tmp_path / "i.csv")
+    assert row[head.index("Supplier")] == "'" + evil
+    cell = load_workbook(tmp_path / "i.xlsx")["Invoices"].cell(
+        row=2, column=head.index("Supplier") + 1
+    )
+    assert cell.data_type == "s" and cell.value == evil
+    assert sheets_payload(sheets)["Invoices"][1][head.index("Supplier")] == "'" + evil
+
+
+def test_negative_amounts_are_numbers_not_text(tmp_path):
+    r = result("credit.pdf", doc_type="credit_note", subtotal="-1481.00", total="-1777.20")
+    payload = sheets_payload(build_sheets([r]))["Invoices"]
+    assert payload[1][payload[0].index("Total")] == -1777.20
+
+
+def test_a_failed_write_leaves_the_old_file(tmp_path, monkeypatch):
+    target = tmp_path / "invoices.csv"
+    target.write_text("old")
+    sheet = build_sheets(RESULTS)[0]
+    monkeypatch.setattr(export.csv, "writer", lambda f: (_ for _ in ()).throw(OSError("disk full")))
+    with pytest.raises(OSError):
+        write_csv(target, sheet)
+    assert target.read_text() == "old"
+    assert list(tmp_path.glob(".invoices.csv.*")) == []  # no temporary file left behind
+
+
+def test_spreadsheet_key():
+    url = "https://docs.google.com/spreadsheets/d/1AbC_d-9/edit#gid=0"
+    assert spreadsheet_key(url) == "1AbC_d-9"
+    assert spreadsheet_key(" 1AbC_d-9 ") == "1AbC_d-9"
+
+
+class FakeWorksheet:
+    def __init__(self, title):
+        self.title, self.calls = title, []
+
+    def clear(self):
+        self.calls.append("clear")
+
+    def update(self, rows, start, value_input_option):
+        self.calls.append(("update", start, value_input_option, rows))
+
+    def freeze(self, rows):
+        self.calls.append(("freeze", rows))
+
+    def format(self, cells, fmt):
+        self.calls.append(("format", cells))
+
+
+class FakeBook:
+    url = "https://docs.google.com/spreadsheets/d/KEY"
+
+    def __init__(self):
+        self.sheets = {"Invoices": FakeWorksheet("Invoices")}
+
+    def worksheets(self):
+        return list(self.sheets.values())
+
+    def add_worksheet(self, title, rows, cols):
+        self.sheets[title] = FakeWorksheet(title)
+        return self.sheets[title]
+
+
+def test_google_sheet_writer(monkeypatch, tmp_path):
+    import gspread
+
+    book = FakeBook()
+    opened = {}
+
+    class Client:
+        def open_by_key(self, key):
+            opened["key"] = key
+            return book
+
+    monkeypatch.setattr(
+        gspread,
+        "service_account",
+        lambda filename: opened.setdefault("creds", filename) and Client(),
+    )
+    payload = sheets_payload(build_sheets(RESULTS))
+    url = write_google_sheet(
+        "https://docs.google.com/spreadsheets/d/KEY/edit", payload, tmp_path / "sa.json"
+    )
+    assert url == FakeBook.url
+    assert opened == {"key": "KEY", "creds": str(tmp_path / "sa.json")}
+    assert set(book.sheets) == {"Invoices", "Line items", "Needs review"}
+    for name, ws in book.sheets.items():
+        assert ws.calls[0] == "clear"
+        assert ws.calls[1] == ("update", "A1", "USER_ENTERED", payload[name])

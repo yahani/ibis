@@ -173,7 +173,7 @@ def build_request(pdf: bytes, model: str, config: Config) -> dict:
             "\n\nLayout notes for known suppliers (use only if this document is from one):\n"
             + "\n".join(notes)
         )
-    return {
+    request = {
         "model": model,
         "max_tokens": MAX_TOKENS,
         "system": SYSTEM_PROMPT,
@@ -194,6 +194,9 @@ def build_request(pdf: bytes, model: str, config: Config) -> dict:
             }
         ],
     }
+    if config.model.effort:
+        request["output_config"] = {"effort": config.model.effort}
+    return request
 
 
 def extract(

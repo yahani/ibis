@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Annotated
 
+import anthropic
 import typer
 from dotenv import load_dotenv
 
@@ -16,6 +17,9 @@ from ibis_docs.extract import ApiSetupError, make_client
 from ibis_docs.memory import Memory
 from ibis_docs.models import Status
 from ibis_docs.pipeline import Document, Outcome, process
+from ibis_docs.report import RETRY_SHARE, RunReport, cost_of, dollars
+from ibis_docs.report import estimate as estimate_cost
+from ibis_docs.run import keep
 
 app = typer.Typer(
     help="Ibis reads supplier invoices, checks the numbers, and exports a clean sheet.",
@@ -54,11 +58,6 @@ def _load_or_exit(path: Path) -> Config:
         raise typer.Exit(code=1) from exc
 
 
-def _not_built(command: str, session: int) -> None:
-    typer.echo(f"`ibis {command}` isn't built yet (planned for session {session}).", err=True)
-    raise typer.Exit(code=2)
-
-
 @app.command("check-config")
 def check_config(config: ConfigOption = DEFAULT_CONFIG) -> None:
     """Validate the config file and show what Ibis will do."""
@@ -90,6 +89,10 @@ def today() -> date:
     return date.today()
 
 
+def now() -> datetime:
+    return datetime.now()
+
+
 @app.command()
 def run(
     config: ConfigOption = DEFAULT_CONFIG,
@@ -99,17 +102,18 @@ def run(
 ) -> None:
     """Process every new PDF in the input folder."""
     cfg = _load_or_exit(config)
-    if not dry_run:
-        _not_built("run", 4)
-
+    started = now()
+    run_id = started.strftime("%Y%m%d-%H%M%S")
     try:
         found = discover(cfg.input_path, cfg.model.max_pages, load_seen(cfg.output_path))
     except FileNotFoundError as exc:
         typer.echo(f"✗ {exc} (create it, or change input_dir in {config})", err=True)
         raise typer.Exit(code=1) from exc
 
-    typer.echo("Dry run: documents are read and checked, but nothing is written or moved.")
+    if dry_run:
+        typer.echo("Dry run: documents are read and checked, but nothing is written or moved.")
     width = max((len(f.name) for f in [*found.found, *found.skipped]), default=0)
+    outcome = None
     if found.found:
         typer.echo(f"Reading {len(found.found)} document(s) from {cfg.input_path} ...")
         outcome = _process_or_exit(found.found, cfg)
@@ -119,12 +123,23 @@ def run(
         typer.echo(f"Skipped {len(found.skipped)}:")
         for s in found.skipped:
             typer.echo(f"  - {s.name:<{width}}  {s.reason}")
-    if not found.found:
+    if outcome is None:
         typer.echo(f"No new PDFs in {cfg.input_path}.")
         return
+
+    report = RunReport.build(run_id, started, outcome, found.skipped, dry_run=dry_run)
+    if not dry_run:
+        kept = keep(outcome, cfg, run_id, started)
+        report.moved, report.outputs = kept.moved, kept.outputs
+        report.finished = now()
+        report.save(cfg.output_path)
+        for warning in kept.warnings:
+            typer.echo(f"! {warning}", err=True)
     typer.echo("")
-    typer.echo(_summary(outcome))
-    typer.echo(_tokens(outcome))
+    for line in report.lines():
+        typer.echo(line)
+    if not dry_run:
+        typer.echo(f"Sheets in {cfg.output_path}: {', '.join(report.outputs)}")
 
 
 @app.command()
@@ -169,23 +184,6 @@ def _print_status_line(doc: Document, width: int) -> None:
     typer.echo(f"  {_MARK[inv.status]} {doc.name:<{width}}  {inv.status.value}{retried}")
     for reason in inv.reasons:
         typer.echo(f"      {reason.message}")
-
-
-def _summary(outcome: Outcome) -> str:
-    total = len(outcome.documents)
-    ok, review = outcome.count(Status.OK), outcome.count(Status.REVIEW)
-    failed = outcome.count(Status.FAILED)
-    text = f"Ibis read {total} document{'s' if total != 1 else ''}. {ok} checked out."
-    if review:
-        text += f" {review} need{'s' if review == 1 else ''} a look."
-    if failed:
-        text += f" {failed} couldn't be read."
-    return text
-
-
-def _tokens(outcome: Outcome) -> str:
-    parts = [f"{model} {i:,} in / {o:,} out" for model, (i, o) in outcome.tokens().items()]
-    return "Tokens: " + ("; ".join(parts) if parts else "none")
 
 
 def _print_document(doc: Document) -> None:
@@ -243,6 +241,35 @@ def cost(
     ],
     config: ConfigOption = DEFAULT_CONFIG,
 ) -> None:
-    """Estimate the API cost of processing a folder."""
-    _load_or_exit(config)
-    _not_built("cost --estimate", 4)
+    """Estimate the API cost of processing a folder (counts tokens; reads nothing)."""
+    cfg = _load_or_exit(config)
+    try:
+        found = discover(estimate, cfg.model.max_pages)
+    except FileNotFoundError as exc:
+        typer.echo(f"✗ {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    if not found.found:
+        typer.echo(f"No PDFs to estimate in {estimate}.")
+        return
+
+    load_dotenv()
+    try:
+        result = estimate_cost(found.found, cfg, make_client())
+    except ApiSetupError as exc:
+        typer.echo(f"✗ {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    except anthropic.APIError as exc:
+        typer.echo(f"✗ couldn't count tokens: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"{result.documents} document(s), {result.pages} page(s) in {estimate}")
+    for model, (i, o) in result.tokens.items():
+        typer.echo(f"  {model}: about {i:,} in / {o:,} out tokens, {dollars(cost_of(model, i, o))}")
+    typer.echo(f"Estimated cost: {dollars(result.cost)}")
+    if cfg.model.escalate_to:
+        typer.echo(
+            f"(Assumes {int(RETRY_SHARE * 100)}% of documents are retried on "
+            f"{cfg.model.escalate_to}; input tokens are counted exactly, output is estimated.)"
+        )
+    if found.skipped:
+        typer.echo(f"{len(found.skipped)} file(s) wouldn't be processed (not readable PDFs).")

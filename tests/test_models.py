@@ -115,3 +115,13 @@ def test_json_schema_for_api_has_no_pipeline_fields():
     props = ExtractedInvoice.model_json_schema()["properties"]
     assert "status" not in props and "reasons" not in props and "model" not in props
     assert "line_items" in props
+
+
+def test_saved_amounts_read_back_exactly():
+    """Decimal is saved in JSON as plain text; "28.945" must come back as 28.945, not 28945."""
+    from ibis_docs.models import LineItem
+
+    line = LineItem(description="x", unit_price=Decimal("28.945"), line_total=Decimal("1447.25"))
+    again = LineItem.model_validate_json(line.model_dump_json())
+    assert again.unit_price == Decimal("28.945") and again.line_total == Decimal("1447.25")
+    assert LineItem(description="x", unit_price="-1.250").unit_price == Decimal("-1.250")

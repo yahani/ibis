@@ -42,6 +42,9 @@ class Models(_Strict):
         default="claude-sonnet-5-5", description="Retry model for hard documents; null to skip"
     )
     max_pages: int = Field(default=20, ge=1, le=100)
+    effort: Literal["low", "medium", "high"] | None = Field(
+        default=None, description="How much the model thinks before answering; null for its default"
+    )
 
 
 class Validation(_Strict):

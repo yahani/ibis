@@ -19,8 +19,14 @@ from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_valida
 
 from ibis_docs.money import normalise_currency, parse_amount
 
+# A plain machine-written number ("28.945", "-1777.20"), as Decimal is saved in JSON. Read exactly:
+# a dot here is always the decimal point, never a thousands separator.
+_CANONICAL = re.compile(r"-?\d+(\.\d+)?")
+
 
 def _amount(value: object) -> Decimal | None:
+    if isinstance(value, str) and _CANONICAL.fullmatch(value.strip()):
+        return Decimal(value.strip())
     if isinstance(value, str | int | float | Decimal) or value is None:
         return parse_amount(value)
     raise ValueError(f"not an amount: {value!r}")
