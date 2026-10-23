@@ -3,7 +3,7 @@
 Updated after every step. Requirement IDs refer to the spec (E1–E12). How the pieces fit
 together is in [ARCHITECTURE.md](ARCHITECTURE.md).
 
-_Last updated: 2026-10-23. Session 4 of 5 is built; the Google Sheet needs one live test with your service account._
+_Last updated: 2026-10-23. Session 4 of 5 is built and waiting for your review._
 
 ## 1. Done, by requirement
 
@@ -16,7 +16,7 @@ _Last updated: 2026-10-23. Session 4 of 5 is built; the Google Sheet needs one l
 | E5 | Validate | ✅ done | `validate.py` | Line maths, lines vs subtotal, subtotal + tax − discount + shipping = total (lines stand in for a missing subtotal), required fields by document type, due date before invoice date, invoice date in the future, currency not allowed, credit note with a positive total. Tolerance from config. |
 | E6 | Detect duplicates | ✅ done | `pipeline.py`, `memory.py` | Same supplier + invoice number (case and spaces ignored), within a run and against earlier runs (`output/.ibis/invoices.json`); identical file, with no API call. The later document is flagged, naming the earlier one. |
 | E7 | Confidence and review list | ✅ done | `validate.py`, `models.Reason` | `ok` only with no reasons; `review` with one or more; `failed` when no read came back. Each reason has a code (for tests and exports) and a plain message with the amounts: "the lines add up to £3,115.76, but the subtotal is £3,128.16 (£12.40 more)". |
-| E8 | Export | ✅ done (Google Sheet: live test pending) | `export.py`, `results.py` | `invoices.csv`, `line_items.csv`, `ibis.xlsx` (Invoices, Line items, Needs review) and optionally a Google Sheet, all built from the same rows. **Cumulative:** every result is kept in `output/results/` and each run rebuilds the exports from all of them. CSV keeps amounts exact (UTF-8 with BOM so Excel shows £ €); Excel has real numbers and dates, a frozen green header, amber review rows. Invoice text can never run as a formula. Writes are atomic. |
+| E8 | Export | ✅ done | `export.py`, `results.py` | `invoices.csv`, `line_items.csv`, `ibis.xlsx` (Invoices, Line items, Needs review) and optionally a Google Sheet, all built from the same rows. **Cumulative:** every result is kept in `output/results/` and each run rebuilds the exports from all of them. CSV keeps amounts exact (UTF-8 with BOM so Excel shows £ €); Excel has real numbers and dates, a frozen green header, amber review rows. Invoice text can never run as a formula. Writes are atomic. |
 | E9 | Move files | ✅ done | `files.py`, `run.py` | After the exports are written: `ok` → `inbox/processed/`, `review`/`failed` → `inbox/needs-review/`; taken names get `-2`; skipped files stay. `move_files: false` turns it off. |
 | E10 | Review page | ⏳ session 5 | | |
 | E11 | CLI | ✅ done | `cli.py` | `check-config`, `--version`, `show <file>`, `run` (read, check, save, export, move, remember, report), `run --dry-run` (read and check only; costs API money), `cost --estimate <folder>` (input tokens counted exactly with the free token counter; shown as a range: no retries / 10% retried). |
@@ -134,6 +134,14 @@ on 47 documents and got 3 line items wrong, so the model default stays. The Sonn
 60% of the cost here because 10 of the 47 demo documents are broken on purpose; on ordinary
 invoices a document costs about $0.001.
 
+### Google Sheet (session 4), live
+
+The end-to-end run's 11 results written to a test spreadsheet with the service account from the
+price tracker (`GOOGLE_SERVICE_ACCOUNT_JSON` in `.env`). Read back: the three tabs created beside
+the existing one, amounts stored as numbers (credit note total `-1643.11`), dates as real dates,
+reasons in place. Not yet: number formats and the amber review rows that the Excel file has.
+For client setups, give each client their own service account and sheet.
+
 ### End to end (session 4), `ibis run` on 11 demo PDFs and a text file
 
 9 `ok` moved to `processed/`, 2 flagged (CHF, identical copy) moved to `needs-review/`, the text
@@ -190,10 +198,6 @@ Later, when a client needs it:
 
 ## 4. Blocked / needs you
 
-- **Google Sheet live test.** Needs the path to your service account's JSON key and a test
-  spreadsheet shared (as Editor) with the service account's email. Then set
-  `GOOGLE_SERVICE_ACCOUNT_JSON` in `.env`, turn on `outputs.google_sheet` in `config.yaml`, and
-  run. For client setups, give each client their own service account.
 - Review the session 4 checklist (below).
 
 ### Session 4 review checklist
