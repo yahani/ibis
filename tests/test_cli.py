@@ -338,3 +338,26 @@ def test_cost_estimate_without_retries(project, fake_claude, example_data, write
     inbox = project.parent / "inbox"
     result = runner.invoke(app, ["cost", "--estimate", str(inbox), "-c", str(config)])
     assert "Estimated cost: $" in result.output and "retry" not in result.output
+
+
+def test_review_opens_the_page_on_this_computer_only(monkeypatch):
+    calls = {}
+
+    def call(command, env):
+        calls.update(command=command, env=env)
+        return 0
+
+    monkeypatch.setattr("ibis_docs.cli.subprocess.call", call)
+    result = runner.invoke(app, ["review", "-c", str(EXAMPLE_CONFIG)])
+    assert result.exit_code == 0, result.output
+    command = calls["command"]
+    assert command[1:4] == ["-m", "streamlit", "run"]
+    assert command[4].endswith("review_app.py")
+    assert command[command.index("--server.address") + 1] == "localhost"
+    assert command[command.index("--browser.gatherUsageStats") + 1] == "false"
+    assert calls["env"]["IBIS_CONFIG"] == str(EXAMPLE_CONFIG.resolve())
+
+
+def test_review_checks_the_config_first(tmp_path):
+    result = runner.invoke(app, ["review", "-c", str(tmp_path / "missing.yaml")])
+    assert result.exit_code == 1 and "not found" in result.output

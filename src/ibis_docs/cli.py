@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+import subprocess
+import sys
 from datetime import date, datetime
 from pathlib import Path
 from typing import Annotated
@@ -232,6 +235,25 @@ def _print_document(doc: Document) -> None:
     typer.echo(f"  {_MARK[inv.status]} {inv.status.value} (final read: {inv.model})")
     for reason in inv.reasons:
         typer.echo(f"    - {reason.message}")
+
+
+@app.command()
+def review(config: ConfigOption = DEFAULT_CONFIG) -> None:
+    """Open the review page: check flagged documents against their PDFs, fix, approve."""
+    _load_or_exit(config)
+    from ibis_docs import review_app
+
+    command = [
+        sys.executable, "-m", "streamlit", "run", review_app.__file__,
+        "--server.address", "localhost",  # this computer only
+        "--browser.gatherUsageStats", "false",
+        "--theme.primaryColor", "#23735F",
+        "--theme.backgroundColor", "#F7F8F6",
+        "--theme.textColor", "#1C2321",
+    ]  # fmt: skip
+    env = {**os.environ, review_app.CONFIG_ENV: str(config.resolve())}
+    typer.echo("Opening the review page on http://localhost:8501 (Ctrl+C to stop) ...")
+    raise typer.Exit(code=subprocess.call(command, env=env))
 
 
 @app.command()

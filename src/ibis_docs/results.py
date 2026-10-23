@@ -28,12 +28,54 @@ class Call:
 
 
 @dataclass
+class Change:
+    field: str
+    before: str
+    after: str
+
+
+@dataclass
+class Review:
+    """What a person decided on the review page (E10): the audit trail for a result."""
+
+    action: str  # "approved" or "discarded"
+    at: datetime
+    changes: list[Change] = field(default_factory=list)
+    note: str = ""
+    overridden: list[str] = field(default_factory=list)  # reasons still open when approved
+
+    def to_json(self) -> dict:
+        return {
+            "action": self.action,
+            "at": self.at.isoformat(timespec="seconds"),
+            "changes": [vars(c) for c in self.changes],
+            "note": self.note,
+            "overridden": self.overridden,
+        }
+
+    @classmethod
+    def from_json(cls, data: dict) -> Review:
+        return cls(
+            action=data["action"],
+            at=datetime.fromisoformat(data["at"]),
+            changes=[Change(**c) for c in data.get("changes", [])],
+            note=data.get("note", ""),
+            overridden=data.get("overridden", []),
+        )
+
+
+@dataclass
 class Result:
     invoice: Invoice
     processed_at: datetime
     run_id: str
     calls: list[Call] = field(default_factory=list)
     pdf_path: str | None = None  # where the PDF is now (after moving), for the review page
+    review: Review | None = None
+
+    @property
+    def discarded(self) -> bool:
+        return self.review is not None and self.review.action == "discarded"
 
     @property
     def name(self) -> str:
@@ -49,6 +91,7 @@ class Result:
             "run_id": self.run_id,
             "calls": [vars(c) for c in self.calls],
             "pdf_path": self.pdf_path,
+            "review": self.review.to_json() if self.review else None,
         }
 
     @classmethod
@@ -59,6 +102,7 @@ class Result:
             run_id=data["run_id"],
             calls=[Call(**c) for c in data.get("calls", [])],
             pdf_path=data.get("pdf_path"),
+            review=Review.from_json(data["review"]) if data.get("review") else None,
         )
 
 

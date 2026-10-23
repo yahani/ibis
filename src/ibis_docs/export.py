@@ -78,6 +78,18 @@ def _codes(r: Result) -> str:
     return ", ".join(reason.code for reason in r.invoice.reasons)
 
 
+def _reviewed(r: Result) -> str | None:
+    """'approved 2026-10-23, edited total, invoice date' for a result a person signed off."""
+    if r.review is None:
+        return None
+    text = f"{r.review.action} {r.review.at:%Y-%m-%d}"
+    if r.review.changes:
+        text += ", edited " + ", ".join(c.field.replace("_", " ") for c in r.review.changes)
+    if r.review.overridden:
+        text += f", {len(r.review.overridden)} check(s) overridden"
+    return text
+
+
 INVOICE_COLUMNS = [
     Column("File", Kind.TEXT, lambda r: r.name),
     Column("Status", Kind.TEXT, _status),
@@ -99,6 +111,7 @@ INVOICE_COLUMNS = [
     Column("Lines", Kind.NUMBER, lambda r: len(r.invoice.line_items)),
     Column("Model", Kind.TEXT, lambda r: r.invoice.model),
     Column("Processed", Kind.DATETIME, lambda r: r.processed_at),
+    Column("Reviewed", Kind.TEXT, _reviewed),
 ]
 
 LINE_COLUMNS = [
@@ -135,8 +148,8 @@ def _needs_review(invoice: Invoice) -> bool:
 
 
 def build_sheets(results: Iterable[Result]) -> list[Sheet]:
-    """The three sheets: Invoices, Line items, Needs review."""
-    results = list(results)
+    """The three sheets: Invoices, Line items, Needs review. Discarded results are left out."""
+    results = [r for r in results if not r.discarded]
     invoices = Sheet("Invoices", INVOICE_COLUMNS, [], set())
     lines = Sheet("Line items", LINE_COLUMNS, [], set())
     review = Sheet("Needs review", REVIEW_COLUMNS, [], set())

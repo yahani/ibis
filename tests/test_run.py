@@ -276,4 +276,5 @@ def test_results_round_trip_exactly(project):
     files = sorted(p.name for p in (project.output_path / "results").iterdir())
     assert len(files) == 4  # 001 and its copy have the same hash but different names
     data = json.loads((project.output_path / "results" / files[0]).read_text())
-    assert set(data) == {"invoice", "processed_at", "run_id", "calls", "pdf_path"}
+    assert set(data) == {"invoice", "processed_at", "run_id", "calls", "pdf_path", "review"}
+    assert data["review"] is None

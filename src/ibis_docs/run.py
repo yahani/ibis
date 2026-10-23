@@ -41,6 +41,36 @@ def plan_moves(outcome: Outcome, input_dir: Path) -> dict[str, Path]:
     return planned
 
 
+def write_exports(config: Config) -> Kept:
+    """Rebuild every export from all saved results (after a run, or a review-page edit)."""
+    kept = Kept()
+    output_dir = config.output_path
+    sheets = export.build_sheets(results.load_all(output_dir))
+    if config.outputs.csv:
+        export.write_csv(output_dir / export.INVOICES_CSV, sheets[0])
+        export.write_csv(output_dir / export.LINE_ITEMS_CSV, sheets[1])
+        kept.outputs += [export.INVOICES_CSV, export.LINE_ITEMS_CSV]
+    if config.outputs.excel:
+        export.write_excel(output_dir / export.WORKBOOK, sheets)
+        kept.outputs.append(export.WORKBOOK)
+    if config.outputs.google_sheet.enabled:
+        credentials = os.environ.get(GOOGLE_CREDENTIALS_ENV)
+        if not credentials:
+            kept.warnings.append(
+                f"Google Sheet not updated: set {GOOGLE_CREDENTIALS_ENV} in .env to the service "
+                "account's JSON key file"
+            )
+        else:
+            try:
+                url = export.write_google_sheet(
+                    config.outputs.google_sheet.spreadsheet_id, sheets, Path(credentials)
+                )
+                kept.outputs.append(url)
+            except Exception as exc:  # the CSV and Excel files are already written
+                kept.warnings.append(f"Google Sheet not updated: {type(exc).__name__}: {exc}")
+    return kept
+
+
 def keep(outcome: Outcome, config: Config, run_id: str, now: datetime) -> Kept:
     kept = Kept()
     output_dir, input_dir = config.output_path, config.input_path
@@ -63,31 +93,8 @@ def keep(outcome: Outcome, config: Config, run_id: str, now: datetime) -> Kept:
     results.save(output_dir, run_results)
 
     # 2. The exports, rebuilt from all results so they're one ledger across runs.
-    sheets = export.build_sheets(results.load_all(output_dir))
-    if config.outputs.csv:
-        export.write_csv(output_dir / export.INVOICES_CSV, sheets[0])
-        export.write_csv(output_dir / export.LINE_ITEMS_CSV, sheets[1])
-        kept.outputs += [export.INVOICES_CSV, export.LINE_ITEMS_CSV]
-    if config.outputs.excel:
-        export.write_excel(output_dir / export.WORKBOOK, sheets)
-        kept.outputs.append(export.WORKBOOK)
-    if config.outputs.google_sheet.enabled:
-        credentials = os.environ.get(GOOGLE_CREDENTIALS_ENV)
-        if not credentials:
-            kept.warnings.append(
-                f"Google Sheet not updated: set {GOOGLE_CREDENTIALS_ENV} in .env to the service "
-                "account's JSON key file"
-            )
-        else:
-            try:
-                url = export.write_google_sheet(
-                    config.outputs.google_sheet.spreadsheet_id,
-                    sheets,
-                    Path(credentials),
-                )
-                kept.outputs.append(url)
-            except Exception as exc:  # the CSV and Excel files are already written
-                kept.warnings.append(f"Google Sheet not updated: {type(exc).__name__}: {exc}")
+    written = write_exports(config)
+    kept.outputs, kept.warnings = written.outputs, written.warnings
 
     # 3. Move the PDFs.
     for doc in outcome.documents:
