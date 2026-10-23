@@ -113,7 +113,7 @@ them yourself"); where I ran it too, the result is noted.
 
 - ✅ Drop 10 PDFs in `inbox/`, run once, get the Excel file, the review list, files moved.
   *Run by hand with `scripts/demo.sh` (2026-10-23); also in a fresh clone (9 ok, 1 flagged).*
-- ☐ Running again processes nothing new. *Shown in the session 4 end-to-end run.*
+- ☐ Running again processes nothing new. *Not `scripts/demo.sh`, which starts fresh: after it, run `uv run ibis run -c demo-workspace/config.yaml`, then copy the same PDFs back into `demo-workspace/inbox/` and run again. Both runs should read nothing (I did it on a copy: "No new PDFs", then 10 skipped as "already processed", $0).*
 - ✅ Review page: open a flagged invoice, fix a field, approve, re-export shows the fix. *Clicked
   through in a browser with the demo (2026-10-23); also headless in `test_review.py`.*
 - ✅ `ibis cost --estimate` within 25% of actual: +13% on the whole demo set; on a clean batch the

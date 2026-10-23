@@ -25,7 +25,7 @@ done
 printf 'input_dir: inbox\noutput_dir: output\n' > "$WORKSPACE/config.yaml"
 
 cd "$ROOT"
-echo "→ ${#FILES[@]} PDFs in $WORKSPACE/inbox"
+echo "→ A fresh workspace (anything from an earlier demo is wiped): ${#FILES[@]} PDFs in $WORKSPACE/inbox"
 uv run ibis run -c "$WORKSPACE/config.yaml"
 
 echo
