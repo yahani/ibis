@@ -3,7 +3,7 @@
 Updated after every step. Requirement IDs refer to the spec (E1–E12). How the pieces fit
 together is in [ARCHITECTURE.md](ARCHITECTURE.md).
 
-_Last updated: 2026-10-23. Session 4 of 5 is built and waiting for your review._
+_Last updated: 2026-10-23. All five sessions are built. Three acceptance items are yours to tick by hand (section 2), and the repo is still private._
 
 ## 1. Done, by requirement
 
@@ -18,7 +18,7 @@ _Last updated: 2026-10-23. Session 4 of 5 is built and waiting for your review._
 | E7 | Confidence and review list | ✅ done | `validate.py`, `models.Reason` | `ok` only with no reasons; `review` with one or more; `failed` when no read came back. Each reason has a code (for tests and exports) and a plain message with the amounts: "the lines add up to £3,115.76, but the subtotal is £3,128.16 (£12.40 more)". |
 | E8 | Export | ✅ done | `export.py`, `results.py` | `invoices.csv`, `line_items.csv`, `ibis.xlsx` (Invoices, Line items, Needs review) and optionally a Google Sheet, all built from the same rows. **Cumulative:** every result is kept in `output/results/` and each run rebuilds the exports from all of them. CSV keeps amounts exact (UTF-8 with BOM so Excel shows £ €); Excel has real numbers and dates, a frozen green header, amber review rows. Invoice text can never run as a formula. Writes are atomic. |
 | E9 | Move files | ✅ done | `files.py`, `run.py` | After the exports are written: `ok` → `inbox/processed/`, `review`/`failed` → `inbox/needs-review/`; taken names get `-2`; skipped files stay. `move_files: false` turns it off. |
-| E10 | Review page | ⏳ session 5 | | |
+| E10 | Review page | ✅ done | `review.py`, `review_app.py`, `ibis review` | Streamlit, on `localhost` only, usage statistics off. The PDF (rendered locally) beside its fields and line items; reasons at the top; checks re-run as you edit. **Approve** saves `ok`, moves the PDF to `processed/` and rebuilds every export; with checks still failing it needs a note. **Discard** (after a tick) takes a document out of the sheets and moves the PDF to `needs-review/discarded/`; nothing is deleted. Every decision is kept on the result (what changed, from what, when, the note) and shown in the sheets' **Reviewed** column. |
 | E11 | CLI | ✅ done | `cli.py` | `check-config`, `--version`, `show <file>`, `run` (read, check, save, export, move, remember, report), `run --dry-run` (read and check only; costs API money), `cost --estimate <folder>` (input tokens counted exactly with the free token counter; shown as a range: no retries / 10% retried). |
 | E12 | Run report | ✅ done | `report.py` | Printed and saved to `output/reports/run-<time>.json`: documents, ok/review/failed, skipped with reasons, tokens and cost per model, files moved, outputs, time. File names and counts only, never invoice contents. |
 
@@ -77,39 +77,80 @@ Other currencies: `uv run python demo/generate.py --currencies USD,AUD,NZD` (any
 | 1 | Skeleton, E1, models, E11 shell, CI, demo generator + answer key | ✅ reviewed | `0d510ae` … `a1e88ec` |
 | 2 | E2, E3, recorded fixtures, `show`, `run --dry-run` | ✅ done | `c5d7136` … `82439b8` |
 | 3 | E4, E5, E6, E7, ambiguous dates and decimal marks, full dry run | ✅ done | `9357af8` … `08467f6` |
-| 4 | E8, E9, E12, full `run`, `cost --estimate`, accuracy run | ✅ awaiting review | `dbd0fbc` … this commit |
+| 4 | E8, E9, E12, full `run`, `cost --estimate`, accuracy run | ✅ reviewed | `dbd0fbc` … `26d4eca` |
+| 5 | E10 review page, README, demo, acceptance checklist, secrets scan | ✅ awaiting your checks | `3f2b299` … this commit |
 
 Repo: private at github.com/yahani/ibis (make public in session 5, after the secrets scan).
 
-## 2. Test results
+## 2. Acceptance checklist (the spec's, with the evidence)
 
-Run on 2026-10-23 with `uv run pytest --cov=ibis_docs`:
+✅ = met and shown below. ☐ = yours to do by hand (the spec says "you tick boxes after checking
+them yourself"); where I ran it too, the result is noted.
 
-| Suite | Tests | Result |
-|---|---|---|
-| `test_money.py` | 78 | ✅ pass |
-| `test_models.py` | 14 | ✅ pass |
-| `test_config.py` | 30 | ✅ pass |
-| `test_cli.py` | 25 | ✅ pass |
-| `test_demo_set.py` | 105 | ✅ pass |
-| `test_dates.py` | 30 | ✅ pass |
-| `test_discover.py` | 12 | ✅ pass |
-| `test_extract.py` | 40 | ✅ pass |
-| `test_validate.py` | 22 | ✅ pass |
-| `test_pipeline.py` | 20 | ✅ pass |
-| `test_memory.py` | 2 | ✅ pass |
-| `test_recorded.py` | 13 | ✅ pass |
-| `test_export.py` | 12 | ✅ pass |
-| `test_run.py` | 16 | ✅ pass |
-| `test_report.py` | 8 | ✅ pass |
-| **Total** | **427** | **✅ all pass** |
+**Automated tests (pytest, no live API calls)**
 
-Coverage 99% (every module 97% or more); target 90%. `ruff check` and `ruff format --check` clean.
+- ✅ Validation catches line maths off, lines not summing to subtotal, total mismatch, due date
+  before invoice date, unknown currency, missing invoice number: `test_validate.py`.
+- ✅ Decimal parsing handles "1,299.00", "1.299,00", "£51.77" and negative credit-note amounts:
+  `test_money.py`, `test_extract.py`.
+- ✅ Duplicate detection by supplier + number and by file hash, in a run and across runs:
+  `test_pipeline.py`, `test_run.py`, `test_review.py`.
+- ✅ Escalation: a failing Haiku result triggers one Sonnet retry, the passing result wins, the
+  model is recorded: `test_pipeline.py`, `test_recorded.py`.
+- ✅ CSV, Excel (three sheets) and the Sheets payload match the same data, cell by cell:
+  `test_export.py::test_all_outputs_carry_the_same_data`.
+- ✅ Encrypted, empty and non-PDF files are skipped with a reason and don't stop the run:
+  `test_discover.py`.
+- ✅ Coverage 90% or more on validate (100%), models (99%), export (100%), config (99%); 99% overall.
 
-No test calls the Claude API. `tests/fakes.py` runs the real SDK client over a mock HTTP transport
-and routes each request by the PDF sent and the model asked. `test_recorded.py` replays 21 real
-responses through the whole pipeline and checks the acceptance criteria. `test_export.py` checks
-that CSV, Excel and the Sheets payload carry the same data, cell by cell.
+**Accuracy on the demo set (live)**
+
+- ✅ At least 95% of header fields across 30+ invoices: **609/611 (99.7%) on 47**.
+- ✅ Every broken invoice on the review list with the right reason, none `ok`: **9/9**.
+- ✅ No invented values: **0**.
+
+**End to end (by hand)**
+
+- ☐ Drop 10 PDFs in `inbox/`, run once, get the Excel file, the review list, files moved.
+  *I ran it in a fresh clone (10 PDFs: 9 ok, 1 flagged, all moved, three sheets written).*
+- ☐ Running again processes nothing new. *Shown in the session 4 end-to-end run.*
+- ☐ Review page: open a flagged invoice, fix a field, approve, re-export shows the fix. *Shown
+  headless (`test_review.py`, and the demo's `047`), not yet clicked through in a browser.*
+- ✅ `ibis cost --estimate` within 25% of actual: +13% on the whole demo set; on a clean batch the
+  low end of the range was +13%.
+- ☐ Fresh clone + README gets a stranger running in under 15 minutes. *Followed the README in a
+  fresh clone: about 30 s with a warm cache; `uv sync` takes 51 s from cold. Creating the API key
+  is the slowest step. A second person is the real test.*
+- ✅ No API key or real document anywhere in the history: gitleaks over all 26 commits found
+  nothing; no `.env`, `config.yaml`, key file, `inbox/` or `output/` was ever committed; every one
+  of the 47 PDFs ever committed is one `demo/generate.py` makes. (Commit author emails are a
+  local machine address; see section 4.)
+
+## 3. Test results
+
+Run on 2026-10-23 with `uv run pytest --cov=ibis_docs`: **452 tests, all pass**, coverage 99%
+(every module 96% or more), `ruff check` and `ruff format --check` clean. No test calls the
+Claude API. `tests/fakes.py` runs the real SDK client over a mock HTTP transport; `test_recorded.py`
+replays 21 real responses through the whole pipeline; `test_review.py` drives the review page
+headless with Streamlit's test runner.
+
+| Suite | Tests | | Suite | Tests |
+|---|---|---|---|---|
+| `test_money.py` | 78 | | `test_pipeline.py` | 20 |
+| `test_models.py` | 14 | | `test_memory.py` | 2 |
+| `test_config.py` | 30 | | `test_recorded.py` | 13 |
+| `test_cli.py` | 30 | | `test_export.py` | 15 |
+| `test_demo_set.py` | 105 | | `test_run.py` | 16 |
+| `test_dates.py` | 30 | | `test_report.py` | 8 |
+| `test_discover.py` | 12 | | `test_review.py` | 17 |
+| `test_extract.py` | 40 | | `test_validate.py` | 22 |
+
+### Session 5, found by running it for real
+
+- `ibis review`: on first launch Streamlit asks for an email in the terminal and never serves the
+  page. Now it runs headless and Ibis opens the browser once the page answers.
+- Coverage of the page wasn't being measured (it ran as a script); the tests now run the root
+  launcher, as `ibis review` does.
 
 ### Accuracy run (session 4), whole demo set, 2026-10-23
 
@@ -176,11 +217,22 @@ What it found, and what changed:
 
 Session 2 live run (extraction only, 5 invoices): 65/65 header fields, every line exact, $0.0067.
 
-## 3. Next
+## 4. Next
 
-Session 5: the Streamlit review page (E10: the PDF beside the fields, edit, approve, re-export
-from `output/results/`), the README for a stranger to get running in 15 minutes, the demo script,
-the end-to-end checklist, and the secrets scan before making the repo public.
+**Before making the repo public (your decisions):**
+
+- **Commit author email.** All 26 commits carry `yahahewagama@Yahas-MacBook-Pro-2.local` (git has
+  no `user.email` set), which shows your Mac's user and machine name, and GitHub won't link the
+  commits to your profile. Options: set your GitHub no-reply address for future commits only, or
+  also rewrite the existing commits' author (a force-push; safe while the repo is private and only
+  you use it).
+- **Licence.** Without one, the code is public to read but all rights reserved, which suits a
+  portfolio piece you sell setups of. MIT would let anyone reuse it.
+- **Visibility.** github.com/yahani/ibis is private; making it public is a one-way door in
+  practice (forks and caches keep copies).
+
+**Portfolio:** the case study page and the Upwork / Fiverr listing (drafted after this checklist),
+and the 60-second video from `docs/DEMO.md`.
 
 Tuning, if cost matters later: the Sonnet retry is most of the spend on broken documents and
 always confirmed the first read on the demo set. Try `effort: low` for the retry model only, or
@@ -198,18 +250,9 @@ Later, when a client needs it:
   variables and `extract.make_client()` uses the default client, so no code change. Not useful on
   a laptop.
 
-## 4. Blocked / needs you
+## 5. Needs you
 
-- Review the session 4 checklist (below).
-
-### Session 4 review checklist
-
-1. **Open the Excel file and check numbers by hand** (the spec's session 4 review). Run
-   `uv run ibis run` on a few demo PDFs in `inbox/` (or open the end-to-end run's
-   `output/ibis.xlsx`), pick three invoices, and compare totals, dates and line items with the PDFs.
-2. **The review list:** the "Needs review" sheet lists each flagged document with its reasons and
-   where its PDF now is.
-3. **Files moved correctly:** `inbox/processed/` and `inbox/needs-review/`; run again and nothing
-   new is processed.
-4. **The estimate:** `uv run ibis cost --estimate demo/invoices -c config.example.yaml` (free) and
-   compare with the accuracy run's $0.11.
+1. The three ☐ items in section 2. For the review page: `scripts/demo.sh`, then in the browser
+   pick `047-inv-classic.pdf`, set the invoice date to `2026-09-03`, approve, and check the
+   Invoices sheet shows it `ok` with "approved …, edited invoice date" in **Reviewed**.
+2. The three decisions under "Before making the repo public" in section 4.

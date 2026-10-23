@@ -1,7 +1,6 @@
 # Architecture
 
-How Ibis is put together. Updated at the end of every build session; parts not built yet are
-marked **planned**.
+How Ibis is put together. Updated at the end of every build session.
 
 | Session | Scope | Status |
 |---|---|---|
@@ -9,7 +8,7 @@ marked **planned**.
 | 2 | Discovery (E2), extraction (E3), recorded fixtures | ✅ done |
 | 3 | Validation (E5), duplicates (E6), status and reasons (E7), escalation (E4) | ✅ done |
 | 4 | Exports (E8), file moves (E9), run report and cost (E12) | ✅ done |
-| 5 | Streamlit review page (E10), README, demo script | planned |
+| 5 | Streamlit review page (E10), README, demo script | ✅ done |
 
 ## The pipeline
 
@@ -54,6 +53,10 @@ flowchart TD
     keep --> export["export.py ✅<br/>CSV, Excel, Google Sheet"]
     keep --> files["files.py ✅<br/>processed/, needs-review/"]
     cli --> report["report.py ✅<br/>RunReport, estimate()"]
+    cli --> page["review_app.py ✅<br/>Streamlit page (ibis review)"]
+    page --> rev["review.py ✅<br/>apply_edits, recheck, approve, discard"]
+    rev --> results
+    page --> keep
 ```
 
 ## Keeping a run (`run.keep`)
@@ -70,12 +73,29 @@ The order is what makes a failure safe:
 
 The review page (session 5) edits a saved result and re-runs step 2.
 
+## The review page (`ibis review`)
+
+`ibis review` starts Streamlit headless on `localhost:8501` (usage statistics off) and opens the
+browser once it answers. The page (`review_app.py`) is thin; what it does is in `review.py`:
+
+1. `form_values` / `line_values` show a saved result as plain text (ISO dates, exact amounts).
+2. `apply_edits` reads the form back into an `Invoice`, with one plain sentence per bad value,
+   and lists every change.
+3. `recheck` runs `validate` plus duplicates against *earlier* results, so a resend is flagged and
+   the original isn't.
+4. `approve` saves `ok`, moves the PDF to `processed/`, records a `Review` (changes, note, any
+   checks overridden). A note is required when checks still fail.
+5. `discard` marks the result (kept on disk), moves the PDF to `needs-review/discarded/`; exports
+   leave discarded results out.
+6. `run.write_exports` rebuilds CSV, Excel and the Google Sheet.
+
 ## Folders a run uses
 
 ```text
 inbox/                      input_dir: drop PDFs here
-  processed/                ok documents, after a run
+  processed/                ok documents, after a run or an approval
   needs-review/             review and failed documents
+    discarded/              documents discarded on the review page
 output/                     output_dir
   invoices.csv              one row per document (all runs)
   line_items.csv            one row per line
@@ -201,3 +221,7 @@ Pluggable at three levels:
   formats and text-only cells. gspread is an optional extra (`uv sync --extra sheets`).
 - A saved `Decimal` ("28.945") is read back exactly; printed-text parsing is only for what Claude
   copies from a document.
+- The review page binds to `localhost` only and never runs in hosted mode with client data; the
+  spec's optional hosted demo would use fake data only.
+- Review decisions are an audit trail on the result, not edits in place: what was read, what a
+  person changed, and why stay visible.
