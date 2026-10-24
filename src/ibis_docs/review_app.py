@@ -22,6 +22,7 @@ from ibis_docs.review import (
     EditError,
     apply_edits,
     approve,
+    as_text,
     discard,
     form_values,
     line_values,
@@ -51,7 +52,9 @@ def label(result: results.Result) -> str:
 def show_pdf(result: results.Result) -> None:
     path = Path(result.pdf_path or "")
     if not path.is_file():
-        st.warning(f"The PDF isn't where it was left ({result.pdf_path}). Moved or deleted?")
+        st.warning(
+            as_text(f"The PDF isn't where it was left ({result.pdf_path}). Moved or deleted?")
+        )
         return
     for i, image in enumerate(page_images(str(path), path.stat().st_mtime), start=1):
         st.image(image, caption=f"page {i}", width="stretch")
@@ -102,7 +105,7 @@ def main() -> None:
     try:
         config: Config = load_config(os.environ.get(CONFIG_ENV, "config.yaml"))
     except ConfigError as exc:
-        st.error(str(exc))
+        st.error(as_text(str(exc)))
         return
 
     everything = results.load_all(config.output_path)
@@ -135,18 +138,16 @@ def main() -> None:
             unsafe_allow_html=True,
         )
         for reason in result.invoice.reasons:
-            st.warning(reason.message)
-        if result.review:
-            st.info(
-                f"{result.review.action} {result.review.at:%Y-%m-%d %H:%M}. {result.review.note}"
-            )
+            st.warning(as_text(reason.message))
+        if review := result.review:
+            st.info(as_text(f"{review.action} {review.at:%Y-%m-%d %H:%M}. {review.note}"))
 
         header, lines = edit_form(result, key)
         try:
             edited, changes = apply_edits(result.invoice, header, lines, config)
         except EditError as exc:
             for problem in exc.problems:
-                st.error(problem)
+                st.error(as_text(problem))
             return
 
         open_reasons = recheck(edited, result, everything, config, date.today())
@@ -154,7 +155,8 @@ def main() -> None:
         if open_reasons:
             for reason in open_reasons:
                 st.markdown(
-                    f"<span style='color:{AMBER}'>! {reason.message}</span>", unsafe_allow_html=True
+                    f"<span style='color:{AMBER}'>! {as_text(reason.message, in_html=True)}</span>",
+                    unsafe_allow_html=True,
                 )
         else:
             st.markdown(
@@ -163,8 +165,10 @@ def main() -> None:
             )
         if changes:
             st.caption(
-                "Changed: "
-                + "; ".join(f"{c.field}: {c.before or '—'} → {c.after or '—'}" for c in changes)
+                as_text(
+                    "Changed: "
+                    + "; ".join(f"{c.field}: {c.before or '—'} → {c.after or '—'}" for c in changes)
+                )
             )
 
         note = st.text_input(
@@ -183,7 +187,7 @@ def main() -> None:
                     now=datetime.now(),
                 )
             except EditError as exc:
-                st.error(exc.problems[0])
+                st.error(as_text(exc.problems[0]))
                 return
             finish(config, f"Approved {result.name}.")
         confirm = discard_col.checkbox("Leave this out of the sheets", key=f"{key}-confirm")
@@ -201,9 +205,9 @@ def finish(config: Config, message: str) -> None:
 def flash() -> None:
     if "flash" in st.session_state:
         message, outputs, warnings = st.session_state.pop("flash")
-        st.toast(f"{message} Sheets updated: {', '.join(outputs)}")
+        st.toast(as_text(f"{message} Sheets updated: {', '.join(outputs)}"))
         for warning in warnings:
-            st.warning(warning)
+            st.warning(as_text(warning))
 
 
 def run() -> None:
