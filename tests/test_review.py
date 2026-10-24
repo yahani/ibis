@@ -14,11 +14,12 @@ from ibis_docs.discover import discover
 from ibis_docs.memory import Memory
 from ibis_docs.models import Status
 from ibis_docs.pipeline import process
-from ibis_docs.results import load_all
+from ibis_docs.results import load_all, save
 from ibis_docs.review import (
     EditError,
     apply_edits,
     approve,
+    as_text,
     discard,
     form_values,
     line_values,
@@ -210,6 +211,17 @@ def test_a_missing_pdf_is_left_alone(project):
     assert saved(project)[C.name].pdf_path == result.pdf_path
 
 
+def test_document_text_is_shown_as_it_is_not_as_markdown():
+    # Two dollar amounts would otherwise be read as LaTeX maths.
+    assert as_text("subtotal $720.02 + tax $59.40") == r"subtotal \$720.02 + tax \$59.40"
+    assert as_text("*Marram_Ceramics* [1] `x` ~y~ <b>") == (
+        r"\*Marram\_Ceramics\* \[1\] \`x\` \~y\~ \<b\>"
+    )
+    assert as_text(r"C:\inbox") == r"C:\\inbox"
+    # Inside HTML the angle brackets become entities instead.
+    assert as_text("<b> & $5", in_html=True) == r"&lt;b&gt; &amp; \$5"
+
+
 # --- the page, run headless -----------------------------------------------------------------
 
 
@@ -238,6 +250,15 @@ def test_the_page_lists_what_needs_a_look(page):
     assert at.subheader[0].value == B.name
     assert at.warning[0].value.startswith("the total doesn't add up")
     assert [b.label for b in at.button] == ["Approve", "Discard"]
+
+
+def test_dollar_amounts_in_a_reason_stay_as_written(page, project):
+    result = saved(project)[B.name]
+    message = "the total doesn't add up: subtotal $720.02 + tax $59.40 = $779.42"
+    result.invoice.reasons[0].message = message
+    save(project.output_path, [result])
+    at = page()
+    assert at.warning[0].value == as_text(message)
 
 
 def test_fixing_a_field_on_the_page_and_approving(page, project):

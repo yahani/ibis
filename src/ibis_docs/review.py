@@ -8,6 +8,7 @@ from what, when, and any note. The exports are then rebuilt by `run.write_export
 
 from __future__ import annotations
 
+import html
 import os
 from datetime import date, datetime
 from decimal import Decimal
@@ -50,6 +51,19 @@ class EditError(ValueError):
     def __init__(self, problems: list[str]):
         super().__init__("; ".join(problems))
         self.problems = problems
+
+
+# Characters Streamlit's Markdown would act on in text that comes from a document: `$` pairs
+# become LaTeX ("$720.02 + tax $59.40" turns into maths), `*` and `_` emphasis, and so on.
+_MARKDOWN = "\\`*_[]$~"
+
+
+def as_text(text: str, *, in_html: bool = False) -> str:
+    """Text for Streamlit to show as it is, not as Markdown (or HTML, with `in_html`)."""
+    text = "".join(f"\\{ch}" if ch in _MARKDOWN else ch for ch in text)
+    if in_html:
+        return html.escape(text, quote=False)
+    return text.replace("<", "\\<").replace(">", "\\>")
 
 
 def _show(value: object) -> str:
