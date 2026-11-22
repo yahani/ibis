@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ibis Desktop: invoices to Excel, without our servers</title>
+<meta name="description" content="Ibis Desktop turns a folder of supplier invoices into a checked Excel file on your Mac or PC. In development: join the waitlist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F7F8F6;--ink:#1C2321;--green:#23735F;--amber:#B7791F;--line:#D7DCD8;--muted:#5F6B67;--card:#FFFFFF}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:var(--green)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:28px 0 0}
+.wm{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.wm span{font-weight:600;font-size:26px;letter-spacing:-0.4px}
+.wm small{font-size:15px;color:var(--muted);font-weight:500;margin-left:4px}
+.status{display:inline-block;margin-top:44px;font-size:14px;font-weight:600;color:var(--amber);border:1.5px solid var(--amber);border-radius:999px;padding:3px 12px}
+h1{font-size:clamp(34px,6vw,52px);line-height:1.1;letter-spacing:-1px;font-weight:700;margin-top:16px}
+.sub{font-size:20px;color:var(--muted);margin-top:18px;max-width:640px}
+.cta{display:inline-block;margin-top:28px;background:var(--green);color:#fff;text-decoration:none;font-weight:600;padding:13px 24px;border-radius:10px}
+section{padding-top:56px}
+h2{font-size:24px;letter-spacing:-0.3px;font-weight:600;margin-bottom:16px}
+ol.steps{list-style:none;counter-reset:s;display:grid;gap:14px}
+ol.steps li{counter-increment:s;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px 16px 62px;position:relative}
+ol.steps li::before{content:counter(s);position:absolute;left:18px;top:15px;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px}
+.note{font-size:15px;color:var(--muted);margin-top:6px}
+.proof{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px}
+.proof blockquote{font-size:19px;font-weight:500}
+.proof .small{font-size:14px;color:var(--muted);margin-top:10px}
+video{display:block;width:100%;border-radius:12px;border:1.5px solid var(--line);margin-top:18px;background:#1C2321;aspect-ratio:16/9}
+ul.plain{list-style:none;display:grid;gap:10px}
+ul.plain li{padding-left:28px;position:relative}
+ul.plain li::before{content:"";position:absolute;left:4px;top:9px;width:12px;height:7px;border-left:2.5px solid var(--green);border-bottom:2.5px solid var(--green);transform:rotate(-45deg)}
+.price{font-size:20px}
+.price b{font-size:28px}
+.formbox{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:8px}
+.formbox iframe{display:block;width:100%;border:0}
+footer{margin-top:64px;border-top:1.5px solid var(--line);padding:24px 0 40px;font-size:14px;color:var(--muted)}
+footer p+p{margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="wm" href="./" aria-label="Ibis Desktop">
+    <svg width="22" height="24" viewBox="0 0 40 44" aria-hidden="true"><path d="M5 40 C 9 22, 20 8, 37 4" fill="none" stroke="#23735F" stroke-width="5.5" stroke-linecap="round"/></svg>
+    <span>ibis</span><small>Desktop</small>
+  </a>
+</header>
+
+<main>
+  <div class="status">In development · waitlist open</div>
+  <h1>Your invoices never touch our servers.</h1>
+  <p class="sub">Ibis turns a folder of supplier invoices into a checked Excel file, right on your Mac or PC. Every total is re-added; anything that doesn't add up is flagged with a plain reason.</p>
+  <a class="cta" href="#waitlist">Join the waitlist</a>
+
+  <section>
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li>Drop invoices (PDF, scanned or digital) into a folder.</li>
+      <li>Ibis sends each invoice straight to the AI provider with your own AI key; nothing goes through us.
+        <p class="note">Your own AI key is a password-like code from Anthropic, the AI company, so you pay them directly for reading your invoices. <a href="own-key.html">What that means and how to get one</a> (about 5 minutes).</p></li>
+      <li>Open the Excel file: invoices, line items, and a "needs review" list.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Tested before we ask you to trust it</h2>
+    <div class="proof">
+      <blockquote>On a fake demo set of 47 invoices: 609 of 611 fields right, all 289 line items right, all 9 broken invoices flagged, none invented.</blockquote>
+      <p class="small">Measured with the Ibis command-line tool that Ibis Desktop will be built on. The demo set is generated fake invoices; real invoices vary.</p>
+      <video src="ibis-clip.mp4" poster="ibis-clip-poster.jpg" controls muted playsinline preload="metadata" aria-label="20-second clip: a real Ibis run on fake demo invoices and the Excel file it produced"></video>
+      <p class="small">A real run of today's Ibis command-line tool on 10 fake invoices, and the Excel file it made. Ibis Desktop will wrap this in an app.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why not an online tool?</h2>
+    <ul class="plain">
+      <li>No uploads to an extraction company's servers, and nothing stored by us to delete later. Invoices do leave your computer, but only to be read by the AI provider.</li>
+      <li>Anthropic says data sent through its API is not used to train its models without your permission.</li>
+      <li>Running cost about $0.001 to $0.015 a page, paid straight to the AI provider. No markup from us.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Price idea</h2>
+    <p class="price"><b>$49</b> once, for a licence. No subscription.</p>
+    <p class="note">Planned price, not final. People on the waitlist get an early-bird price.</p>
+  </section>
+
+  <section id="waitlist">
+    <h2>Join the waitlist</h2>
+    <p style="margin-bottom:16px">Ibis Desktop is in development. Join the waitlist to hear when it's ready and get an early-bird price. Four quick questions after your email; they decide what gets built first.</p>
+    <div class="formbox">
+      <iframe data-tally-src="https://tally.so/embed/xVJQY5?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" loading="lazy" width="100%" height="1099" frameborder="0" marginheight="0" marginwidth="0" title="Ibis Desktop waitlist"></iframe>
+      <noscript><p style="padding:12px">The form needs JavaScript. <a href="https://tally.so/r/xVJQY5">Open the waitlist form</a>.</p></noscript>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Questions: <a href="mailto:nihayalabs@gmail.com">nihayalabs@gmail.com</a></p>
+  <p>Privacy: emails are used only to announce Ibis Desktop; delete on request. No launch date has been set.</p>
+  <p>Ibis is an independent project, not affiliated with Anthropic.</p>
+</footer>
+
+</div>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+</body>
+</html>
