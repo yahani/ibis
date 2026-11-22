@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ibis Desktop: your own AI key</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F7F8F6;--ink:#1C2321;--green:#23735F;--line:#D7DCD8;--muted:#5F6B67}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--green)}
+.wrap{max-width:680px;margin:0 auto;padding:28px 20px 48px}
+h1{font-size:32px;letter-spacing:-0.6px;line-height:1.2;margin:32px 0 14px}
+h2{font-size:21px;margin:32px 0 10px}
+p+p,ol,ul{margin-top:10px}
+ol,ul{padding-left:22px}
+li+li{margin-top:6px}
+.muted{color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a href="./">← Back to Ibis Desktop</a>
+
+<h1>"Your own AI key", in plain words</h1>
+<p>Ibis Desktop uses an AI model from Anthropic to read each invoice. Instead of sending your invoices through our servers, the app sends them straight to Anthropic, using an account in your name.</p>
+<p>An <b>AI key</b> (Anthropic calls it an "API key") is a long code from that account. You paste it into Ibis Desktop once, and Anthropic bills you directly for the reading, usually a fraction of a cent per page.</p>
+
+<h2>Getting one (about 5 minutes)</h2>
+<ol>
+  <li>Go to <a href="https://console.anthropic.com" rel="noopener">console.anthropic.com</a> and create an account.</li>
+  <li>Add a little credit under Billing. $5 covers hundreds of typical invoice pages.</li>
+  <li>Open API keys, create a key, and copy it somewhere safe.</li>
+</ol>
+<p class="muted">You don't need one yet. Ibis Desktop isn't ready; this page is here so you know what the step involves.</p>
+
+<h2>Why it works this way</h2>
+<ul>
+  <li>Your invoices go from your computer to Anthropic and back. They never pass through or get stored on Ibis's servers.</li>
+  <li>You see exactly what reading costs, on Anthropic's own bill, with no markup from us.</li>
+  <li>Anthropic says data sent through its API is not used to train its models without your permission.</li>
+</ul>
+
+<h2>Rather not deal with a key?</h2>
+<p>Say so in the waitlist form. If enough people prefer it, we'll look at selling page credits instead.</p>
+</div>
+</body>
+</html>
